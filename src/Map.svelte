@@ -1,12 +1,13 @@
 <script lang="ts">
-  export let loader: any;
-  import { onMount } from "svelte";
+  import { getContext, onMount } from "svelte";
+  import type { Loader } from "@googlemaps/js-api-loader";
 
   let container;
   let map;
   let zoom = 12;
-  let center = { lat: 35.386331788, lng: 139.423664972 };
+  let center = { lat: 35.3875841547467, lng: 139.4268758324958 };
 
+  const loader: Loader = getContext("loader");
   loader.load().then(() => {
     map = new google.maps.Map(container, {
       zoom,
