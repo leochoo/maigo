@@ -17,6 +17,7 @@
         zoom,
         center,
         disableDefaultUI: true,
+        zoomControl: true,
       });
     });
   });
