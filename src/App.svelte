@@ -1,6 +1,5 @@
 <script lang="ts">
   import logo from "./assets/svelte.png";
-  import Counter from "./Counter.svelte";
   import Map from "./Map.svelte";
 </script>
 
@@ -8,12 +7,10 @@
   <img src={logo} alt="Svelte Logo" />
   <h1>MaiGO</h1>
 
-  <Counter />
+  <Map />
 
   <p>A GeoGeussr Clone for Multiplayer Online</p>
-
   <p>HHLAB is a group of students from Keio University, Japan.</p>
-  <Map />
 </main>
 
 <style>
