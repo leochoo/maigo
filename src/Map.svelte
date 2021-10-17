@@ -1,33 +1,31 @@
 <script lang="ts">
+  export let loader: any;
   import { onMount } from "svelte";
-  import { Loader } from "@googlemaps/js-api-loader";
 
   let container;
   let map;
-  let zoom = 8;
-  let center = { lat: -34.397, lng: 150.644 };
+  let zoom = 12;
+  let center = { lat: 35.386331788, lng: 139.423664972 };
+
+  loader.load().then(() => {
+    map = new google.maps.Map(container, {
+      zoom,
+      center,
+      disableDefaultUI: true,
+      zoomControl: true,
+    });
+  });
 
   onMount(() => {
-    const loader = new Loader({
-      apiKey: import.meta.env.VITE_MAPS_JS_API as string,
-    });
     // console.log("loader", loader);
-    loader.load().then(() => {
-      map = new google.maps.Map(container, {
-        zoom,
-        center,
-        disableDefaultUI: true,
-        zoomControl: true,
-      });
-    });
   });
 </script>
 
-<div class="full-screen" bind:this={container} />
+<div class="map2d-comp" bind:this={container} />
 
 <style>
-  .full-screen {
-    width: 60vw;
-    height: 60vh;
+  .map2d-comp {
+    width: 70vw;
+    height: 30vh;
   }
 </style>

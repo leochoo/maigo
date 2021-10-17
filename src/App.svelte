@@ -1,13 +1,26 @@
 <script lang="ts">
   import logo from "./assets/svelte.png";
   import Map from "./Map.svelte";
+  import StreetView from "./StreetView.svelte";
+  import { Loader } from "@googlemaps/js-api-loader";
+  import { onMount } from "svelte";
+
+  onMount(() => {
+    const loader = new Loader({
+      // Don't use this api key below unless you need it
+      //   apiKey: import.meta.env.VITE_MAPS_JS_API as string,
+      apiKey: "",
+    });
+  });
 </script>
 
 <main>
   <img src={logo} alt="Svelte Logo" />
   <h1>MaiGO</h1>
 
-  <Map />
+  <div class="streetview"><StreetView /></div>
+
+  <div class="map2d"><Map /></div>
 
   <p>A GeoGeussr Clone for Multiplayer Online</p>
   <p>HHLAB is a group of students from Keio University, Japan.</p>
@@ -19,7 +32,17 @@
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   }
 
+  .map2d {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    height: 100%;
+  }
+
   main {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
     text-align: center;
     padding: 1em;
     margin: 0 auto;
