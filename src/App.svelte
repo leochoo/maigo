@@ -1,7 +1,7 @@
 <script lang="ts">
   import logo from "./assets/svelte.png";
-  import Counter from "./lib/Counter.svelte";
-  import Map from "./lib/Map.svelte";
+  import Counter from "./Counter.svelte";
+  import Map from "./Map.svelte";
 </script>
 
 <main>
