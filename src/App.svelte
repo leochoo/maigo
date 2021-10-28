@@ -10,7 +10,6 @@
     apiKey: "",
   });
   console.log("main loader", loader);
-
   setContext("loader", loader);
   onMount(() => {});
 </script>

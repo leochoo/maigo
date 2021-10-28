@@ -6,6 +6,7 @@
   let map;
   let zoom = 12;
   let center = { lat: 35.3875841547467, lng: 139.4268758324958 };
+  // let center = { lat: 35.302675, lng: 139.401206 }; //non-streetview compatible
 
   const loader: Loader = getContext("loader");
   loader.load().then(() => {
