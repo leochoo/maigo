@@ -2,6 +2,7 @@
   import logo from "./assets/svelte.png";
   import Map from "./Map.svelte";
   import StreetView from "./StreetView.svelte";
+  import Coordinates from "./Coordinates.svelte";
   import { Loader } from "@googlemaps/js-api-loader";
   import { onMount, setContext } from "svelte";
   const loader = new Loader({
@@ -20,6 +21,7 @@
 
   <div class="streetview"><StreetView /></div>
   <div class="map2d"><Map /></div>
+  <div class="coordinates"><Coordinates /></div>
 
   <p>A GeoGeussr Clone for Multiplayer Online</p>
   <p>HHLAB is a group of students from Keio University, Japan.</p>

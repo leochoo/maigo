@@ -1,18 +1,16 @@
 <script lang="ts">
   import { getContext, onMount } from "svelte";
   import type { Loader } from "@googlemaps/js-api-loader";
+  // import { generateRandomPosition, addNewData } from "./coordinates.svelte";
+  import { doc, setDoc, addDoc, collection } from "firebase/firestore";
+  import { db } from "../firebase";
 
   let container;
   let streetViewMap;
   let zoom = 12;
-  let center = { lat: 35.3875841547467, lng: 139.4268758324958 };
-  // let center = { lat: 35.330993, lng: 138.686413 }; //non-streetview compatible
-  // let center = { lat: 35.375604, lng: 138.847289 };
-  // 35.387067, 139.427211
-  // 35.302675, 139.401206
-  // 36.786637, 139.115713
-  // 35.330993, 138.686413
-  //　35.375604, 138.847289
+  // let center = generateRandomPosition();
+  let center = { lat: 35.663639, lng: 139.650704 };
+  // console.log("Center", center);
 
   const loader: Loader = getContext("loader");
   loader.load().then(() => {
