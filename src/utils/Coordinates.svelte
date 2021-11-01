@@ -1,7 +1,7 @@
 <script lang="ts">
   // generate random gps coordinate between position_a and position_c
   import { doc, setDoc } from "firebase/firestore";
-  import { db } from "../firebase";
+  import { db } from "../../firebase";
   import { getContext, onMount } from "svelte";
   import type { Loader } from "@googlemaps/js-api-loader";
 
