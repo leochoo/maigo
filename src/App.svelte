@@ -21,7 +21,7 @@
 
   <div class="streetview"><StreetView /></div>
   <div class="map2d"><Map /></div>
-  <div class="coordinates"><Coordinates /></div>
+  <!-- <div class="coordinates"><Coordinates /></div> -->
 
   <p>A GeoGeussr Clone for Multiplayer Online</p>
   <p>HHLAB is a group of students from Keio University, Japan.</p>

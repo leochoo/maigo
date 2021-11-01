@@ -42,7 +42,7 @@
   // generate 100 random gps coordinates, and verify if they have a valid streetview
   async function generateRandomGpsCoordinates() {
     let randomGpsCoordinates = [];
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 100; i++) {
       let randomPosition = generateRandomPosition();
       let result = await verifyStreetView(randomPosition);
       if (result) {
@@ -55,7 +55,7 @@
   // push a list of new gps coordinates to firestore
   async function saveRandomPositions() {
     let randomGpsCoordinates = await generateRandomGpsCoordinates();
-    console.log("randomGpsCoordinates", randomGpsCoordinates);
+    console.log("randomGpsCoordinates ", randomGpsCoordinates);
     await setDoc(doc(db, "coordinates", "randomLocations"), {
       tokyo: randomGpsCoordinates,
     });
