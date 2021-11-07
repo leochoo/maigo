@@ -20,6 +20,7 @@
         center,
         disableDefaultUI: true,
         zoomControl: true,
+        clickableIcons: false,
     });
     google.maps.event.addListener(map, "click", (event) => {
       addMarker(event.latLng, map);
