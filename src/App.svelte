@@ -4,7 +4,6 @@
   import StreetView from "./StreetView.svelte";
   import { Loader } from "@googlemaps/js-api-loader";
   import { onMount, setContext, getContext } from "svelte";
-  import { answer } from "./store";
   const loader = new Loader({
     // Don't use this api key below unless you need it
     // apiKey: import.meta.env.VITE_MAPS_JS_API as string,
@@ -12,7 +11,7 @@
   });
   console.log("main loader", loader);
   setContext("loader", loader);
-  $: _answer = $answer;
+
 
 </script>
 
@@ -22,9 +21,6 @@
 
   <div class="streetview"><StreetView /></div>
   <div class="map2d"><Map /></div>
-  <button on:click={() => {
-    console.log(_answer);
-  }}>submit</button>
   <p>A GeoGeussr Clone for Multiplayer Online</p>
   <p>HHLAB is a group of students from Keio University, Japan.</p>
 </main>
