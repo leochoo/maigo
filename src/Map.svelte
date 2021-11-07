@@ -3,22 +3,41 @@
   import type { Loader } from "@googlemaps/js-api-loader";
 
   let container;
-  let map;
   let zoom = 12;
   let center = { lat: 35.3875841547467, lng: 139.4268758324958 };
+  let marker: google.maps.Marker;
 
   const loader: Loader = getContext("loader");
-  loader.load().then(() => {
-    map = new google.maps.Map(container, {
-      zoom,
-      center,
-      disableDefaultUI: true,
-      zoomControl: true,
+  
+  function initMap(): void {
+    const myLatLng = { lat: -25.363, lng: 131.044 };
+    const map = new google.maps.Map(container, {
+        zoom,
+        center,
+        disableDefaultUI: true,
+        zoomControl: true,
     });
-  });
+    google.maps.event.addListener(map, "click", (event) => {
+      addMarker(event.latLng, map);
+    });
+  }
+
+  function addMarker(location: google.maps.LatLngLiteral, map: google.maps.Map) {
+    if (marker != null) {
+      marker.setPosition(location);
+    }
+    else {
+      marker = new google.maps.Marker({
+        position: location,
+        map: map,
+      });
+    }
+  };
 
   onMount(() => {
-    // console.log("loader", loader);
+    loader.load().then(()=> {
+      initMap();
+    });
   });
 </script>
 
