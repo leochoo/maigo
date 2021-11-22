@@ -4,7 +4,8 @@
   import { onMount } from "svelte";
   import { dataset_dev } from "svelte/internal";
   let data:any = [];
-  const unsub = onSnapshot(doc(db, "rooms", "TzbWnXw0Ss6pGqqOQ6DW"), (doc) => {
+  export let room_id:string;
+  const unsub = onSnapshot(doc(db, "rooms", room_id), (doc) => {
       console.log("Current data: ", doc.data());
       data = doc.data();
   });

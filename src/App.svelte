@@ -4,7 +4,7 @@
   import StreetView from "./StreetView.svelte";
   import { Loader } from "@googlemaps/js-api-loader";
   import { onMount, setContext, getContext } from "svelte";
-  import Startgame from "./Startgame.svelte";
+  import Lobby from "./Lobby.svelte";
   const loader = new Loader({
     // Don't use this api key below unless you need it
     // apiKey: import.meta.env.VITE_MAPS_JS_API as string,
@@ -15,7 +15,7 @@
 
 
 </script>
-  <Startgame></Startgame>
+  <Lobby></Lobby>
   <!-- <div class="streetview"><StreetView /></div>
   <div class="map2d"><Map /></div> -->
 
