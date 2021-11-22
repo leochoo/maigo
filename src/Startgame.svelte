@@ -2,34 +2,34 @@
   import logo from "./assets/svelte.png";
   import Map from "./Map.svelte";
   import StreetView from "./StreetView.svelte";
-  import { Loader } from "@googlemaps/js-api-loader";
-  import { onMount, setContext, getContext } from "svelte";
-  import Startgame from "./Startgame.svelte";
-  const loader = new Loader({
-    // Don't use this api key below unless you need it
-    // apiKey: import.meta.env.VITE_MAPS_JS_API as string,
-    apiKey: "",
+  import { onMount } from "svelte";
+  import Room from "./Room.svelte";
+  let room_created = false;
+  onMount(() => {
   });
-  console.log("main loader", loader);
-  setContext("loader", loader);
-
-
 </script>
-  <Startgame></Startgame>
-  <!-- <div class="streetview"><StreetView /></div>
-  <div class="map2d"><Map /></div> -->
+
+<main>
+  {#if !room_created}
+    <img src={logo} alt="Svelte Logo" />
+    <h1>MaiGO</h1>
+    <button on:click={() => {
+      room_created = true;
+      
+      }}>Create Room</button>
+    <input />
+    <button on:click={() => {}}>Join Room</button>
+    <p>A GeoGeussr Clone for Multiplayer Online</p>
+    <p>HHLAB is a group of students from Keio University, Japan.</p>
+  {:else}
+    <Room></Room>
+  {/if}
+</main>
 
 <style>
   :root {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  }
-
-  .map2d {
-    display: flex;
-    justify-content: flex-end;
-    width: 100%;
-    height: 100%;
   }
 
   main {
