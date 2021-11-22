@@ -1,12 +1,10 @@
 <script lang="ts">
   import logo from "./assets/svelte.png";
-  import Map from "./Map.svelte";
-  import StreetView from "./StreetView.svelte";
-  import { onMount } from "svelte";
+  import { db } from "../firebase"
+  import { doc, setDoc } from "firebase/firestore";
   import Room from "./Room.svelte";
   let room_created = false;
-  onMount(() => {
-  });
+
 </script>
 
 <main>
@@ -15,7 +13,7 @@
     <h1>MaiGO</h1>
     <button on:click={() => {
       room_created = true;
-      
+
       }}>Create Room</button>
     <input />
     <button on:click={() => {}}>Join Room</button>
