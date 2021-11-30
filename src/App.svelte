@@ -25,6 +25,12 @@
           isLoggedIn: true,
           user: user
         })
+        console.log(user)
+      }else{
+        currentUser.set({
+          isLoggedIn: false,
+          user: null
+        })
       }
     })
   })

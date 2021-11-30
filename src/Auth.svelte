@@ -2,6 +2,7 @@
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 
+
 	async function googleLogin(){
 		const auth = getAuth();
 		const provider = new GoogleAuthProvider();
@@ -14,18 +15,17 @@ import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 		}).catch((error)=>{
 			console.log(error);
 		})
-
 	}
-
 </script>
 
 <main>
-	<button on:click={() => {
-		googleLogin();
-	}}>Google Login</button>
-
+	<img on:click={() => {googleLogin()}}
+		src="../src/assets/btn_google_signin_dark_normal_web@2x.png"
+		onmouseover="this.src='../src/assets/btn_google_signin_dark_focus_web@2x.png'"
+		onmouseout="this.src='../src/assets/btn_google_signin_dark_normal_web@2x.png'"
+		alt="Google Login"
+		id="glogin"/>
 </main>
 
 <style>
-
 </style>

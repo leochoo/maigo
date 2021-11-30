@@ -63,10 +63,6 @@
     <button on:click={() => {
       const auth = getAuth();
       signOut(auth).then(()=>{
-        currentUser.set({
-          isLoggedIn: false,
-          user: null
-        })
         console.log("signed out successfully");
       }).catch((error)=>{
         console.log(error);
