@@ -1,7 +1,6 @@
 <script lang="ts">
   import logo from "./assets/svelte.png";
   import Map from "./Map.svelte";
-  import Auth from "./utils/Auth.svelte";
   import StreetView from "./StreetView.svelte";
   import { Loader } from "@googlemaps/js-api-loader";
   import { onMount, setContext, getContext } from "svelte";
