@@ -1,10 +1,14 @@
 <script lang="ts">
+  import { onMount, setContext, getContext } from "svelte";
+  import { getAuth, onAuthStateChanged } from "firebase/auth";
+  import { Loader } from "@googlemaps/js-api-loader";
   import logo from "./assets/svelte.png";
   import Map from "./Map.svelte";
   import StreetView from "./StreetView.svelte";
-  import { Loader } from "@googlemaps/js-api-loader";
-  import { onMount, setContext, getContext } from "svelte";
   import Lobby from "./Lobby.svelte";
+  import Auth from "./Auth.svelte";
+  import { currentUser } from "./store";
+
   const loader = new Loader({
     // Don't use this api key below unless you need it
     // apiKey: import.meta.env.VITE_MAPS_JS_API as string,
@@ -13,9 +17,29 @@
   console.log("main loader", loader);
   setContext("loader", loader);
 
+  const auth = getAuth();
+  onMount(()=>{
+    onAuthStateChanged(auth,(user)=>{
+      if(user){
+        currentUser.set({
+          isLoggedIn: true,
+          user: user
+        })
+      }
+    })
+  })
 
 </script>
+
+<main>
+  {#if $currentUser.isLoggedIn}
   <Lobby></Lobby>
+  {:else}
+  <img src={logo} alt="Svelte Logo" />
+    <h1>MaiGO</h1>
+  <Auth></Auth>
+  {/if}
+</main>
   <!-- <div class="streetview"><StreetView /></div>
   <div class="map2d"><Map /></div> -->
 

@@ -2,8 +2,9 @@
   import logo from "./assets/svelte.png";
   import { db } from "../firebase"
   import { collection, addDoc, query, where, getDoc, doc } from "firebase/firestore";
+  import { getAuth, signOut } from "firebase/auth";
   import Room from "./Room.svelte";
-  import { amIhost } from "./store";
+  import { amIhost, currentUser } from "./store";
   $: room_created = false;
   let room_id:string = "";
   async function createRoom() {
@@ -11,7 +12,7 @@
     const docRef = await addDoc(collection(db, 'rooms'), {
       member_count: 1,
       ready_count: 0,
-      user1: "user1",
+      user1: $currentUser.user.uid,
       user2: "",
       user3: "",
       user4: ""
@@ -59,6 +60,18 @@
     }}>Join Room</button>
     <p>A GeoGeussr Clone for Multiplayer Online</p>
     <p>HHLAB is a group of students from Keio University, Japan.</p>
+    <button on:click={() => {
+      const auth = getAuth();
+      signOut(auth).then(()=>{
+        currentUser.set({
+          isLoggedIn: false,
+          user: null
+        })
+        console.log("signed out successfully");
+      }).catch((error)=>{
+        console.log(error);
+      })
+    }}>Logout</button>
   {:else}
     <Room {room_id}></Room>
   {/if}
