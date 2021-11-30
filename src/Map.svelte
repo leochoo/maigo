@@ -52,7 +52,7 @@
   });
 </script>
 
-<div class="map2d-comp" bind:this={container} />
+<div class="guessmap" bind:this={container} />
 
 <button on:click={() => {
   if (marker != null) {
@@ -63,8 +63,9 @@
   }
 }}>submit</button>
 <style>
-  .map2d-comp {
-    width: 70vw;
-    height: 30vh;
+    .guessmap {
+      width: 10vw;
+      height: 10vh;
+      z-index: 20;
   }
 </style>
