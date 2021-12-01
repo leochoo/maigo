@@ -3,8 +3,8 @@
   import { getAuth, onAuthStateChanged } from "firebase/auth";
   import { Loader } from "@googlemaps/js-api-loader";
   import logo from "./assets/svelte.png";
-  import Map from "./Map.svelte";
-  import StreetView from "./StreetView.svelte";
+  import Guessmap from "./Guessmap.svelte";
+  import Streetview from "./Streetview.svelte";
   import Lobby from "./Lobby.svelte";
   import Auth from "./Auth.svelte";
   import { currentUser } from "./store";
@@ -35,7 +35,7 @@
   })
 </script>
 
-<main>
+<div class="main">
   {#if $currentUser.isLoggedIn}
   <Lobby></Lobby>
   {:else}
@@ -43,7 +43,7 @@
     <h1>MaiGO</h1>
   <Auth></Auth>
   {/if}
-</main>
+</div>
 
 <style>
   :root {
@@ -51,16 +51,8 @@
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   }
 
-  .map2d {
+  .main {
     display: flex;
-    justify-content: flex-end;
-    width: 100%;
-    height: 100%;
-  }
-
-  main {
-    display: flex;
-    align-items: center;
     flex-direction: column;
     text-align: center;
     padding: 1em;
@@ -68,6 +60,8 @@
   }
 
   img {
+    position: relative;
+    left: calc(50% - 8rem);
     height: 16rem;
     width: 16rem;
   }
@@ -80,11 +74,5 @@
     line-height: 1.1;
     margin: 2rem auto;
     max-width: 14rem;
-  }
-
-  p {
-    max-width: 14rem;
-    margin: 1rem auto;
-    line-height: 1.35;
   }
 </style>
