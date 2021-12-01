@@ -73,7 +73,7 @@
   /* Copyright (c) 2021 by Krar (https://codepen.io/Krar/pen/qYLzXN) */
   .submit-button {
     position: absolute;
-    left: calc(40% - 2em);
+    left: calc(20% - 2em);
     color: #cecd24;
     text-decoration: none;
     font-size: 2em;

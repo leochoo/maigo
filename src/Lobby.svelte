@@ -33,8 +33,8 @@
   }
 </script>
 
-<main>
-  {#if !room_created}
+{#if !room_created}
+  <main>
     <img src={logo} alt="Svelte Logo" />
     <h1>MaiGO</h1>
     <button on:click={async () => {
@@ -59,10 +59,10 @@
     }}>Join Room</button>
     <p>A GeoGeussr Clone for Multiplayer Online</p>
     <p>HHLAB is a group of students from Keio University, Japan.</p>
-  {:else}
-    <Room {room_id}></Room>
-  {/if}
-</main>
+  </main>
+{:else}
+  <Room {room_id}></Room>
+{/if}
 
 <style>
   :root {
