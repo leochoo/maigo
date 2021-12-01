@@ -52,20 +52,77 @@
   });
 </script>
 
-<div class="guessmap" bind:this={container} />
-
-<button on:click={() => {
-  if (marker != null) {
-    calcDistance();
-  }
-  else {
-    console.log("no marker");
-  }
-}}>submit</button>
+<div class="guessmap-comp" bind:this={container} />
+<div class="submit">
+  <button class="submit-button" on:click={() => {
+    if (marker != null) {
+      calcDistance();
+    }
+    else {
+      console.log("no marker");
+    }
+  }}>submit</button>
+</div>
 <style>
-    .guessmap {
-      width: 10vw;
-      height: 10vh;
-      z-index: 20;
+  .guessmap-comp {
+    width: 50vw;
+    height: 50vh;
+    z-index: 1;
+  }
+  
+  /* Copyright (c) 2021 by Krar (https://codepen.io/Krar/pen/qYLzXN) */
+  .submit-button {
+    position: absolute;
+    left: calc(40% - 2em);
+    color: #cecd24;
+    text-decoration: none;
+    font-size: 2em;
+    display: inline-block;
+    font-family: Montserrat;
+    text-transform: uppercase;
+    padding: 0.1em 2em;
+    border: 2px solid #cecd24;
+    transition: 0.02s 0.2s cubic-bezier(0.1, 0, 0.1, 1);
+  }
+  .submit-button::before {
+		content: "";
+		display: inline-block;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 100%;
+		bottom: 0;
+		background:#cecd24;
+		transition: .3s .2s cubic-bezier(.1, 0, .1, 1), left .3s cubic-bezier(.1, 0, .1, 1);
+		z-index: 25;
+  }
+  .submit-button::after {
+		content: "";
+		display: inline-block;
+		background-image: url("https://image.flaticon.com/icons/png/128/109/109617.png");
+    background-color:#cecd24;
+		position: absolute;
+		top: 0;
+		left: calc(100% - 3em);
+		right: 3em;
+		bottom: 0;
+		background-size: 1.5em;
+		background-repeat: no-repeat;
+		background-position: center;
+		transition: right .3s cubic-bezier(.1, 0, .1, 1);
+
+  }
+  .submit-button:hover {
+    /* padding: 0.5em 3.5em 0.5em 0.5em; */
+    padding: 0.1em 3.5em 0.1em 0.5em
+  }
+  .submit-button:hover::before {
+    left: calc(100% - 0.1em);
+    right: 0;
+    transition: .3s cubic-bezier(.1, 0, .1, 1), left .3s .2s cubic-bezier(.1, 0, .1, 1);
+  }
+  .submit-button:hover::after {
+    right: 0;
+		transition: right .3s .2s cubic-bezier(.1, 0, .1, 1);
   }
 </style>
