@@ -64,11 +64,11 @@
     renderStreetView();
   });
 </script>
-
 <div class="streetview-comp" bind:this={container} />
 <style>
   .streetview-comp {
     width: 100vw;
-    height: 60vh;
+    height: 100vh;
+    z-index: 0;
   }
 </style>
