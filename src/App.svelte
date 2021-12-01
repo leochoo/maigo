@@ -50,7 +50,6 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   }
-
   .main {
     display: flex;
     flex-direction: column;
@@ -58,14 +57,12 @@
     padding: 1em;
     margin: 0 auto;
   }
-
   img {
     position: relative;
     left: calc(50% - 8rem);
     height: 16rem;
     width: 16rem;
   }
-
   h1 {
     color: #ff3e00;
     text-transform: uppercase;
