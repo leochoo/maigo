@@ -3,48 +3,56 @@
   import { getAuth, onAuthStateChanged } from "firebase/auth";
   import { Loader } from "@googlemaps/js-api-loader";
   import logo from "./assets/svelte.png";
-  import Guessmap from "./Guessmap.svelte";
-  import Streetview from "./Streetview.svelte";
-  import Lobby from "./Lobby.svelte";
-  import Auth from "./Auth.svelte";
+  import Guessmap from "./components/Guessmap.svelte";
+  import Streetview from "./components/Streetview.svelte";
+  import Lobby from "./components/Main.svelte";
+  import Auth from "./components/Auth.svelte";
   import { currentUser } from "./store";
+  import { Router, Link, Route } from "svelte-routing";
 
   const loader = new Loader({
     // Don't use this api key below unless you need it
     // apiKey: import.meta.env.VITE_MAPS_JS_API as string,
     apiKey: "",
-    language: "ja"
+    language: "ja",
   });
   console.log("main loader", loader);
   setContext("loader", loader);
   const auth = getAuth();
-  onMount(()=>{
-    onAuthStateChanged(auth,(user)=>{
-      if(user){
+  onMount(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
         currentUser.set({
           isLoggedIn: true,
-          user: user
-        })
-        console.log(user)
-      }else{
+          user: user,
+        });
+        console.log(user);
+      } else {
         currentUser.set({
           isLoggedIn: false,
-          user: null
-        })
+          user: null,
+        });
       }
-    })
-  })
+    });
+  });
 </script>
 
-<div class="main">
-  {#if $currentUser.isLoggedIn}
-  <Lobby></Lobby>
-  {:else}
-  <img src={logo} alt="Svelte Logo" />
-    <h1>MaiGO</h1>
-  <Auth></Auth>
-  {/if}
-</div>
+<Router>
+  <main>
+    <div class="main">
+      {#if $currentUser.isLoggedIn}
+        <Lobby />
+      {:else}
+        <img src={logo} alt="Svelte Logo" />
+        <h1>MaiGO</h1>
+        <Auth />
+      {/if}
+    </div>
+    <!-- <Route path="upload" component={Upload} /> -->
+    <!-- <Route path="charts" component={Charts} /> -->
+    <!-- <Route path="login" component={Login} /> -->
+  </main>
+</Router>
 
 <style>
   :root {

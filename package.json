@@ -21,10 +21,11 @@
     "vite": "^2.6.4"
   },
   "dependencies": {
-    "@googlemaps/js-api-loader": "^1.12.6",
-    "googlemaps": "^1.12.0",
     "@dopry/svelte-auth0": "^2.0.0",
+    "@googlemaps/js-api-loader": "^1.12.6",
     "bootstrap": "^5.1.3",
-    "firebase": "^9.1.2"
+    "firebase": "^9.1.2",
+    "googlemaps": "^1.12.0",
+    "svelte-routing": "^1.6.0"
   }
 }
