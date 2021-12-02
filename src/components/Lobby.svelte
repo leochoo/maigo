@@ -1,21 +1,29 @@
 <script lang="ts">
-  import logo from "./assets/svelte.png";
-  import { db } from "../firebase"
-  import { collection, addDoc, query, where, getDoc, doc } from "firebase/firestore";
+  import logo from "../assets/svelte.png";
+  import { db } from "../../firebase";
+  import {
+    collection,
+    addDoc,
+    query,
+    where,
+    getDoc,
+    doc,
+  } from "firebase/firestore";
   import { getAuth, signOut } from "firebase/auth";
   import Room from "./Room.svelte";
-  import { amIhost, currentUser } from "./store";
+  import { amIhost, currentUser } from "../store";
+
   $: room_created = false;
-  let room_id:string = "";
+  let room_id: string = "";
   async function createRoom() {
     console.log("creating room");
-    const docRef = await addDoc(collection(db, 'rooms'), {
+    const docRef = await addDoc(collection(db, "rooms"), {
       member_count: 1,
       ready_count: 0,
       user1: $currentUser.user.uid,
       user2: "",
       user3: "",
-      user4: ""
+      user4: "",
     });
     room_id = docRef.id;
     console.log(room_id);
@@ -23,12 +31,11 @@
 
   async function existRoom() {
     const docSnap = await getDoc(doc(db, "rooms", room_id));
-    if (docSnap.exists()){
+    if (docSnap.exists()) {
       console.log("ROOM FOUND");
       return true;
-    }
-    else {
-      console.log("NO ROOM FOUND")
+    } else {
+      console.log("NO ROOM FOUND");
       return false;
     }
   }
@@ -38,39 +45,45 @@
   <main>
     <img src={logo} alt="Svelte Logo" />
     <h1>MaiGO</h1>
-    <button on:click={async () => {
-      await createRoom();
-      amIhost.set(true);
-      room_created = true;
-    }}>Create Room</button>
-    <input bind:value={room_id}/>
-    <button on:click={async () => {
-      if (room_id != ""){
-        if (await existRoom()) {
-          amIhost.set(false);
-          room_created = true;
+    <button
+      on:click={async () => {
+        await createRoom();
+        amIhost.set(true);
+        room_created = true;
+      }}>Create Room</button
+    >
+    <input bind:value={room_id} />
+    <button
+      on:click={async () => {
+        if (room_id != "") {
+          if (await existRoom()) {
+            amIhost.set(false);
+            room_created = true;
+          } else {
+            alert("NO ROOM FOUND");
+          }
+        } else {
+          alert("NO ROOM FOUND");
         }
-        else {
-          alert("NO ROOM FOUND")
-        }
-      }
-      else {
-        alert("NO ROOM FOUND");
-      }
-    }}>Join Room</button>
+      }}>Join Room</button
+    >
     <p>A GeoGeussr Clone for Multiplayer Online</p>
     <p>HHLAB is a group of students from Keio University, Japan.</p>
-    <button on:click={() => {
-      const auth = getAuth();
-      signOut(auth).then(()=>{
-        console.log("signed out successfully");
-      }).catch((error)=>{
-        console.log(error);
-      })
-    }}>Logout</button>
+    <button
+      on:click={() => {
+        const auth = getAuth();
+        signOut(auth)
+          .then(() => {
+            console.log("signed out successfully");
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }}>Logout</button
+    >
   </main>
 {:else}
-  <Room {room_id}></Room>
+  <Room {room_id} />
 {/if}
 
 <style>
