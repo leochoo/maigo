@@ -1,3 +1,3 @@
 <template>
-  <p>After Submit</p>
+  <p>CHAT</p>
 </template>

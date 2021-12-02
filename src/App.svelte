@@ -8,6 +8,7 @@
   import Lobby from "./components/Lobby.svelte";
   import Auth from "./components/Auth.svelte";
   import { currentUser } from "./store";
+  import { Router, Link, Route } from "svelte-routing";
 
   const loader = new Loader({
     // Don't use this api key below unless you need it
@@ -36,15 +37,22 @@
   });
 </script>
 
-<div class="main">
-  {#if $currentUser.isLoggedIn}
-    <Lobby />
-  {:else}
-    <img src={logo} alt="Svelte Logo" />
-    <h1>MaiGO</h1>
-    <Auth />
-  {/if}
-</div>
+<Router>
+  <main>
+    <div class="main">
+      {#if $currentUser.isLoggedIn}
+        <Lobby />
+      {:else}
+        <img src={logo} alt="Svelte Logo" />
+        <h1>MaiGO</h1>
+        <Auth />
+      {/if}
+    </div>
+    <!-- <Route path="upload" component={Upload} /> -->
+    <!-- <Route path="charts" component={Charts} /> -->
+    <!-- <Route path="login" component={Login} /> -->
+  </main>
+</Router>
 
 <style>
   :root {

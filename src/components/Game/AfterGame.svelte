@@ -1,1 +1,3 @@
-<p>After Game</p>
+<template>
+  <p>After Game</p>
+</template>
