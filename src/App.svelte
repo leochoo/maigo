@@ -13,6 +13,7 @@
     // Don't use this api key below unless you need it
     // apiKey: import.meta.env.VITE_MAPS_JS_API as string,
     apiKey: "",
+    language: "ja"
   });
   console.log("main loader", loader);
   setContext("loader", loader);

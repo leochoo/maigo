@@ -53,6 +53,7 @@
           zoom,
           position: _answer,
           disableDefaultUI: true,
+          showRoadLabels:false
         });
         console.log("streetviewmap", streetViewMap);
         console.log("status:", streetViewMap.StreetViewStatus);
