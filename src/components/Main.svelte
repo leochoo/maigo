@@ -7,6 +7,7 @@
     query,
     where,
     getDoc,
+    updateDoc,
     doc,
   } from "firebase/firestore";
   import { getAuth, signOut } from "firebase/auth";
@@ -29,14 +30,33 @@
     console.log(room_id);
   }
 
-  async function existRoom() {
-    const docSnap = await getDoc(doc(db, "rooms", room_id));
+
+  async function joinExistingRoom(room_id) {
+    // Verify room id entered
+    // Then try joining room with room id
+    let roomRef = doc(db, "rooms", room_id);
+    const docSnap = await getDoc(roomRef);
     if (docSnap.exists()) {
+      let data = docSnap.data();
+      let userList = [...data.users];
+      // console.log("data is, ", data);
       console.log("ROOM FOUND");
-      return true;
+      if (data.users.length < 4) {
+        // Joining available, proceed to join
+        console.log("Can join room now!");
+        userList.push($currentUser.user.uid);
+        await updateDoc(roomRef, {
+          users: userList,
+        });
+      } else {
+        // Room is full, stop the request
+        console.log("Full room!")
+      }
+      // amIhost.set(false);
+      // return true;
     } else {
       console.log("NO ROOM FOUND");
-      return false;
+      // return false;
     }
   }
 </script>
@@ -50,23 +70,22 @@
         await createRoom();
         amIhost.set(true);
         room_created = true;
-      }}>Create Room</button
-    >
+      }}>Create Room</button>
     <input bind:value={room_id} />
-    <button
-      on:click={async () => {
-        if (room_id != "") {
-          if (await existRoom()) {
-            amIhost.set(false);
-            room_created = true;
-          } else {
-            alert("NO ROOM FOUND");
-          }
-        } else {
-          alert("NO ROOM FOUND");
-        }
-      }}>Join Room</button
-    >
+    <button on:click={joinExistingRoom(room_id)}>Join Room</button>
+<!--      on:click={async () => {-->
+<!--        if (room_id != "") {-->
+<!--          if (await existRoom()) {-->
+<!--            amIhost.set(false);-->
+<!--            room_created = true;-->
+<!--          } else {-->
+<!--            alert("NO ROOM FOUND");-->
+<!--          }-->
+<!--        } else {-->
+<!--          alert("NO ROOM FOUND");-->
+<!--        }-->
+<!--      }}-->
+
     <p>A GeoGeussr Clone for Multiplayer Online</p>
     <p>HHLAB is a group of students from Keio University, Japan.</p>
     <button
