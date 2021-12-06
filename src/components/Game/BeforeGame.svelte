@@ -1,10 +1,11 @@
 <script lang="ts">
   import { db } from "../../../firebase";
+  import { getContext } from 'svelte';
   import { doc, onSnapshot } from "firebase/firestore";
   export let room_id: string;
 
   let data: any = [];
-  let game_start = false;
+  let handlePhase = getContext('phaseChange');
 
   const unsub = onSnapshot(doc(db, "rooms", room_id), (doc) => {
     console.log("Current users: ", doc.data());
@@ -25,9 +26,5 @@
     <li>{data.user4}</li>
   </ul>
 
-  <button
-    on:click={() => {
-      game_start = true;
-    }}>Start</button
-  >
+  <button on:click={handlePhase}>Start game</button>
 </template>

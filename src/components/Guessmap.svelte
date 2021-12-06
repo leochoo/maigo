@@ -63,30 +63,39 @@
   });
 </script>
 
-<div class="guessmap-comp" bind:this={container} />
-<div class="submit">
-  <button
-    class="submit-button"
-    on:click={() => {
-      if (marker != null) {
-        calcDistance();
-      } else {
-        console.log("no marker");
-      }
-    }}>submit</button
-  >
+<div class="guessmap">
+  <div class="guessmap-comp" bind:this={container} />
+  <div class="submit">
+    <button
+      class="submit-button"
+      on:click={() => {
+        if (marker != null) {
+          calcDistance();
+        } else {
+          console.log("no marker");
+        }
+      }}>submit</button
+    >
+  </div>
 </div>
 
 <style>
+  .guessmap {
+    transition: transform 0.2s;
+    display: inline-block;
+  }
+  .guessmap:hover {
+    transform: scale(2);
+  }
   .guessmap-comp {
     width: 50vw;
     height: 50vh;
     z-index: 1;
   }
-
+  
   /* Copyright (c) 2021 by Krar (https://codepen.io/Krar/pen/qYLzXN) */
   .submit-button {
-    position: absolute;
+    position: relative;
     left: calc(20% - 2em);
     color: #cecd24;
     text-decoration: none;

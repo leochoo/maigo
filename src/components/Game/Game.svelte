@@ -9,20 +9,24 @@
   import AfterGame from "./AfterGame.svelte";
 
   export let room_id: string;
+  let _phase: number = 0;
+
+  function phaseChange() {
+    _phase++;
+  }
+
+  setContext('phaseChange', phaseChange);
 </script>
 
 <!-- 
 <div class="streetview"><Streetview /></div>
 <div class="guessmap"><Guessmap /></div> -->
-<BeforeGame {room_id} />
-
-<!-- <DuringGame {room_id} />
-<AfterSubmit {room_id} />
+{#if _phase == 0}
+  <BeforeGame {room_id} />
+{:else if _phase == 1}
+  <DuringGame {room_id} />
+{/if}
+<!-- <AfterSubmit {room_id} />
 <AfterGame {room_id} /> -->
 <style>
-  .streetview {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-  }
 </style>

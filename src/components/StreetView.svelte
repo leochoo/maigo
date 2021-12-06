@@ -43,22 +43,25 @@
                     heading: 34,
                     pitch: 10,
                   },
+                  linksControl: true,
+                  panControl: true,
+                  panControlOptions: {
+                    position: google.maps.ControlPosition.TOP_RIGHT
+                  },
+                  zoomControlOptions: {
+                    position: google.maps.ControlPosition.TOP_RIGHT
+                  },
+                  enableCloseButton: false,
+                  addressControl: false,
+                  fullscreenControl: false,
                 });
-                // streetViewMap.setStreetView(panorama);
+                streetViewMap.setStreetView(panorama);
                 console.log("Valid streetview");
               } else {
                 console.log("no streetview");
               }
             }
           );
-          streetViewMap = new google.maps.StreetViewPanorama(container, {
-            zoom,
-            position: _answer,
-            disableDefaultUI: true,
-            showRoadLabels: false,
-          });
-          console.log("streetviewmap", streetViewMap);
-          console.log("status:", streetViewMap.StreetViewStatus);
         })
         .then(() => {
           answer.set(_answer);
