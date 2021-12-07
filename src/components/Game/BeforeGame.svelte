@@ -1,14 +1,16 @@
 <script lang="ts">
   import { db } from "../../../firebase";
   import { getContext } from 'svelte';
-  import { doc, onSnapshot, updateDoc } from "firebase/firestore";
+  import { doc, onSnapshot, updateDoc, serverTimestamp } from "firebase/firestore";
   export let room_id: string;
 
   let data: any = [];
   let handlePhase = getContext('phaseChange');
 
-  const unsub = onSnapshot(doc(db, "rooms", room_id), (doc) => {
-    console.log("Current users: ", doc.data());
+  // consider firestore latency compensation
+  const unsub = onSnapshot(doc(db, "rooms", room_id),{includeMetadataChanges: false}, (doc) => {
+    const source = doc.metadata.hasPendingWrites ? "Local" : "Server";
+    console.log(source, " Current room data: ", doc.data());
     data = doc.data();
   });
 
@@ -16,9 +18,11 @@
 
   const addEndTime = async () => {
     const docRef = doc(db,"rooms",room_id);
-    console.log("endTime added");
+    // put the current time for development purpose
+    const currentServerTime = serverTimestamp();
+    console.log("serverTime: ", currentServerTime);
     await updateDoc(docRef,{
-      endTime:0
+      endTime: currentServerTime
     })
   }
 </script>
@@ -34,8 +38,8 @@
     <li>{data.user4}</li>
   </ul>
 
-  <button on:click={()=>{
+  <button on:click={async ()=>{
+    await addEndTime();
     handlePhase();
-    addEndTime();
   }}>Start game</button>
 </template>

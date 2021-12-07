@@ -1,27 +1,27 @@
 <script lang="ts">
 	import { doc, getDoc } from "firebase/firestore";
 	import { onMount } from "svelte";
-  import { db } from "../../../firebase";
+    import { db } from "../../../firebase";
 	export let room_id: string;
 
-	let endTime:number;
+	let endTime;
 	
 	const getEndTime = async () => {
-		let roomRef = doc(db, "rooms", room_id);
+		const roomRef = doc(db, "rooms", room_id);
 		const docSnap = await getDoc(roomRef);
 		if (docSnap.exists()) {
 			let data = docSnap.data();
-			endTime = data.endTime;
+			endTime = data.endTime.toDate();
 			console.log("endTime: ",data.endTime);
 		}
 	}
 
-  onMount(() => {
+	onMount(() => {
 		getEndTime();
-  });
+	});
 </script>
 
-<div class="timer">Timer Component<br>Fetched endTime:{endTime}</div>
+<div class="timer">Timer Component<br>Fetched endTime:<br>{endTime}</div>
 
 <style>
 	.timer {
