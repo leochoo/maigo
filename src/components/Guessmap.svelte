@@ -65,7 +65,6 @@
 
 <div class="guessmap">
   <div class="guessmap-comp" bind:this={container} />
-  <div class="submit">
     <button
       class="submit-button"
       on:click={() => {
@@ -76,27 +75,32 @@
         }
       }}>submit</button
     >
-  </div>
 </div>
 
 <style>
   .guessmap {
+    position: absolute;
+    top: 65vh;
+    left: 77vw;
     transition: transform 0.2s;
     display: inline-block;
+    transform-origin: bottom right;
+    transition-delay: 1s;
   }
   .guessmap:hover {
     transform: scale(2);
+    transition-delay: 0s;
   }
   .guessmap-comp {
-    width: 50vw;
-    height: 50vh;
+    width: 20vw;
+    height: 25vh;
     z-index: 1;
   }
   
   /* Copyright (c) 2021 by Krar (https://codepen.io/Krar/pen/qYLzXN) */
   .submit-button {
     position: relative;
-    left: calc(20% - 2em);
+    left: calc(22% - 2em);
     color: #cecd24;
     text-decoration: none;
     font-size: 2em;
