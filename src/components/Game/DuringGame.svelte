@@ -1,11 +1,13 @@
 <script lang="ts">
   import Guessmap from '../Guessmap.svelte';
   import Streetview from '../Streetview.svelte';
+  import Timer from '../Game/Timer.svelte'
   export let room_id: string;
 </script>
 
 <div class="streetview"><Streetview></Streetview></div>
 <div><Guessmap></Guessmap></div>
+<Timer {room_id}></Timer>
 
 <style>
   .streetview {

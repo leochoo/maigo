@@ -1,7 +1,7 @@
 <script lang="ts">
   import { db } from "../../../firebase";
   import { getContext } from 'svelte';
-  import { doc, onSnapshot } from "firebase/firestore";
+  import { doc, onSnapshot, updateDoc } from "firebase/firestore";
   export let room_id: string;
 
   let data: any = [];
@@ -13,6 +13,14 @@
   });
 
   console.log("data: ", data);
+
+  const addEndTime = async () => {
+    const docRef = doc(db,"rooms",room_id);
+    console.log("endTime added");
+    await updateDoc(docRef,{
+      endTime:0
+    })
+  }
 </script>
 
 <template>
@@ -26,5 +34,8 @@
     <li>{data.user4}</li>
   </ul>
 
-  <button on:click={handlePhase}>Start game</button>
+  <button on:click={()=>{
+    handlePhase();
+    addEndTime();
+  }}>Start game</button>
 </template>
