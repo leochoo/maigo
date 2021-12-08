@@ -21,11 +21,14 @@
     const map = new google.maps.Map(container, {
       zoom,
       center,
+      controlSize: 20,
       disableDefaultUI: true,
       zoomControl: true,
       clickableIcons: false,
+      disableDoubleClickZoom: true,
     });
-    google.maps.event.addListener(map, "click", (event) => {
+    google.maps.event.addListener(map, "click", (event: any) => {
+      console.log("click");
       addMarker(event.latLng, map);
     });
   }
@@ -66,7 +69,7 @@
 <div class="guessmap">
   <div class="guessmap-comp" bind:this={container} />
     <button
-      class="submit-button"
+      class:selected="{marker != null}"
       on:click={() => {
         if (marker != null) {
           calcDistance();
@@ -82,36 +85,66 @@
     position: absolute;
     top: 65vh;
     left: 77vw;
-    transition: transform 0.2s;
     display: inline-block;
-    transform-origin: bottom right;
-    transition-delay: 1s;
+    opacity: 0.7;
+    animation: fadeOut 1s;
+    /* transform-origin: bottom right;
+    transition-delay: 1s; */
   }
   .guessmap:hover {
-    transform: scale(2);
-    transition-delay: 0s;
+    animation: fadeIn 0.2s;
+    animation-fill-mode: forwards;
+    /* transform: scale(2.7);
+    transition-delay: 0s; */
+  }
+  @keyframes fadeIn{
+    0% {
+      opacity: 0.7;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+    }
+    88% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.7;
+    }
   }
   .guessmap-comp {
     width: 20vw;
     height: 25vh;
     z-index: 1;
   }
-  
-  /* Copyright (c) 2021 by Krar (https://codepen.io/Krar/pen/qYLzXN) */
-  .submit-button {
-    position: relative;
-    left: calc(22% - 2em);
-    color: #cecd24;
+  button {
+    position: absolute;
+    color: red;
     text-decoration: none;
-    font-size: 2em;
-    display: inline-block;
+    font-size: 1em;
     font-family: Montserrat;
     text-transform: uppercase;
-    padding: 0.1em 2em;
-    border: 2px solid #cecd24;
-    transition: 0.02s 0.2s cubic-bezier(0.1, 0, 0.1, 1);
+    left: 0;
+    width: 100%;
+    border: 2px solid red;
+    text-decoration-line: line-through;
   }
-  .submit-button::before {
+  .selected {
+    position: absolute;
+    color: green;
+    text-decoration: none;
+    font-size: 1em;
+    font-family: Montserrat;
+    text-transform: uppercase;
+    left: 0;
+    width: 100%;
+    border: 2px solid green;
+  }
+  /* .submit-button::before {
     content: "";
     display: inline-block;
     position: absolute;
@@ -140,7 +173,7 @@
     transition: right 0.3s cubic-bezier(0.1, 0, 0.1, 1);
   }
   .submit-button:hover {
-    /* padding: 0.5em 3.5em 0.5em 0.5em; */
+
     padding: 0.1em 3.5em 0.1em 0.5em;
   }
   .submit-button:hover::before {
@@ -152,5 +185,5 @@
   .submit-button:hover::after {
     right: 0;
     transition: right 0.3s 0.2s cubic-bezier(0.1, 0, 0.1, 1);
-  }
+  }*/
 </style>
