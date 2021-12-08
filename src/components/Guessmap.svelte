@@ -33,11 +33,18 @@
     });
   }
 
+  function adjustLocationWithScale(location: google.maps.LatLngLiteral) {
+    let adjustedLocation;
+    return adjustedLocation;
+  }
+
   function addMarker(
     location: google.maps.LatLngLiteral,
     map: google.maps.Map
   ) {
+    let adjustedLocation = adjustLocationWithScale(location);
     if (marker != null) {
+      console.log(location.lat());
       marker.setPosition(location);
     } else {
       marker = new google.maps.Marker({
@@ -87,9 +94,8 @@
     left: 77vw;
     display: inline-block;
     opacity: 0.7;
-    animation: fadeOut 1s;
-    /* transform-origin: bottom right;
-    transition-delay: 1s; */
+    /* animation: fadeOut 1s; */
+    transform-origin: bottom right;
   }
   .guessmap:hover {
     animation: fadeIn 0.2s;
@@ -102,15 +108,18 @@
       opacity: 0.7;
     }
     100% {
+      transform: scale(2.5);
       opacity: 1;
     }
   }
   @keyframes fadeOut {
     0% {
+      transform: scale(2.5);
       opacity: 1;
     }
     88% {
       opacity: 1;
+      transform: scale(2.5);
     }
     100% {
       opacity: 0.7;
@@ -143,6 +152,9 @@
     left: 0;
     width: 100%;
     border: 2px solid green;
+  }
+  .selected:hover {
+    background: lightcyan;
   }
   /* .submit-button::before {
     content: "";
