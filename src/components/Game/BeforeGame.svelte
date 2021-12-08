@@ -3,15 +3,16 @@
   import { doc, onSnapshot } from "firebase/firestore";
   export let room_id: string;
 
-  let data: any = [];
+  let data;
   let game_start = false;
+  let userList = [];
 
   const unsub = onSnapshot(doc(db, "rooms", room_id), (doc) => {
     console.log("Current users: ", doc.data());
     data = doc.data();
+    userList = data.users;
+    console.log("userlist: ", userList);
   });
-
-  console.log("data: ", data);
 </script>
 
 <template>
@@ -19,10 +20,9 @@
   <h2>Room ID: {room_id}</h2>
   <ul>
     <h2>Users</h2>
-    <li>{data.user1}</li>
-    <li>{data.user2}</li>
-    <li>{data.user3}</li>
-    <li>{data.user4}</li>
+    {#each userList as user}
+      <li>{user}</li>
+    {/each}
   </ul>
 
   <button
