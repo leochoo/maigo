@@ -5,7 +5,7 @@
   import logo from "./assets/svelte.png";
   import Guessmap from "./components/Guessmap.svelte";
   import Streetview from "./components/Streetview.svelte";
-  import Lobby from "./components/Main.svelte";
+  import Main from "./components/Main.svelte";
   import Auth from "./components/Auth.svelte";
   import { currentUser } from "./store";
   import { Router, Link, Route } from "svelte-routing";
@@ -41,7 +41,7 @@
   <main>
     <div class="main">
       {#if $currentUser.isLoggedIn}
-        <Lobby />
+        <Main />
       {:else}
         <img src={logo} alt="Svelte Logo" />
         <h1>MaiGO</h1>

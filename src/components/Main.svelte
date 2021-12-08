@@ -14,7 +14,7 @@
   import Room from "./Room.svelte";
   import { amIhost, currentUser } from "../store";
 
-  $: room_created = false;
+  let room_available = false;
   let room_id: string = "";
   async function createRoom() {
     console.log("creating room");
@@ -27,7 +27,9 @@
       user4: "",
     });
     room_id = docRef.id;
+    amIhost.set(true);
     console.log(room_id);
+    room_available = true;
   }
 
 
@@ -43,48 +45,36 @@
       console.log("ROOM FOUND");
       if (data.users.length < 4) {
         // Joining available, proceed to join
-        console.log("Can join room now!");
         userList.push($currentUser.user.uid);
         await updateDoc(roomRef, {
           users: userList,
         });
+        // successfully joined room
+        console.log("Can join room now!");
+        amIhost.set(false);
+        room_available = true;
       } else {
         // Room is full, stop the request
         console.log("Full room!")
+        room_available = false;
       }
       // amIhost.set(false);
-      // return true;
     } else {
       console.log("NO ROOM FOUND");
-      // return false;
+      room_available = false;
     }
   }
 </script>
 
-{#if !room_created}
-  <main>
+<main>
+  {#if !room_available}
     <img src={logo} alt="Svelte Logo" />
     <h1>MaiGO</h1>
     <button
-      on:click={async () => {
-        await createRoom();
-        amIhost.set(true);
-        room_created = true;
-      }}>Create Room</button>
+      on:click={createRoom}>Create Room</button>
     <input bind:value={room_id} />
-    <button on:click={joinExistingRoom(room_id)}>Join Room</button>
-<!--      on:click={async () => {-->
-<!--        if (room_id != "") {-->
-<!--          if (await existRoom()) {-->
-<!--            amIhost.set(false);-->
-<!--            room_created = true;-->
-<!--          } else {-->
-<!--            alert("NO ROOM FOUND");-->
-<!--          }-->
-<!--        } else {-->
-<!--          alert("NO ROOM FOUND");-->
-<!--        }-->
-<!--      }}-->
+    <button
+      on:click={joinExistingRoom(room_id)}>Join Room</button>
 
     <p>A GeoGeussr Clone for Multiplayer Online</p>
     <p>HHLAB is a group of students from Keio University, Japan.</p>
@@ -100,10 +90,10 @@
           });
       }}>Logout</button
     >
-  </main>
-{:else}
-  <Room {room_id} />
-{/if}
+  {:else}
+    <Room {room_id} />
+  {/if}
+</main>
 
 <style>
   :root {
