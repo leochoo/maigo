@@ -44,7 +44,6 @@
   ) {
     let adjustedLocation = adjustLocationWithScale(location);
     if (marker != null) {
-      console.log(location.lat());
       marker.setPosition(location);
     } else {
       marker = new google.maps.Marker({
@@ -94,41 +93,41 @@
     left: 77vw;
     display: inline-block;
     opacity: 0.7;
-    /* animation: fadeOut 1s; */
     transform-origin: bottom right;
   }
   .guessmap:hover {
     animation: fadeIn 0.2s;
     animation-fill-mode: forwards;
-    /* transform: scale(2.7);
-    transition-delay: 0s; */
   }
   @keyframes fadeIn{
     0% {
       opacity: 0.7;
+      top: 65vh;
+      left: 77vw;
     }
     100% {
-      transform: scale(2.5);
       opacity: 1;
+      top: 30vh;
+      left: 45vw;
+      width: 50vw;
     }
   }
-  @keyframes fadeOut {
+  @keyframes fadeInMap {
     0% {
-      transform: scale(2.5);
-      opacity: 1;
-    }
-    88% {
-      opacity: 1;
-      transform: scale(2.5);
     }
     100% {
-      opacity: 0.7;
+      width: 50vw;
+      height: 60vh;
     }
   }
   .guessmap-comp {
     width: 20vw;
     height: 25vh;
     z-index: 1;
+  }
+  .guessmap-comp:hover {
+    animation: fadeInMap 0.2s;
+    animation-fill-mode: forwards;
   }
   button {
     position: absolute;
