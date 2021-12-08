@@ -19,12 +19,8 @@
   async function createRoom() {
     console.log("creating room");
     const docRef = await addDoc(collection(db, "rooms"), {
-      member_count: 1,
       ready_count: 0,
-      user1: $currentUser.user.uid,
-      user2: "",
-      user3: "",
-      user4: "",
+      users: [$currentUser.user.uid]
     });
     room_id = docRef.id;
     amIhost.set(true);
