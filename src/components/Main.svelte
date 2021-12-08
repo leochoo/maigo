@@ -71,10 +71,10 @@
     <img src={logo} alt="Svelte Logo" />
     <h1>MaiGO</h1>
     <button
-      on:click={createRoom}>Create Room</button>
+      on:click={() => createRoom()}>Create Room</button>
     <input bind:value={room_id} />
     <button
-      on:click={joinExistingRoom(room_id)}>Join Room</button>
+      on:click={() => joinExistingRoom(room_id)}>Join Room</button>
 
     <p>A GeoGeussr Clone for Multiplayer Online</p>
     <p>HHLAB is a group of students from Keio University, Japan.</p>
