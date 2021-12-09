@@ -6,12 +6,16 @@
 
   let data: any = [];
   let handlePhase = getContext('phaseChange');
+  let game_start = false;
+  let userList = [];
 
   // consider firestore latency compensation
   const unsub = onSnapshot(doc(db, "rooms", room_id),{includeMetadataChanges: false}, (doc) => {
     const source = doc.metadata.hasPendingWrites ? "Local" : "Server";
     console.log(source, " Current room data: ", doc.data());
     data = doc.data();
+    userList = data.users;
+    console.log("userlist: ", userList);
   });
 
   console.log("data: ", data);
@@ -32,6 +36,7 @@
     console.log("BeforeGame destroyed");
     // unsub();
   })
+
 </script>
 
 <template>
@@ -39,10 +44,9 @@
   <h2>Room ID: {room_id}</h2>
   <ul>
     <h2>Users</h2>
-    <li>{data.user1}</li>
-    <li>{data.user2}</li>
-    <li>{data.user3}</li>
-    <li>{data.user4}</li>
+    {#each userList as user}
+      <li>{user}</li>
+    {/each}
   </ul>
 
   <button on:click={async ()=>{
