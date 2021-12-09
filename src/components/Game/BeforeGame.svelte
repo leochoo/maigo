@@ -1,6 +1,6 @@
 <script lang="ts">
   import { db } from "../../../firebase";
-  import { getContext } from 'svelte';
+  import { getContext, onDestroy } from 'svelte';
   import { doc, onSnapshot, updateDoc, serverTimestamp } from "firebase/firestore";
   export let room_id: string;
 
@@ -24,7 +24,14 @@
     await updateDoc(docRef,{
       endTime: currentServerTime
     })
+    console.log("update done");
   }
+
+  // detach onSnapshot
+  onDestroy(()=>{
+    console.log("BeforeGame destroyed");
+    // unsub();
+  })
 </script>
 
 <template>
