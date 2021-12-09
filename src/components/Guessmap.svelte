@@ -15,25 +15,35 @@
       lng: marker.getPosition().lng(),
     };
   }
+  
   const loader: Loader = getContext("loader");
   function initMap(): void {
     const myLatLng = { lat: -25.363, lng: 131.044 };
     const map = new google.maps.Map(container, {
       zoom,
       center,
+      controlSize: 20,
       disableDefaultUI: true,
       zoomControl: true,
       clickableIcons: false,
+      disableDoubleClickZoom: true,
     });
-    google.maps.event.addListener(map, "click", (event) => {
+    google.maps.event.addListener(map, "click", (event: any) => {
+      console.log("click");
       addMarker(event.latLng, map);
     });
+  }
+
+  function adjustLocationWithScale(location: google.maps.LatLngLiteral) {
+    let adjustedLocation;
+    return adjustedLocation;
   }
 
   function addMarker(
     location: google.maps.LatLngLiteral,
     map: google.maps.Map
   ) {
+    let adjustedLocation = adjustLocationWithScale(location);
     if (marker != null) {
       marker.setPosition(location);
     } else {
@@ -55,7 +65,7 @@
     );
     console.log(Math.floor(distance), "Meter(s)");
   }
-
+  
   onMount(() => {
     loader.load().then(() => {
       initMap();
@@ -63,10 +73,10 @@
   });
 </script>
 
-<div class="guessmap-comp" bind:this={container} />
-<div class="submit">
+<div class="guessmap">
+  <div class="guessmap-comp" bind:this={container} />
   <button
-    class="submit-button"
+    class:selected="{marker != null}"
     on:click={() => {
       if (marker != null) {
         calcDistance();
@@ -78,27 +88,78 @@
 </div>
 
 <style>
-  .guessmap-comp {
-    width: 50vw;
-    height: 50vh;
-    z-index: 1;
-  }
-
-  /* Copyright (c) 2021 by Krar (https://codepen.io/Krar/pen/qYLzXN) */
-  .submit-button {
+  .guessmap {
     position: absolute;
-    left: calc(20% - 2em);
-    color: #cecd24;
-    text-decoration: none;
-    font-size: 2em;
+    top: 65vh;
+    left: 77vw;
     display: inline-block;
+    opacity: 0.7;
+    transform-origin: bottom right;
+    border: 5px solid red;
+    padding: 10px;
+  }
+  .guessmap:hover {
+    animation: fadeIn 0.2s;
+    animation-fill-mode: forwards;
+  }
+  @keyframes fadeIn{
+    0% {
+      opacity: 0.7;
+      top: 65vh;
+      left: 77vw;
+    }
+    100% {
+      opacity: 1;
+      top: 30vh;
+      left: 45vw;
+      width: 50vw;
+    }
+  }
+  @keyframes fadeInMap {
+    0% {
+    }
+    100% {
+      width: 50vw;
+      height: 60vh;
+    }
+  }
+  .guessmap-comp {
+    width: 20vw;
+    height: 25vh;
+    z-index: 1;
+    border: 5px solid green;
+  }
+  .guessmap-comp:hover {
+    animation: fadeInMap 0.2s;
+    animation-fill-mode: forwards;
+  }
+  button {
+    position: absolute;
+    color: red;
+    text-decoration: none;
+    font-size: 1em;
     font-family: Montserrat;
     text-transform: uppercase;
-    padding: 0.1em 2em;
-    border: 2px solid #cecd24;
-    transition: 0.02s 0.2s cubic-bezier(0.1, 0, 0.1, 1);
+    left: 0;
+    width: 100%;
+    border: 5px solid yellow;
+    text-decoration-line: line-through;
   }
-  .submit-button::before {
+  .selected {
+    border: 5px solid yellow;
+    position: absolute;
+    color: blue;
+    text-decoration: none;
+    font-size: 1em;
+    font-family: Montserrat;
+    text-transform: uppercase;
+    left: 0;
+    width: 100%;
+  }
+  .selected:hover {
+    background: lightcyan;
+  }
+  /* .submit-button::before {
     content: "";
     display: inline-block;
     position: absolute;
@@ -127,7 +188,7 @@
     transition: right 0.3s cubic-bezier(0.1, 0, 0.1, 1);
   }
   .submit-button:hover {
-    /* padding: 0.5em 3.5em 0.5em 0.5em; */
+
     padding: 0.1em 3.5em 0.1em 0.5em;
   }
   .submit-button:hover::before {
@@ -139,5 +200,5 @@
   .submit-button:hover::after {
     right: 0;
     transition: right 0.3s 0.2s cubic-bezier(0.1, 0, 0.1, 1);
-  }
+  }*/
 </style>

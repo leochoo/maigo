@@ -1,18 +1,42 @@
 <script lang="ts">
   import { db } from "../../../firebase";
-  import { doc, onSnapshot } from "firebase/firestore";
+  import { getContext, onDestroy } from 'svelte';
+  import { doc, onSnapshot, updateDoc, serverTimestamp } from "firebase/firestore";
   export let room_id: string;
 
-  let data;
+  let data: any = [];
+  let handlePhase = getContext('phaseChange');
   let game_start = false;
   let userList = [];
 
-  const unsub = onSnapshot(doc(db, "rooms", room_id), (doc) => {
-    console.log("Current users: ", doc.data());
+  // consider firestore latency compensation
+  const unsub = onSnapshot(doc(db, "rooms", room_id),{includeMetadataChanges: false}, (doc) => {
+    const source = doc.metadata.hasPendingWrites ? "Local" : "Server";
+    console.log(source, " Current room data: ", doc.data());
     data = doc.data();
     userList = data.users;
     console.log("userlist: ", userList);
   });
+
+  console.log("data: ", data);
+
+  const addEndTime = async () => {
+    const docRef = doc(db,"rooms",room_id);
+    // put the current time for development purpose
+    const currentServerTime = serverTimestamp();
+    console.log("serverTime: ", currentServerTime);
+    await updateDoc(docRef,{
+      endTime: currentServerTime
+    })
+    console.log("update done");
+  }
+
+  // detach onSnapshot
+  onDestroy(()=>{
+    console.log("BeforeGame destroyed");
+    // unsub();
+  })
+
 </script>
 
 <template>
@@ -25,9 +49,8 @@
     {/each}
   </ul>
 
-  <button
-    on:click={() => {
-      game_start = true;
-    }}>Start</button
-  >
+  <button on:click={async ()=>{
+    await addEndTime();
+    handlePhase();
+  }}>Start game</button>
 </template>

@@ -3,8 +3,6 @@
   import { getAuth, onAuthStateChanged } from "firebase/auth";
   import { Loader } from "@googlemaps/js-api-loader";
   import logo from "./assets/svelte.png";
-  import Guessmap from "./components/Guessmap.svelte";
-  import Streetview from "./components/Streetview.svelte";
   import Main from "./components/Main.svelte";
   import Auth from "./components/Auth.svelte";
   import { currentUser } from "./store";
