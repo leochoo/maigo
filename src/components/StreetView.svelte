@@ -54,6 +54,7 @@
                   enableCloseButton: false,
                   addressControl: false,
                   fullscreenControl: false,
+                  disableDefaultUI: true,
                 });
                 streetViewMap.setStreetView(panorama);
                 console.log("Valid streetview");

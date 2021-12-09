@@ -15,6 +15,7 @@
       lng: marker.getPosition().lng(),
     };
   }
+  
   const loader: Loader = getContext("loader");
   function initMap(): void {
     const myLatLng = { lat: -25.363, lng: 131.044 };
@@ -64,7 +65,7 @@
     );
     console.log(Math.floor(distance), "Meter(s)");
   }
-
+  
   onMount(() => {
     loader.load().then(() => {
       initMap();
@@ -74,16 +75,16 @@
 
 <div class="guessmap">
   <div class="guessmap-comp" bind:this={container} />
-    <button
-      class:selected="{marker != null}"
-      on:click={() => {
-        if (marker != null) {
-          calcDistance();
-        } else {
-          console.log("no marker");
-        }
-      }}>submit</button
-    >
+  <button
+    class:selected="{marker != null}"
+    on:click={() => {
+      if (marker != null) {
+        calcDistance();
+      } else {
+        console.log("no marker");
+      }
+    }}>submit</button
+  >
 </div>
 
 <style>
@@ -94,6 +95,8 @@
     display: inline-block;
     opacity: 0.7;
     transform-origin: bottom right;
+    border: 5px solid red;
+    padding: 10px;
   }
   .guessmap:hover {
     animation: fadeIn 0.2s;
@@ -124,6 +127,7 @@
     width: 20vw;
     height: 25vh;
     z-index: 1;
+    border: 5px solid green;
   }
   .guessmap-comp:hover {
     animation: fadeInMap 0.2s;
@@ -138,19 +142,19 @@
     text-transform: uppercase;
     left: 0;
     width: 100%;
-    border: 2px solid red;
+    border: 5px solid yellow;
     text-decoration-line: line-through;
   }
   .selected {
+    border: 5px solid yellow;
     position: absolute;
-    color: green;
+    color: blue;
     text-decoration: none;
     font-size: 1em;
     font-family: Montserrat;
     text-transform: uppercase;
     left: 0;
     width: 100%;
-    border: 2px solid green;
   }
   .selected:hover {
     background: lightcyan;
