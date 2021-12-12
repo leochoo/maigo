@@ -2,6 +2,7 @@
   import { getContext, onMount } from "svelte";
   import type { Loader } from "@googlemaps/js-api-loader";
   import { answer } from "../store";
+import { deleteApp } from "firebase/app";
 
   let container;
   let zoom = 12;
@@ -29,21 +30,15 @@
       disableDoubleClickZoom: true,
     });
     google.maps.event.addListener(map, "click", (event: any) => {
-      console.log("click");
       addMarker(event.latLng, map);
     });
   }
 
-  function adjustLocationWithScale(location: google.maps.LatLngLiteral) {
-    let adjustedLocation;
-    return adjustedLocation;
-  }
 
   function addMarker(
     location: google.maps.LatLngLiteral,
     map: google.maps.Map
   ) {
-    let adjustedLocation = adjustLocationWithScale(location);
     if (marker != null) {
       marker.setPosition(location);
     } else {
@@ -65,6 +60,33 @@
     );
     console.log(Math.floor(distance), "Meter(s)");
   }
+
+  function mouseOverAnimation(): void {
+    console.log("over");
+    let entireGuessMapBox = document.getElementById("guessmap");
+    let guessMap = document.getElementById("guessmap-comp");
+    let button = document.getElementById("button");
+    button!.style.display = "inline";
+    entireGuessMapBox!.style.opacity = "1";
+    entireGuessMapBox!.style.top = 30 + 'vh';
+    entireGuessMapBox!.style.left = 45 + 'vw';
+    entireGuessMapBox!.style.width = 55 + 'vw';
+    guessMap!.style.width = 50 + 'vw';
+    guessMap!.style.height = 60 + 'vh';
+  }
+  function mouseOutAnimation(): void {
+    console.log("out");
+    let entireGuessMapBox = document.getElementById("guessmap");
+    let guessMap = document.getElementById("guessmap-comp");
+    let button = document.getElementById("button");
+    button!.style.display = "none";
+    entireGuessMapBox!.style.opacity = "0.7";
+    entireGuessMapBox!.style.top = 65 + 'vh';
+    entireGuessMapBox!.style.left = 77 + 'vw';
+    entireGuessMapBox!.style.width = 20 + 'vw';
+    guessMap!.style.width = 20 + 'vw';
+    guessMap!.style.height = 25 + 'vh';
+  }
   
   onMount(() => {
     loader.load().then(() => {
@@ -73,9 +95,11 @@
   });
 </script>
 
-<div class="guessmap">
-  <div class="guessmap-comp" bind:this={container} />
+<!-- svelte-ignore a11y-mouse-events-have-key-events -->
+<div class="guessmap" id="guessmap" on:mouseover={mouseOverAnimation} on:mouseout={mouseOutAnimation}>
+  <div class="guessmap-comp" id="guessmap-comp" bind:this={container} />
   <button
+    id = "button"
     class:selected="{marker != null}"
     on:click={() => {
       if (marker != null) {
@@ -95,14 +119,13 @@
     display: inline-block;
     opacity: 0.7;
     transform-origin: bottom right;
-    border: 5px solid red;
-    padding: 10px;
+    border: 0px solid   red;
   }
-  .guessmap:hover {
+  /* .guessmap:hover {
     animation: fadeIn 0.2s;
     animation-fill-mode: forwards;
-  }
-  @keyframes fadeIn{
+  } */
+  /* @keyframes fadeIn{
     0% {
       opacity: 0.7;
       top: 65vh;
@@ -114,25 +137,25 @@
       left: 45vw;
       width: 50vw;
     }
-  }
-  @keyframes fadeInMap {
+  } */
+  /* @keyframes fadeInMap {
     0% {
     }
     100% {
       width: 50vw;
       height: 60vh;
     }
-  }
+  } */
   .guessmap-comp {
     width: 20vw;
     height: 25vh;
     z-index: 1;
-    border: 5px solid green;
+    border: 0px solid green;
   }
-  .guessmap-comp:hover {
+  /* .guessmap-comp:hover {
     animation: fadeInMap 0.2s;
     animation-fill-mode: forwards;
-  }
+  } */
   button {
     position: absolute;
     color: red;
@@ -140,21 +163,24 @@
     font-size: 1em;
     font-family: Montserrat;
     text-transform: uppercase;
-    left: 0;
-    width: 100%;
-    border: 5px solid yellow;
+    left: 15%;
+    width: 25%;
+    top: 406px;
+    z-index: 5;
+    display: none;
     text-decoration-line: line-through;
   }
   .selected {
-    border: 5px solid yellow;
     position: absolute;
     color: blue;
     text-decoration: none;
     font-size: 1em;
     font-family: Montserrat;
     text-transform: uppercase;
-    left: 0;
-    width: 100%;
+    left: 15%;
+    width: 25%;
+    top: 406px;
+    z-index: 5;
   }
   .selected:hover {
     background: lightcyan;
