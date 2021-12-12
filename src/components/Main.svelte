@@ -13,6 +13,7 @@
   import { getAuth, signOut } from "firebase/auth";
   import Room from "./Room.svelte";
   import { amIhost, currentUser } from "../store";
+import { onMount } from "svelte";
 
   let room_available = false;
   let room_id: string = "";
@@ -60,6 +61,16 @@
       room_available = false;
     }
   }
+
+  // onMount(async ()=>{
+  //   const currUTCTime = await fetch("http://worldtimeapi.org/api/timezone/Etc/UTC");
+  //   const data = await currUTCTime.json();
+  //   console.log("getData: ", data.datetime);
+  //   function convertDateToUTC(date) { 
+  //     return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds()); 
+  //   }
+  //   console.log("UTC date: ",convertDateToUTC(new Date(data.datetime)));
+  // })
 </script>
 
 <main>

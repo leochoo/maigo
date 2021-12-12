@@ -3,8 +3,8 @@
   import Streetview from "../Streetview.svelte";
   import { Loader } from "@googlemaps/js-api-loader";
   import { onMount, setContext, getContext } from "svelte";
-  import BeforeGame from "./beforeGame.svelte";
-  import DuringGame from "./duringGame.svelte";
+  import BeforeGame from "./BeforeGame.svelte";
+  import DuringGame from "./DuringGame.svelte";
   import AfterSubmit from "./AfterSubmit.svelte";
   import AfterGame from "./AfterGame.svelte";
 
