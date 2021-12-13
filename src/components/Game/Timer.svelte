@@ -2,32 +2,35 @@
 	import { doc, getDoc } from "firebase/firestore";
 	import { onDestroy, onMount } from "svelte";
     import { db } from "../../../firebase";
-	import { tweened } from 'svelte/motion'
+	import { Tweened, tweened } from 'svelte/motion';
 	export let room_id: string;
 
-	// let endTime:number;
-	let remainingTime;
-	let timer;
-	let timerId;
+	let remainingTime: number;
+	let timer: Tweened<number>;
+	let timerId: NodeJS.Timer;
 	$:minutes=5;
 	$:seconds=0;
 	
+	// fetch endTime in firestore
 	const getEndTime = async () => {
 		const roomRef = doc(db, "rooms", room_id);
 		const docSnap = await getDoc(roomRef);
 		if (docSnap.exists()) {
 			let data = docSnap.data();
-			console.log("original endTime: ", data.endTime);
-			console.log("fetched endTime: ",new Date(data.endTime.toDate()).getTime());
 			return new Date(data.endTime.toDate()).getTime();
 		}
 	}
 
 	const calRemainingTime = async () => {
-		let endTime = await getEndTime();
-		// TODO: change to UTC time
-		let currTime = new Date().getTime();
-		remainingTime = (endTime - currTime)/1000;
+		const endTime = await getEndTime();
+
+		// get the current time when a game started
+		const currUTCTime = await fetch("http://worldtimeapi.org/api/timezone/Etc/UTC");
+		const data = await currUTCTime.json();
+		const currTime = new Date(data.datetime).getTime();
+
+		// diff between endTime and the current time
+		remainingTime = (endTime - currTime)*0.001;
 		console.log("remaining Time: ",remainingTime);
 		timer = tweened(remainingTime);
 	}
@@ -41,18 +44,10 @@
 			console.log("timer done")
 			return
 		}
-		console.log("in tick: ",$timer);
-
-		
-		// minutes = Math.floor($timer/60);
-		// seconds = Math.floor($timer - minutes * 60);
-		// if($timer > 0) $timer--;
-		// console.log($timer);
+		console.log("tick: ",$timer);
 	}
 
 	onMount(async () => {
-		console.log("in timer onMount");
-
 		await calRemainingTime();
 		timerId = setInterval(()=>tick(),1000)
 	})

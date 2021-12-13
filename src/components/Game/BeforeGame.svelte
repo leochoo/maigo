@@ -7,7 +7,6 @@
 
   let data: any = [];
   let handlePhase:()=>void = getContext('phaseChange');
-  let game_start = false;
   let userList = [];
 
   // consider firestore latency compensation
@@ -23,28 +22,16 @@
     const docRef = doc(db,"rooms",room_id);
     var endTime: Date;
     // Set game time limits here
-    const timeLimits:number = 5
+    const timeLimits:number = 5 
 
+    // get the current time and add time limits to it. And add the calculated endTime in firestore
     const currUTCTime = await fetch("http://worldtimeapi.org/api/timezone/Etc/UTC");
     const data = await currUTCTime.json();
-    console.log("utc date.datetime: ",data.datetime);
-    // TODO: change to UTC time
-    // console.log("fetched data: ",new Date(new Date(data.datetime).getTime()+new Date(data.datetime).getTimezoneOffset()*60000));
     endTime = new Date(new Date(data.datetime).getTime()+timeLimits*60000);
-    console.log("endTime: ",endTime);
     await updateDoc(docRef,{
         endTime: endTime
       })
   }
-
-  // detach onSnapshot
-  onDestroy(()=>{
-    // unsub();
-  })
-
-  onMount(()=>{
-    console.log("amIHost: ",$amIhost);
-  })
 </script>
 
 <template>
@@ -58,7 +45,7 @@
   </ul>
 
   <button on:click={async () =>{
-    // TODO: players except host do not wait this
+    // TODO: players except host do not wait this -> they get undefined for endTime in Timer component
     if($amIhost==true){
       await addEndTime();
     }
