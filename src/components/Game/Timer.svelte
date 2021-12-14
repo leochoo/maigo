@@ -3,6 +3,7 @@
 	import { onDestroy, onMount } from "svelte";
     import { db } from "../../../firebase";
 	import { Tweened, tweened } from 'svelte/motion';
+	import { currTimeUTC } from '../../store'
 	export let room_id: string;
 
 	let remainingTime: number;
@@ -25,11 +26,9 @@
 		const endTime = await getEndTime();
 
 		// get the current time when a game started
-		const currUTCTime = await fetch("http://worldtimeapi.org/api/timezone/Etc/UTC");
-		const data = await currUTCTime.json();
-		const currTime = new Date(data.datetime).getTime();
+		const currTime = new Date($currTimeUTC).getTime();
 
-		// diff between endTime and the current time
+		// diff between the endTime and the current time
 		remainingTime = (endTime - currTime)*0.001;
 		console.log("remaining Time: ",remainingTime);
 		timer = tweened(remainingTime);

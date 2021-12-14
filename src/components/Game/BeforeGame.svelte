@@ -2,7 +2,7 @@
   import { db } from "../../../firebase";
   import { getContext, onDestroy, onMount } from 'svelte';
   import { doc, onSnapshot, updateDoc } from "firebase/firestore";
-  import { amIhost } from '../../store';
+  import { amIhost, currTimeUTC } from '../../store';
   export let room_id: string;
 
   let data: any = [];
@@ -25,9 +25,10 @@
     const timeLimits:number = 5 
 
     // get the current time and add time limits to it. And add the calculated endTime in firestore
-    const currUTCTime = await fetch("http://worldtimeapi.org/api/timezone/Etc/UTC");
-    const data = await currUTCTime.json();
-    endTime = new Date(new Date(data.datetime).getTime()+timeLimits*60000);
+    const _currUTCTime = await fetch("http://worldtimeapi.org/api/timezone/Etc/UTC");
+    const _data = await _currUTCTime.json();
+    currTimeUTC.set(_data.datetime);
+    endTime = new Date(new Date($currTimeUTC).getTime()+timeLimits*60000);
     await updateDoc(docRef,{
         endTime: endTime
       })
