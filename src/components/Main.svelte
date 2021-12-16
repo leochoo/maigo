@@ -16,18 +16,18 @@
 
   let room_available = false;
   let room_id: string = "";
+
   async function createRoom() {
     console.log("creating room");
     const docRef = await addDoc(collection(db, "rooms"), {
       ready_count: 0,
-      users: [$currentUser.user.uid]
+      users: [$currentUser.user.uid],
     });
     room_id = docRef.id;
     amIhost.set(true);
     console.log(room_id);
     room_available = true;
   }
-
 
   async function joinExistingRoom(room_id) {
     // Verify room id entered
@@ -51,7 +51,7 @@
         room_available = true;
       } else {
         // Room is full, stop the request
-        console.log("Full room!")
+        console.log("Full room!");
         room_available = false;
       }
       // amIhost.set(false);
@@ -66,11 +66,9 @@
   {#if !room_available}
     <img src={logo} alt="Svelte Logo" />
     <h1>MaiGO</h1>
-    <button
-      on:click={() => createRoom()}>Create Room</button>
+    <button on:click={() => createRoom()}>Create Room</button>
     <input bind:value={room_id} />
-    <button
-      on:click={() => joinExistingRoom(room_id)}>Join Room</button>
+    <button on:click={() => joinExistingRoom(room_id)}>Join Room</button>
 
     <p>A GeoGeussr Clone for Multiplayer Online</p>
     <p>HHLAB is a group of students from Keio University, Japan.</p>
