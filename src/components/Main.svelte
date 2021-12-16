@@ -13,6 +13,7 @@
   import { getAuth, signOut } from "firebase/auth";
   import Room from "./Room.svelte";
   import { amIhost, currentUser } from "../store";
+import { onMount } from "svelte";
 
   let room_available = false;
   let room_id: string = "";
