@@ -31,12 +31,10 @@
       // get user data from userUidList using getDoc and push to userInfoList
       userUidList.forEach((userUid) => {
         const userRef = doc(db, "users", userUid);
-        console.log("userUid", userUid);
         getDoc(userRef).then((userDoc) => {
-          userInfoList.push(userDoc.data());
+          userInfoList = [...userInfoList, userDoc.data()];
         });
       });
-      console.log("userInfoList", userInfoList);
     }
   );
 </script>
@@ -45,8 +43,8 @@
 <ul>
   <h2>Current Users:</h2>
   {#each userInfoList as user}
-    <li>user: {user.uid}</li>
+    <li><img src={user.photoURL} />{user.displayName}</li>
   {/each}
 </ul>
-<Chat />
+<Chat {room_id} />
 <Game {room_id} />
