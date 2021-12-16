@@ -39,12 +39,17 @@
       let userList = [...data.users];
       // console.log("data is, ", data);
       console.log("ROOM FOUND");
+      // check if the room is full
       if (data.users.length < 4) {
-        // Joining available, proceed to join
-        userList.push($currentUser.user.uid);
-        await updateDoc(roomRef, {
-          users: userList,
-        });
+        // check if the user is already in the room
+        // TODO: need to delete the user if they leave
+        if (userList.includes($currentUser.user.uid)) {
+          console.log("You already joined this room before!");
+        } else {
+          // add user to room
+          userList.push($currentUser.user.uid);
+          await updateDoc(roomRef, { users: userList });
+        }
         // successfully joined room
         console.log("Can join room now!");
         amIhost.set(false);
