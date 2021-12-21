@@ -1,6 +1,8 @@
 <script>
+  import Message from "./Message.svelte";
   import { currentUser } from "./../../store.js";
   import { db } from "../../../firebase";
+  import { addDoc, collection, orderBy, onSnapshot, query } from "firebase/firestore";
 
   export let room_id;
 
@@ -11,22 +13,39 @@
   });
 
   let message = "";
+  let chatList = [];
 
   // fetch all messages from firestore
+  const q = query(collection(db, `chats/${room_id}/messages`), orderBy("timestamp", "desc"));
+  const unsub = onSnapshot(
+          q,
+          (snapshot) => {
+            console.log(snapshot);
+            chatList = [];
+            snapshot.forEach((doc) => {
+              chatList.push(doc.data());
+              console.log(doc.data());
+            });
+          }
+  )
 
   // add message to chats field in rooms doc
-  function handleClick() {
-    const userId = _currentUser.uid;
-    const userName = _currentUser.displayName;
-    const userPhoto = _currentUser.photoURL;
+  async function handleClick() {
+    if (message !== "") {
+      const userId = _currentUser.uid;
+      const userName = _currentUser.displayName;
+      const userPhoto = _currentUser.photoURL;
 
-    const messageObj = {
-      message,
-      userId,
-      userName,
-      userPhoto,
-      createdAt: new Date(),
-    };
+      const docRef = await addDoc(collection(db, `chats/${room_id}/messages`), {
+        roomId: room_id,
+        timestamp: new Date(),
+        uid: userId,
+        userName: userName,
+        userPhoto: userPhoto,
+        message: message,
+      });
+      message = "";
+    }
   }
 
   // chats/{chat-id}/messages/{id} - make subcollection
@@ -37,9 +56,15 @@
   <template>
     I am {_currentUser.displayName}
     <ul>
-      <li>Chat 1</li>
-      <li>Chat 2</li>
-      <li>Chat 3</li>
+      {#each chatList as chat}
+        <Message
+          userId={chat.userId}
+          name={chat.userName}
+          photoURL= {chat.userPhoto}
+          message={chat.message}
+          self={_currentUser.uid === chat.userId}
+        />
+      {/each}
     </ul>
     <form>
       <input
