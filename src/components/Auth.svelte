@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" context="module">
   import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
   import { db } from "../../firebase";
   import {
@@ -12,15 +12,26 @@
     setDoc,
   } from "firebase/firestore";
 
-  async function addUser(user) {
-    const userRef = await setDoc(doc(db, "users", user.uid), {
-      displayName: user.displayName,
-      email: user.email,
-      photoURL: user.photoURL,
-      uid: user.uid,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    });
+  /*
+      Update user's updatedAt or create user doc if it doesn't exist
+   */
+  export async function setUser(user) {
+    const userRef = doc(db, "users", user.uid);
+    const docSnap = await getDoc(userRef);
+    if (docSnap.exists()) {
+      await updateDoc(userRef, {
+        updatedAt: new Date(),
+      });
+    } else {
+      await setDoc(userRef, {
+        displayName: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+        uid: user.uid,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+    }
   }
 
   async function googleLogin() {
@@ -35,7 +46,7 @@
         const user = result.user;
 
         // add user data to users collection
-        addUser(user);
+        setUser(user);
       })
       .catch((error) => {
         console.log(error);
