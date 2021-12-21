@@ -16,7 +16,7 @@
   let chatList = [];
 
   // fetch all messages from firestore
-  const q = query(collection(db, `chats/${room_id}/messages`), orderBy("timestamp", "desc"));
+  const q = query(collection(db, `chats/${room_id}/messages`), orderBy("timestamp", "asc"));
   const unsub = onSnapshot(
           q,
           (snapshot) => {
@@ -58,11 +58,11 @@
     <ul>
       {#each chatList as chat}
         <Message
-          userId={chat.userId}
+          userId={chat.uid}
           name={chat.userName}
           photoURL= {chat.userPhoto}
           message={chat.message}
-          self={_currentUser.uid === chat.userId}
+          self={_currentUser.uid === chat.uid}
         />
       {/each}
     </ul>
