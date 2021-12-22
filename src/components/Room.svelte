@@ -3,7 +3,7 @@
   import Chat from "./Chat/Chat.svelte";
 
   import { db } from "../../firebase";
-  import { getContext, onDestroy } from "svelte";
+  import { setContext } from "svelte";
   import {
     doc,
     getDoc,
@@ -13,11 +13,12 @@
   } from "firebase/firestore";
 
   export let room_id: string;
-
+  let loading = false;
   let data: any = [];
   let userUidList = [];
   let userInfoList = [];
-
+  let gamePhase: number;
+  setContext("gamePhase", gamePhase);
   // consider firestore latency compensation
   const unsub = onSnapshot(
     doc(db, "rooms", room_id),
@@ -27,7 +28,7 @@
       console.log(source, " Current room data: ", roomRef.data());
       data = roomRef.data();
       userUidList = data.users;
-
+      gamePhase = data.gamePhase;
       // get user data from userUidList using getDoc and push to userInfoList
       userUidList.forEach((userUid) => {
         const userRef = doc(db, "users", userUid);
@@ -35,6 +36,8 @@
           userInfoList = [...userInfoList, userDoc.data()];
         });
       });
+      loading = true;
+      console.log("gamePhase", gamePhase);
     }
   );
 </script>
@@ -43,8 +46,12 @@
 <ul>
   <h2>Current Users:</h2>
   {#each userInfoList as user}
-    <li><img src={user.photoURL} />{user.displayName}</li>
+    <li><img src={user.photoURL} alt=""/>{user.displayName}</li>
   {/each}
 </ul>
+{#if loading}
 <Chat {room_id} />
-<Game {room_id} />
+<Game {room_id} {gamePhase}/>
+{:else}
+Loading...
+{/if}

@@ -9,7 +9,7 @@
   } from "firebase/firestore";
   export let room_id: string;
 
-  let handlePhase = getContext("phaseChange");
+  let updateGamePhase:()=>void = getContext('updateGamePhase');
   let game_start = false;
 
   const addEndTime = async () => {
@@ -35,7 +35,7 @@
   <button
     on:click={async () => {
       await addEndTime();
-      handlePhase();
+      updateGamePhase();
     }}>Start game</button
   >
 </template>

@@ -15,7 +15,6 @@
     apiKey: "",
     language: "ja",
   });
-  console.log("main loader", loader);
   setContext("loader", loader);
   const auth = getAuth();
   onMount(() => {
@@ -26,7 +25,7 @@
           user: user,
         });
         setUser(user);
-        console.log(user);
+        //console.log(user);
       } else {
         currentUser.set({
           isLoggedIn: false,
