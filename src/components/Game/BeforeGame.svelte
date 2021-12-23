@@ -4,19 +4,8 @@
   import { doc, onSnapshot, updateDoc } from "firebase/firestore";
   import { currTimeUTC } from '../../store';
   export let room_id: string;
-  let data: any = [];
-  let userList = [];
 
-  let updateGamePhase:()=>void = getContext('updateGamePhase');
-
-  // consider firestore latency compensation
-  const unsub = onSnapshot(doc(db, "rooms", room_id),{includeMetadataChanges: false}, (doc) => {
-    const source = doc.metadata.hasPendingWrites ? "Local" : "Server";
-    console.log(source, " Current room data: ", doc.data());
-    data = doc.data();
-    userList = data.users;
-    console.log("userlist: ", userList);
-  });
+  let updateGamePhase: () => void = getContext('updateGamePhase');
   
   const addEndTime = async () => {
     const docRef = doc(db,"rooms",room_id);
@@ -29,21 +18,16 @@
     currTimeUTC.set(_data.datetime);
     endTime = new Date(new Date($currTimeUTC).getTime()+timeLimits*60000);
     await updateDoc(docRef,{
-        endTime: endTime
-      })
+      endTime: endTime
+    })
   }
 </script>
 <template>
   <p>Before Game</p>
   <h2>Room ID: {room_id}</h2>
-  <ul>
-    <h2>Users</h2>
-    {#each userList as user}
-      <li>{user}</li>
-    {/each}
-  </ul>
   <button on:click={async () =>{
     await addEndTime();
     updateGamePhase();
+    console.log("button clicked");
   }}>Start game</button>
 </template>

@@ -43,7 +43,7 @@
 			console.log("timer done")
 			return
 		}
-		console.log("tick: ",$timer);
+		//console.log("tick: ",$timer);
 	}
 
 	onMount(async () => {

@@ -18,13 +18,14 @@
   let userUidList = [];
   let userInfoList = [];
   let gamePhase: number;
-  setContext("gamePhase", gamePhase);
+
   // consider firestore latency compensation
   const unsub = onSnapshot(
     doc(db, "rooms", room_id),
     { includeMetadataChanges: false },
     (roomRef) => {
       const source = roomRef.metadata.hasPendingWrites ? "Local" : "Server";
+      let _userInfoList = [];
       console.log(source, " Current room data: ", roomRef.data());
       data = roomRef.data();
       userUidList = data.users;
@@ -33,14 +34,16 @@
       userUidList.forEach((userUid) => {
         const userRef = doc(db, "users", userUid);
         getDoc(userRef).then((userDoc) => {
-          userInfoList = [...userInfoList, userDoc.data()];
+          console.log("hi");
+          _userInfoList = [..._userInfoList, userDoc.data()];
+        }).then(()=> {
+          userInfoList = _userInfoList;
+          loading = true;
         });
       });
-      // after done with create onSnapshot
-      loading = true;
-    }
-  );
+    });
 </script>
+
 
 <h2>Room ID: {room_id}</h2>
 <ul>
