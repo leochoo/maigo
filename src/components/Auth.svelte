@@ -1,20 +1,27 @@
 <script lang="ts" context="module">
   import { getAuth, GoogleAuthProvider, signInWithPopup, getAdditionalUserInfo, UserInfo } from "firebase/auth";
   import { db } from "../../firebase";
-  import { doc, setDoc } from "firebase/firestore";
+  import { doc, setDoc, updateDoc } from "firebase/firestore";
 
   /*
       Update user's updatedAt or create user doc if it doesn't exist
    */
-  export async function setUser(user: UserInfo) {
+  export async function setUser(user: UserInfo, isFirstLogin: boolean) {
     const userRef = doc(db, "users", user.uid);
-    await setDoc(userRef, {
-      displayName: user.displayName,
-      email: user.email,
-      photoURL: user.photoURL,
-      uid: user.uid,
-      createdAt: new Date(),
-    });
+    if(isFirstLogin){
+      await setDoc(userRef, {
+        displayName: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+        uid: user.uid,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+    }else{
+      await updateDoc(userRef, {
+        updatedAt: new Date()
+      })
+    }
   }
 
   async function googleLogin() {
@@ -27,8 +34,8 @@
         const token = credential.accessToken;
         // The signed-in user info.
         const user: UserInfo = result.user;
-        // add user data to users collection if it's first time
-        if(getAdditionalUserInfo(result).isNewUser) setUser(user);
+        // add user data to users collection
+        setUser(user,getAdditionalUserInfo(result).isNewUser);
       })
       .catch((error) => {
         console.log(error);
