@@ -36,8 +36,8 @@
           userInfoList = [...userInfoList, userDoc.data()];
         });
       });
+      // after done with create onSnapshot
       loading = true;
-      console.log("gamePhase", gamePhase);
     }
   );
 </script>

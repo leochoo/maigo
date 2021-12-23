@@ -10,7 +10,6 @@
   export let room_id: string;
 
   let updateGamePhase:()=>void = getContext('updateGamePhase');
-  let game_start = false;
 
   const addEndTime = async () => {
     const docRef = doc(db, "rooms", room_id);

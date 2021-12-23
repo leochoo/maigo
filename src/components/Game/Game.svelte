@@ -16,6 +16,8 @@
 
   export let room_id: string;
   export let gamePhase: number;
+
+  //async function that increments gamePhase of room document. It is stored as setContext
   async function updateGamePhase() {
     const roomRef = doc(db, "rooms", room_id);
     const docSnap = await getDoc(roomRef);
@@ -23,9 +25,12 @@
       gamePhase: gamePhase + 1,
     });
   }
+  onMount(()=>{
+    console.log("GP", gamePhase);
+  });
   setContext("updateGamePhase", updateGamePhase);
-  console.log("gamePhase from Game.svelte", gamePhase);
 </script>
+
 {#if gamePhase == 0}
   <BeforeGame {room_id} />
 {:else if gamePhase == 1}
