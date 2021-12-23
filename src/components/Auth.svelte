@@ -1,37 +1,20 @@
 <script lang="ts" context="module">
-  import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+  import { getAuth, GoogleAuthProvider, signInWithPopup, getAdditionalUserInfo, UserInfo } from "firebase/auth";
   import { db } from "../../firebase";
-  import {
-    collection,
-    addDoc,
-    query,
-    where,
-    getDoc,
-    updateDoc,
-    doc,
-    setDoc,
-  } from "firebase/firestore";
+  import { doc, setDoc } from "firebase/firestore";
 
   /*
       Update user's updatedAt or create user doc if it doesn't exist
    */
-  export async function setUser(user) {
+  export async function setUser(user: UserInfo) {
     const userRef = doc(db, "users", user.uid);
-    const docSnap = await getDoc(userRef);
-    if (docSnap.exists()) {
-      await updateDoc(userRef, {
-        updatedAt: new Date(),
-      });
-    } else {
-      await setDoc(userRef, {
-        displayName: user.displayName,
-        email: user.email,
-        photoURL: user.photoURL,
-        uid: user.uid,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      });
-    }
+    await setDoc(userRef, {
+      displayName: user.displayName,
+      email: user.email,
+      photoURL: user.photoURL,
+      uid: user.uid,
+      createdAt: new Date(),
+    });
   }
 
   async function googleLogin() {
@@ -43,10 +26,9 @@
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
         // The signed-in user info.
-        const user = result.user;
-
-        // add user data to users collection
-        setUser(user);
+        const user: UserInfo = result.user;
+        // add user data to users collection if it's first time
+        if(getAdditionalUserInfo(result).isNewUser) setUser(user);
       })
       .catch((error) => {
         console.log(error);
