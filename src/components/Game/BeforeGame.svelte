@@ -7,10 +7,15 @@
     updateDoc,
     serverTimestamp,
   } from "firebase/firestore";
+  import Modal from "./Modal.svelte";
+  import { currentUser } from "src/store";
+
   export let room_id: string;
 
   let handlePhase = getContext("phaseChange");
   let game_start = false;
+  let modal;
+  let name = "";
 
   const addEndTime = async () => {
     const docRef = doc(db, "rooms", room_id);
@@ -23,6 +28,12 @@
     console.log("update done");
   };
 
+  function updateName( name ) {
+    db.collection("users").doc($currentUser.user.uid).update({
+      displayName: name
+    })
+  };
+
   // detach onSnapshot
   onDestroy(() => {
     console.log("BeforeGame destroyed");
@@ -32,6 +43,12 @@
 
 <template>
   <p>Before Game</p>
+  <button on:click={() => modal.show()}>Name Change</button>
+  <Modal bind:this={modal}>
+  <h1>Name Change</h1>
+      <input type = "text" placeholder="name" bind:value={name}/>
+      <button on:click= {updateName}>Comfirm</button>
+  </Modal>
   <button
     on:click={async () => {
       await addEndTime();
