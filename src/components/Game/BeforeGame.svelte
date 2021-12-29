@@ -3,12 +3,11 @@
   import { getContext, onDestroy } from "svelte";
   import {
     doc,
-    onSnapshot,
     updateDoc,
     serverTimestamp,
   } from "firebase/firestore";
   import Modal from "./Modal.svelte";
-  import { currentUser } from "src/store";
+  import { currentUser } from "../../store";
 
   export let room_id: string;
 
@@ -28,8 +27,9 @@
     console.log("update done");
   };
 
-  function updateName( name ) {
-    db.collection("users").doc($currentUser.user.uid).update({
+  const updateName = async () => {
+    const docRef = doc(db,"users",$currentUser.user.uid);
+    await updateDoc(docRef, {
       displayName: name
     })
   };
@@ -47,7 +47,7 @@
   <Modal bind:this={modal}>
   <h1>Name Change</h1>
       <input type = "text" placeholder="name" bind:value={name}/>
-      <button on:click= {updateName}>Comfirm</button>
+      <button on:click= {updateName}>Confirm</button>
   </Modal>
   <button
     on:click={async () => {
