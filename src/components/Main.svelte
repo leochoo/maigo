@@ -22,6 +22,7 @@
     const docRef = await addDoc(collection(db, "rooms"), {
       ready_count: 0,
       users: [$currentUser.user.uid],
+      gamePhase: 0,
     });
     room_id = docRef.id;
     amIhost.set(true);

@@ -2,7 +2,7 @@
   import Message from "./Message.svelte";
   import { currentUser } from "./../../store.js";
   import { db } from "../../../firebase";
-  import { addDoc, collection, orderBy, onSnapshot, query } from "firebase/firestore";
+  import { addDoc, collection, orderBy, onSnapshot, query, getDoc } from "firebase/firestore";
 
   export let room_id;
 
@@ -10,6 +10,7 @@
   // fetch user data from store.js
   currentUser.subscribe((value) => {
     _currentUser = value.user;
+    value.user.displayNmae = "dfsfd"
   });
 
   let message = "";
@@ -32,9 +33,16 @@
   // add message to chats field in rooms doc
   async function handleClick() {
     if (message !== "") {
+      
       const userId = _currentUser.uid;
-      const userName = _currentUser.displayName;
+      const userName;
+      const userInfoRef = doc(db, "users", userId); 
+      await getDoc(userInfoRef).then((userDoc) => {
+        userName = userDoc.data().displayName
+      });
+      //doyoon dev
       const userPhoto = _currentUser.photoURL;
+      console.log(data.displayName)
 
       const docRef = await addDoc(collection(db, `chats/${room_id}/messages`), {
         roomId: room_id,

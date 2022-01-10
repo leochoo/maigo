@@ -1,51 +1,76 @@
 <script lang="ts">
 	import { doc, getDoc } from "firebase/firestore";
-	import { onMount } from "svelte";
+	import { onDestroy, onMount } from "svelte";
     import { db } from "../../../firebase";
+	import { Tweened, tweened } from 'svelte/motion';
+	import { currTimeUTC } from '../../store'
 	export let room_id: string;
 
-	let endTime:number;
+	let remainingTime: number;
+	let timer: Tweened<number>;
+	let timerId: NodeJS.Timer;
+	$:minutes=5;
+	$:seconds=0;
 	
+	// fetch endTime in firestore
 	const getEndTime = async () => {
 		const roomRef = doc(db, "rooms", room_id);
 		const docSnap = await getDoc(roomRef);
-		// set time limits
-		const timeLimits = 300;
 		if (docSnap.exists()) {
 			let data = docSnap.data();
-			endTime = data.endTime.seconds + timeLimits;
-			console.log("endTime: ",data.endTime);
+			return new Date(data.endTime.toDate()).getTime();
 		}
-		console.log("getEndTime End");
 	}
 
-	const calTimeLeft = () => {
-		var startDate = new Date();
-		// Do your operations
-		endTime = endTime - startDate.getTime()/1000;
-		console.log("calTimeLeft End");
+	const calRemainingTime = async () => {
+		const endTime = await getEndTime();
+
+		// get the current time when a game started
+		const currTime = new Date($currTimeUTC).getTime();
+
+		// diff between the endTime and the current time
+		remainingTime = (endTime - currTime)*0.001;
+		console.log("remaining Time: ",remainingTime);
+		timer = tweened(remainingTime);
+	}
+
+	const tick = () => {
+		if($timer > 0){
+			minutes = Math.floor($timer/60);
+			seconds = Math.floor($timer - minutes * 60);
+			$timer--;
+		}else{
+			console.log("timer done")
+			return
+		}
+		//console.log("tick: ",$timer);
 	}
 
 	onMount(async () => {
-		console.log("Timer onMount");
-		await getEndTime();
-		calTimeLeft();
-	});
+		await calRemainingTime();
+		timerId = setInterval(()=>tick(),1000)
+	})
+
+	onDestroy(()=>{
+		clearInterval(timerId);
+	})
 </script>
 
 <div class="timer">
-	Timer Component<br>
-	Fetched endTime:<br>
-	{endTime} seconds
+	{minutes} : {seconds.toString().padStart(2, "0")}
 </div>
 
 <style>
 	.timer {
 		position: absolute;
-		background-color: red;
-		width:20%;
+		background-color: black;
+		width:18%;
 		height: 10%;
 		z-index: 0;
-		/* margin-left: -30px; */
+		font-size: 4rem;
+		text-align: left;
+		margin-left: -80%;
+		margin-top: -2%;
+		color:#F32500;
 	}
 </style>
