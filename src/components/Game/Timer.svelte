@@ -24,7 +24,7 @@
 
 	const calRemainingTime = async () => {
 		const endTime = await getEndTime();
-
+		console.log(endTime);
 		// get the current time when a game started
 		const currTime = new Date($currTimeUTC).getTime();
 

@@ -19,6 +19,7 @@
     })
   };
 
+  //Snapshot on ready_count, if all other users get ready, enable start game button
   const unsubGetReadyCount = onSnapshot(
     doc(db, "rooms", room_id),
     { includeMetadataChanges: false },
@@ -33,7 +34,8 @@
       }
     }
   )
-
+  
+  //Increment ready_count. Disable the ready button once it's clicked
   const userGetReady = async() => {
     const docRef = doc(db, "rooms", room_id);
     await updateDoc(docRef, {
@@ -59,8 +61,6 @@
 </script>
 
 <template>
-
-
   <button on:click={() => modal.show()}>Name Change</button>
   <Modal bind:this={modal}>
   <h1>Name Change</h1>
@@ -68,8 +68,8 @@
       <button on:click={() => {updateName(); modal.hide();}}>Confirm</button>
   </Modal>
 
-
   <span>Ready Count: {readyCount}</span>
+
   {#if _amIhost}
     <button on:click={async () =>{
       await addEndTime();
@@ -80,6 +80,4 @@
       await userGetReady();
     }} disabled={isReady}>Ready</button>
   {/if}
-
-
 </template>
