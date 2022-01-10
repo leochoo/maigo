@@ -23,7 +23,14 @@
     doc(db, "rooms", room_id),
     { includeMetadataChanges: false },
     (roomRef) => {
-      readyCount = roomRef.data().ready_count
+      let userNum = roomRef.data().users.length;
+      readyCount = roomRef.data().ready_count;
+      if (readyCount == userNum - 1) {
+        isReady = true;
+      }
+      else {
+        isReady = false;
+      }
     }
   )
 
@@ -67,7 +74,7 @@
     <button on:click={async () =>{
       await addEndTime();
       updateGamePhase();
-    }} disabled={isReady}>Start game</button>
+    }} disabled={!isReady}>Start game</button>
   {:else}
     <button on:click={async () => {
       await userGetReady();
