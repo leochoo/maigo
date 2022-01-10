@@ -38,6 +38,7 @@
           _userInfoList = [..._userInfoList, userDoc.data()];
         }).then(()=> {
           userInfoList = _userInfoList;
+          console.log("userInfoList", userInfoList);
           loading = true;
         });
       });
