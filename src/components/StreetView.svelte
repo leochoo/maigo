@@ -56,7 +56,7 @@
                   fullscreenControl: false,
                   disableDefaultUI: true,
                 });
-                streetViewMap.setStreetView(panorama);
+                //streetViewMap.setStreetView(panorama);
                 console.log("Valid streetview");
               } else {
                 console.log("no streetview");

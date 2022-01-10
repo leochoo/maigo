@@ -5,6 +5,7 @@
   import logo from "./assets/svelte.png";
   import Main from "./components/Main.svelte";
   import Auth from "./components/Auth.svelte";
+  import { setUser } from "./components/Auth.svelte";
   import { currentUser } from "./store";
   import { Router, Link, Route } from "svelte-routing";
 
@@ -14,7 +15,6 @@
     apiKey: "",
     language: "ja",
   });
-  console.log("main loader", loader);
   setContext("loader", loader);
   const auth = getAuth();
   onMount(() => {
@@ -24,7 +24,8 @@
           isLoggedIn: true,
           user: user,
         });
-        console.log(user);
+        setUser(user);
+        //console.log(user);
       } else {
         currentUser.set({
           isLoggedIn: false,

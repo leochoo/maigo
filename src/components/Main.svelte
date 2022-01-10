@@ -16,18 +16,19 @@
 
   let room_available = false;
   let room_id: string = "";
+
   async function createRoom() {
     console.log("creating room");
     const docRef = await addDoc(collection(db, "rooms"), {
       ready_count: 0,
-      users: [$currentUser.user.uid]
+      users: [$currentUser.user.uid],
+      gamePhase: 0,
     });
     room_id = docRef.id;
     amIhost.set(true);
     console.log(room_id);
     room_available = true;
   }
-
 
   async function joinExistingRoom(room_id) {
     // Verify room id entered
@@ -39,19 +40,24 @@
       let userList = [...data.users];
       // console.log("data is, ", data);
       console.log("ROOM FOUND");
+      // check if the room is full
       if (data.users.length < 4) {
-        // Joining available, proceed to join
-        userList.push($currentUser.user.uid);
-        await updateDoc(roomRef, {
-          users: userList,
-        });
+        // check if the user is already in the room
+        // TODO: need to delete the user if they leave
+        if (userList.includes($currentUser.user.uid)) {
+          console.log("You already joined this room before!");
+        } else {
+          // add user to room
+          userList.push($currentUser.user.uid);
+          await updateDoc(roomRef, { users: userList });
+        }
         // successfully joined room
         console.log("Can join room now!");
         amIhost.set(false);
         room_available = true;
       } else {
         // Room is full, stop the request
-        console.log("Full room!")
+        console.log("Full room!");
         room_available = false;
       }
       // amIhost.set(false);
@@ -66,11 +72,9 @@
   {#if !room_available}
     <img src={logo} alt="Svelte Logo" />
     <h1>MaiGO</h1>
-    <button
-      on:click={() => createRoom()}>Create Room</button>
+    <button on:click={() => createRoom()}>Create Room</button>
     <input bind:value={room_id} />
-    <button
-      on:click={() => joinExistingRoom(room_id)}>Join Room</button>
+    <button on:click={() => joinExistingRoom(room_id)}>Join Room</button>
 
     <p>A GeoGeussr Clone for Multiplayer Online</p>
     <p>HHLAB is a group of students from Keio University, Japan.</p>
