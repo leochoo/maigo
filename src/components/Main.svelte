@@ -26,7 +26,6 @@
     });
     room_id = docRef.id;
     amIhost.set(true);
-    console.log(room_id);
     room_available = true;
   }
 

@@ -3,13 +3,15 @@
   import Modal from "./Modal.svelte";
   import { currentUser, currTimeUTC, amIhost } from "../../store";
   import { getContext } from 'svelte';
-  import { doc, onSnapshot, updateDoc, serverTimestamp, FieldValue, increment } from "firebase/firestore";
+  import { onSnapshot, doc, updateDoc, increment } from "firebase/firestore";
 
   export let room_id: string;
   let updateGamePhase: () => void = getContext('updateGamePhase');
   let modal;
   let name = "";
-  
+  let isReady = false;
+  let _amIhost = $amIhost;
+  let readyCount: number;
   const updateName = async () => {
     const docRef = doc(db,"users",$currentUser.user.uid);
     await updateDoc(docRef, {
@@ -17,11 +19,20 @@
     })
   };
 
+  const unsubGetReadyCount = onSnapshot(
+    doc(db, "rooms", room_id),
+    { includeMetadataChanges: false },
+    (roomRef) => {
+      readyCount = roomRef.data().ready_count
+    }
+  )
+
   const userGetReady = async() => {
     const docRef = doc(db, "rooms", room_id);
     await updateDoc(docRef, {
-      ready_count: increment
-    })
+      ready_count: increment(1)
+    });
+    isReady = true;
   }
   
   const addEndTime = async () => {
@@ -36,7 +47,7 @@
     endTime = new Date(new Date($currTimeUTC).getTime()+timeLimits*60000);
     await updateDoc(docRef,{
       endTime: endTime
-    })
+    });
   }
 </script>
 
@@ -51,15 +62,16 @@
   </Modal>
 
 
-  {#if amIhost}
+  <span>Ready Count: {readyCount}</span>
+  {#if _amIhost}
     <button on:click={async () =>{
       await addEndTime();
       updateGamePhase();
-    }}>Start game</button>
+    }} disabled={isReady}>Start game</button>
   {:else}
     <button on:click={async () => {
       await userGetReady();
-    }}>Ready</button>
+    }} disabled={isReady}>Ready</button>
   {/if}
 
 
