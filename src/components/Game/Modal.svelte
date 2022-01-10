@@ -1,5 +1,4 @@
 <script lan="ts">
-  
     let shown = false;
     export function show(){
         shown = true;

@@ -1,9 +1,10 @@
 <script lang="ts">
   import { db } from "../../../firebase";
   import Modal from "./Modal.svelte";
-  import { currentUser, currTimeUTC } from "../../store";
+  import { currentUser, currTimeUTC, amIhost } from "../../store";
   import { getContext } from 'svelte';
-  import { doc, onSnapshot, updateDoc, serverTimestamp } from "firebase/firestore";
+  import { doc, onSnapshot, updateDoc, serverTimestamp, FieldValue, increment } from "firebase/firestore";
+
   export let room_id: string;
   let updateGamePhase: () => void = getContext('updateGamePhase');
   let modal;
@@ -15,6 +16,13 @@
       displayName: name
     })
   };
+
+  const userGetReady = async() => {
+    const docRef = doc(db, "rooms", room_id);
+    await updateDoc(docRef, {
+      ready_count: increment
+    })
+  }
   
   const addEndTime = async () => {
     const docRef = doc(db,"rooms",room_id);
@@ -33,17 +41,26 @@
 </script>
 
 <template>
-  <p>Before Game</p>
+
+
   <button on:click={() => modal.show()}>Name Change</button>
   <Modal bind:this={modal}>
   <h1>Name Change</h1>
       <input type = "text" placeholder="name" bind:value={name}/>
-      <button on:click= {updateName}>Confirm</button>
+      <button on:click={() => {updateName(); modal.hide();}}>Confirm</button>
   </Modal>
-  <h2>Room ID: {room_id}</h2>
-  <button on:click={async () =>{
-    await addEndTime();
-    updateGamePhase();
-    console.log("button clicked");
-  }}>Start game</button>
+
+
+  {#if amIhost}
+    <button on:click={async () =>{
+      await addEndTime();
+      updateGamePhase();
+    }}>Start game</button>
+  {:else}
+    <button on:click={async () => {
+      await userGetReady();
+    }}>Ready</button>
+  {/if}
+
+
 </template>

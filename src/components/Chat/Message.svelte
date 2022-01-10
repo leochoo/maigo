@@ -10,13 +10,13 @@
 
 {#if self}
     <div style="background-color: #ddd; display: flex;">
-        <img src={photoURL} width="16" height="16" />
+        <img src={photoURL} width="16" height="16" alt="" />
         <h4>{name}</h4>
         <p>{message}</p>
     </div>
 {:else}
     <div style="background-color: #fff; display: flex;">
-        <img src={photoURL} width="16" height="16" />
+        <img src={photoURL} width="16" height="16" alt="" />
         <h4>{name}</h4>
         <p>{message}</p>
     </div>

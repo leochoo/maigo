@@ -64,7 +64,7 @@
     <ul>
       {#each chatList as chat}
         <Message
-          userId={chat.uid}
+          uid={chat.uid}
           name={chat.userName}
           photoURL= {chat.userPhoto}
           message={chat.message}
