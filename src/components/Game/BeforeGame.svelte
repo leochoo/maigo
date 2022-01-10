@@ -9,7 +9,7 @@
   let modal;
   let name = "";
   
-  const update = async () => {
+  const updateName = async () => {
     const docRef = doc(db,"users",$currentUser.user.uid);
     await updateDoc(docRef, {
       displayName: name

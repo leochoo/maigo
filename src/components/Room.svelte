@@ -34,7 +34,6 @@
       userUidList.forEach((userUid) => {
         const userRef = doc(db, "users", userUid);
         getDoc(userRef).then((userDoc) => {
-          console.log("hi");
           _userInfoList = [..._userInfoList, userDoc.data()];
         }).then(()=> {
           userInfoList = _userInfoList;

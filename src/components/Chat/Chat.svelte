@@ -2,7 +2,7 @@
   import Message from "./Message.svelte";
   import { currentUser } from "./../../store.js";
   import { db } from "../../../firebase";
-  import { addDoc, collection, orderBy, onSnapshot, query, getDoc } from "firebase/firestore";
+  import { doc, addDoc, collection, orderBy, onSnapshot, query, getDoc } from "firebase/firestore";
 
   export let room_id;
 
@@ -35,14 +35,12 @@
     if (message !== "") {
       
       const userId = _currentUser.uid;
-      const userName;
+      let userName;
       const userInfoRef = doc(db, "users", userId); 
       await getDoc(userInfoRef).then((userDoc) => {
         userName = userDoc.data().displayName
       });
-      //doyoon dev
       const userPhoto = _currentUser.photoURL;
-      console.log(data.displayName)
 
       const docRef = await addDoc(collection(db, `chats/${room_id}/messages`), {
         roomId: room_id,
