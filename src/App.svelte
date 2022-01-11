@@ -54,9 +54,15 @@
 </Router>
 
 <style>
-  :root {
+  :root { 
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+
+    background: url(src/assets/earth-horizon.jpeg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
   }
   .main {
     display: flex;
@@ -64,6 +70,7 @@
     text-align: center;
     padding: 1em;
     margin: 0 auto;
+    padding-top: 3em;
   }
   img {
     position: relative;
