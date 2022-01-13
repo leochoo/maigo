@@ -59,11 +59,11 @@
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 
     /* Fullscreen background code */
-    /* background: url(src/assets/panoramic_background.jpeg) no-repeat center center fixed; 
+    background: url(src/assets/panoramic_background.jpeg) no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
-    background-size: cover; */
+    background-size: cover;
 
     /*scrolling background code */
     /* background: url("src/assets/panoramic_background.jpeg") no-repeat center center fixed;
