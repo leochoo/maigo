@@ -73,10 +73,13 @@
     <h1>MaiGO</h1>
     <button on:click={() => createRoom()}>Create Room</button>
     <input bind:value={room_id} />
+    <br/>
     <button on:click={() => joinExistingRoom(room_id)}>Join Room</button>
-
-    <p>A GeoGeussr Clone for Multiplayer Online</p>
-    <p>HHLAB is a group of students from Keio University, Japan.</p>
+    <p>
+      A GeoGeussr Clone for Online Multiplayer
+      <br/>
+      HHLAB is a group of students from Keio University, Japan.
+    </p>
     <button
       on:click={() => {
         const auth = getAuth();
@@ -136,6 +139,20 @@
     max-width: 14rem;
     margin: 1rem auto;
     line-height: 1.35;
+    color: #001b0e;
+  }
+
+  button {
+    background-color: #00ff80; /* Green */
+    border: none;
+    color: #006633;
+    padding: 5px 10px;
+    margin: 0.5em;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
   }
 
   @media (min-width: 480px) {

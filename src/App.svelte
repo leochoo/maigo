@@ -58,11 +58,20 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 
-    background: url(src/assets/earth-horizon.jpeg) no-repeat center center fixed; 
+    /* Fullscreen background code */
+    /* background: url(src/assets/panoramic_background.jpeg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover; */
+
+    /*scrolling background code */
+    background: url("src/assets/panoramic_background.jpeg") no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    /* animation: slide 60s linear infinite; */
   }
   .main {
     display: flex;
@@ -86,5 +95,14 @@
     line-height: 1.1;
     margin: 2rem auto;
     max-width: 14rem;
+  }
+
+  @keyframes slide{
+    0% {
+      transform: translate3d(0, 0, 0);
+    }
+    100% {
+      transform: translate3d(-1692px, 0, 0);
+    }
   }
 </style>
