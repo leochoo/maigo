@@ -24,8 +24,6 @@
           isLoggedIn: true,
           user: user,
         });
-        setUser(user);
-        //console.log(user);
       } else {
         currentUser.set({
           isLoggedIn: false,
