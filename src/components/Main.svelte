@@ -110,6 +110,7 @@
     text-align: center;
     padding: 1em;
     margin: 0 auto;
+    width:500px;
 
     /* add glass effect */
 		background: rgba( 255, 255, 255, 0.35 );
