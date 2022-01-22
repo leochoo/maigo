@@ -27,7 +27,8 @@
     .content{
         padding-left: 1em;
         padding-right: 1em;
-        word-wrap: break-word;
+        inline-size:400px;
+        overflow-wrap: break-word;
         text-align: left;
     }
 </style>

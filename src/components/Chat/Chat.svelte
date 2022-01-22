@@ -61,17 +61,21 @@
   <p>CHAT</p>
   <template>
     I am {_currentUser.displayName}
-    <ul>
-      {#each chatList as chat}
-        <Message
-          uid={chat.uid}
-          name={chat.userName}
-          photoURL= {chat.userPhoto}
-          message={chat.message}
-          self={_currentUser.uid === chat.uid}
-        />
-      {/each}
-    </ul>
+    <br/>
+    <br/>
+    <div class="chatlistcontainer">
+      <div class="chatlist">
+        {#each chatList as chat}
+          <Message
+            uid={chat.uid}
+            name={chat.userName}
+            photoURL= {chat.userPhoto}
+            message={chat.message}
+            self={_currentUser.uid === chat.uid}
+          />
+        {/each}
+      </div>
+    </div>
     <form>
       <input
         bind:value={message}
@@ -83,3 +87,15 @@
     </form>
   </template>
 </main>
+
+<style>
+  .chatlistcontainer {
+    background: rgba( 255, 255, 255, 0.55 );
+    padding:1em;
+  }
+  .chatlist {
+    width: 28em;
+    height: 15em;
+    overflow-y: scroll;
+  }
+</style>

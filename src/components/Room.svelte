@@ -45,16 +45,45 @@
 </script>
 
 
-<h2>Room ID: {room_id}</h2>
-<ul>
-  <h2>Current Users:</h2>
-  {#each userInfoList as user}
-    <li><img src={user.photoURL} alt=""/>{user.displayName}</li>
-  {/each}
-</ul>
-{#if loading}
-<Chat {room_id} />
-<Game {room_id} {gamePhase}/>
+{#if gamePhase==0}
+  <div class="glasseffect">
+  <h2>Room ID: {room_id}</h2>
+  <ul>
+    <h2>Current Users:</h2>
+    {#each userInfoList as user}
+      <li><img src={user.photoURL} alt=""/>{user.displayName}</li>
+    {/each}
+  </ul>
+  {#if loading}
+  <Game {room_id} {gamePhase}/>
+  {:else}
+  Loading...
+  {/if}
+</div>
 {:else}
-Loading...
+  {#if loading}
+  <!-- <Chat {room_id} /> -->
+  <Game {room_id} {gamePhase}/>
+  {:else}
+  Loading...
+  {/if}
 {/if}
+
+<style>
+  .glasseffect {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 1em;
+    margin: 0 auto;
+    width:500px;
+    /* add glass effect */
+		background: rgba( 255, 255, 255, 0.35 );
+		box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+		backdrop-filter: blur( 4.5px );
+		-webkit-backdrop-filter: blur( 4.5px );
+		border-radius: 10px;
+		border: 1px solid rgba( 255, 255, 255, 0.18 );
+  }
+</style>

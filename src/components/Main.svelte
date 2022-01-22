@@ -69,29 +69,31 @@
 
 <main>
   {#if !room_available}
-    <img src={logo} alt="Svelte Logo" />
-    <h1>MaiGO</h1>
-    <button on:click={() => createRoom()}>Create Room</button>
-    <input bind:value={room_id} />
-    <br/>
-    <button on:click={() => joinExistingRoom(room_id)}>Join Room</button>
-    <p>
-      A GeoGeussr Clone for Online Multiplayer
+    <div class="maincontainer">
+      <img src={logo} alt="Svelte Logo" />
+      <h1>MaiGO</h1>
+      <button on:click={() => createRoom()}>Create Room</button>
+      <input bind:value={room_id} />
       <br/>
-      HHLAB is a group of students from Keio University, Japan.
-    </p>
-    <button
-      on:click={() => {
-        const auth = getAuth();
-        signOut(auth)
-          .then(() => {
-            console.log("signed out successfully");
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }}>Logout</button
-    >
+      <button on:click={() => joinExistingRoom(room_id)}>Join Room</button>
+      <p>
+        A GeoGeussr Clone for Online Multiplayer
+        <br/>
+        HHLAB is a group of students from Keio University, Japan.
+      </p>
+      <button
+        on:click={() => {
+          const auth = getAuth();
+          signOut(auth)
+            .then(() => {
+              console.log("signed out successfully");
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }}>Logout</button
+      >
+    </div>
   {:else}
     <Room {room_id} />
   {/if}
@@ -111,11 +113,20 @@
     padding: 1em;
     margin: 0 auto;
     width:500px;
+  }
 
+  .maincontainer {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 1em;
+    margin: 0 auto;
+    width:500px;
     /* add glass effect */
 		background: rgba( 255, 255, 255, 0.35 );
 		box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-		/* backdrop-filter: blur( 4.5px ); */
+		backdrop-filter: blur( 4.5px );
 		-webkit-backdrop-filter: blur( 4.5px );
 		border-radius: 10px;
 		border: 1px solid rgba( 255, 255, 255, 0.18 );
