@@ -55,6 +55,7 @@
     {/each}
   </ul>
   {#if loading}
+  <Chat {room_id} />
   <Game {room_id} {gamePhase}/>
   {:else}
   Loading...
