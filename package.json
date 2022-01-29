@@ -26,6 +26,7 @@
     "bootstrap": "^5.1.3",
     "firebase": "^9.1.2",
     "googlemaps": "^1.12.0",
-    "svelte-routing": "^1.6.0"
+    "svelte-routing": "^1.6.0",
+    "svelte-scrollto": "^0.2.0"
   }
 }

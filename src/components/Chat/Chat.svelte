@@ -3,6 +3,7 @@
   import { currentUser } from "./../../store.js";
   import { db } from "../../../firebase";
   import { doc, addDoc, collection, orderBy, onSnapshot, query, getDoc } from "firebase/firestore";
+  import * as animateScroll from "svelte-scrollto";
 
   export let room_id;
 
@@ -52,7 +53,12 @@
       });
       message = "";
     }
+    animateScroll.scrollToBottom();
   }
+
+  animateScroll.setGlobalOptions({
+    container:"mainChatList"
+  })
 
   // chats/{chat-id}/messages/{id} - make subcollection
 </script>
@@ -64,7 +70,7 @@
     <br/>
     <br/>
     <div class="chatlistcontainer">
-      <div class="chatlist">
+      <div id="mainChatList" class="chatlist">
         {#each chatList as chat}
           <Message
             uid={chat.uid}

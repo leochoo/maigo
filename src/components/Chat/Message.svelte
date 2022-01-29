@@ -23,6 +23,8 @@
 <style>
     .message {
         display:flex;
+        margin:0.5em;
+        border-radius:0.5em;
     }
     .content{
         padding-left: 1em;
