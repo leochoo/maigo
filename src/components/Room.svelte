@@ -15,7 +15,7 @@
 
   export let room_id: string;
   let gamePhase: number;
-  let loading = false;
+  let isLoading = true;
   let data: any = [];
   let userUidList = [];
   let userInfoList = [];
@@ -49,7 +49,7 @@
         }).then(()=> {
           userInfoList = _userInfoList;
           console.log("userInfoList", userInfoList);
-          loading = true;
+          isLoading = false;
         });
       });
     }
@@ -66,13 +66,14 @@
         <li><img src={user.photoURL} alt="" style="width:2em; height:2em"/>{user.displayName}</li>
       {/each}
     </ul>
-    {#if loading}
-    <Chat {room_id} />
-    <BeforeGame {room_id}/>
+    {#if !isLoading}
+      <Chat {room_id} />
+      <BeforeGame {room_id}/>
     {:else}
-    Loading...
+      Loading...
     {/if}
   </div>
+<!-- Enter Result Page when submit counts equal to the number of users in the room -->
 {:else if submitCount == userUidList.length}
   <!-- <Chat {room_id} /> -->
   <AfterSubmit {room_id}/>
@@ -80,7 +81,7 @@
   <!-- <Chat {room_id} /> -->
   <DuringGame {room_id}/>
 {/if}
-  
+
 <style>
   .glasseffect {
     display: flex;
