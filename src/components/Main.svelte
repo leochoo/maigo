@@ -79,7 +79,7 @@
         HHLAB is a group of students from Keio University, Japan.
       </p>
       <button
-        on:click={() => {
+        on:click = {() => {
           const auth = getAuth();
           signOut(auth)
             .then(() => {

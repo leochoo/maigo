@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { doc, getDoc } from "firebase/firestore";
+	import { doc, getDoc, increment } from "firebase/firestore";
 	import { onDestroy, onMount } from "svelte";
     import { db } from "../../../firebase";
 	import { Tweened, tweened } from 'svelte/motion';
@@ -10,7 +10,6 @@
 	let timerId: NodeJS.Timer;
 	$:minutes=5;
 	$:seconds=0;
-	
 	// fetch endTime in firestore
 	const getStartEndTime = async () => {
 		const roomRef = doc(db, "rooms", room_id);
