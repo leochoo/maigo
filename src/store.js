@@ -10,6 +10,8 @@ export const answer = writable({
   lng: ''
 });
 
+export const score = writable(0);
+
 export const amIhost = writable(false);
 
 export const currTimeUTC = writable(undefined);

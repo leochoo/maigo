@@ -1,11 +1,8 @@
 <script lang="ts">
-  import logo from "../assets/svelte.png";
   import { db } from "../../firebase";
   import {
     collection,
     addDoc,
-    query,
-    where,
     getDoc,
     updateDoc,
     doc,
@@ -23,6 +20,7 @@
       ready_count: 0,
       users: [$currentUser.user.uid],
       gamePhase: 0,
+      submit_count: 0,
     });
     room_id = docRef.id;
     amIhost.set(true);

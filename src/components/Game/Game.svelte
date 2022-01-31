@@ -3,7 +3,6 @@
   import BeforeGame from "./BeforeGame.svelte";
   import DuringGame from "./DuringGame.svelte";
   import AfterSubmit from "./AfterSubmit.svelte";
-  import AfterGame from "./AfterGame.svelte";
   import { db } from "../../../firebase";
   import {
     getDoc,
@@ -33,7 +32,5 @@
 {:else if gamePhase == 1}
   <DuringGame {room_id} />
 {:else if gamePhase == 2}
-  <AfterSubmit />
-{:else if gamePhase == 3}
-  <AfterGame />
+  <AfterSubmit {room_id}/>
 {/if}
