@@ -2,13 +2,19 @@
   import { getContext, onMount } from "svelte";
   import type { Loader } from "@googlemaps/js-api-loader";
   import { answer } from "../store";
-import { deleteApp } from "firebase/app";
+  import { deleteApp } from "firebase/app";
+  import { onSnapshot, doc, updateDoc, increment } from "firebase/firestore";
+  import { db } from "../../firebase";
+  import { score } from "../store";
 
+  export let room_id: string;
   let container;
   let zoom = 12;
   let center = { lat: 35.3875841547467, lng: 139.4268758324958 };
   let marker: google.maps.Marker;
   let submit;
+
+
   $: _answer = $answer;
   $: if (marker) {
     submit = {
@@ -34,7 +40,6 @@ import { deleteApp } from "firebase/app";
     });
   }
 
-
   function addMarker(
     location: google.maps.LatLngLiteral,
     map: google.maps.Map
@@ -48,8 +53,10 @@ import { deleteApp } from "firebase/app";
       });
     }
   }
-
-  function calcDistance(): void {
+  //Calculate the difference of distances and store it in store.js
+  //When game phase changes from during game to after submit, each user stores his score to firebase document
+  async function  calcDistance() {
+    console.log("calcDistance func called");
     let ans_latlng = new google.maps.LatLng(
       Number(_answer.lat),
       Number(_answer.lng)
@@ -59,6 +66,7 @@ import { deleteApp } from "firebase/app";
       marker.getPosition()
     );
     console.log(Math.floor(distance), "Meter(s)");
+    score.set(Math.floor(distance));
   }
 
   function mouseOverAnimation(): void {
@@ -87,6 +95,14 @@ import { deleteApp } from "firebase/app";
     guessMap!.style.width = 20 + 'vw';
     guessMap!.style.height = 25 + 'vh';
   }
+
+  const userSubmit = async() => {
+    console.log("userSubmit func called");
+    const docRef = doc(db, "rooms", room_id);
+    await updateDoc(docRef, {
+      submit_count: increment(1)
+    });
+  }
   
   onMount(() => {
     loader.load().then(() => {
@@ -101,9 +117,10 @@ import { deleteApp } from "firebase/app";
   <button
     id = "button"
     class:selected="{marker != null}"
-    on:click={() => {
+    on:click={async () => {
       if (marker != null) {
-        calcDistance();
+        await calcDistance();
+        await userSubmit();
       } else {
         console.log("no marker");
       }
@@ -121,41 +138,12 @@ import { deleteApp } from "firebase/app";
     transform-origin: bottom right;
     border: 0px solid   red;
   }
-  /* .guessmap:hover {
-    animation: fadeIn 0.2s;
-    animation-fill-mode: forwards;
-  } */
-  /* @keyframes fadeIn{
-    0% {
-      opacity: 0.7;
-      top: 65vh;
-      left: 77vw;
-    }
-    100% {
-      opacity: 1;
-      top: 30vh;
-      left: 45vw;
-      width: 50vw;
-    }
-  } */
-  /* @keyframes fadeInMap {
-    0% {
-    }
-    100% {
-      width: 50vw;
-      height: 60vh;
-    }
-  } */
   .guessmap-comp {
     width: 20vw;
     height: 25vh;
     z-index: 1;
     border: 0px solid green;
   }
-  /* .guessmap-comp:hover {
-    animation: fadeInMap 0.2s;
-    animation-fill-mode: forwards;
-  } */
   button {
     position: absolute;
     color: red;
@@ -185,46 +173,4 @@ import { deleteApp } from "firebase/app";
   .selected:hover {
     background: lightcyan;
   }
-  /* .submit-button::before {
-    content: "";
-    display: inline-block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 100%;
-    bottom: 0;
-    background: #cecd24;
-    transition: 0.3s 0.2s cubic-bezier(0.1, 0, 0.1, 1),
-      left 0.3s cubic-bezier(0.1, 0, 0.1, 1);
-    z-index: 25;
-  }
-  .submit-button::after {
-    content: "";
-    display: inline-block;
-    background-image: url("https://image.flaticon.com/icons/png/128/109/109617.png");
-    background-color: #cecd24;
-    position: absolute;
-    top: 0;
-    left: calc(100% - 3em);
-    right: 3em;
-    bottom: 0;
-    background-size: 1.5em;
-    background-repeat: no-repeat;
-    background-position: center;
-    transition: right 0.3s cubic-bezier(0.1, 0, 0.1, 1);
-  }
-  .submit-button:hover {
-
-    padding: 0.1em 3.5em 0.1em 0.5em;
-  }
-  .submit-button:hover::before {
-    left: calc(100% - 0.1em);
-    right: 0;
-    transition: 0.3s cubic-bezier(0.1, 0, 0.1, 1),
-      left 0.3s 0.2s cubic-bezier(0.1, 0, 0.1, 1);
-  }
-  .submit-button:hover::after {
-    right: 0;
-    transition: right 0.3s 0.2s cubic-bezier(0.1, 0, 0.1, 1);
-  }*/
 </style>
