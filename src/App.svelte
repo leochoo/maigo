@@ -57,7 +57,7 @@
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 
     /* Fullscreen background code */
-    background: url(src/assets/panoramic_background.jpeg) no-repeat center center fixed; 
+    background: url(src/assets/earthFromSpace.jpeg) no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -72,12 +72,13 @@
     /* animation: slide 60s linear infinite; */
   }
   .main {
-    display: flex;
+    /* display: flex; */
     flex-direction: column;
     text-align: center;
     padding: 1em;
     margin: 0 auto;
     padding-top: 3em;
+    
   }
   img {
     position: relative;

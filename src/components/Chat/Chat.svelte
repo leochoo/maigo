@@ -3,7 +3,6 @@
   import { currentUser } from "./../../store.js";
   import { db } from "../../../firebase";
   import { doc, addDoc, collection, orderBy, onSnapshot, query, getDoc } from "firebase/firestore";
-  import * as animateScroll from "svelte-scrollto";
 
   export let room_id;
 
@@ -53,15 +52,12 @@
       });
       message = "";
     }
-    animateScroll.scrollToBottom();
   }
-
-  animateScroll.setGlobalOptions({
-    container:"mainChatList"
-  })
 
   // chats/{chat-id}/messages/{id} - make subcollection
 </script>
+
+
 
 <main>
   <p>CHAT</p>
@@ -71,7 +67,7 @@
     <br/>
     <div class="chatlistcontainer">
       <div id="mainChatList" class="chatlist">
-        {#each chatList as chat}
+        {#each chatList.reverse() as chat}
           <Message
             uid={chat.uid}
             name={chat.userName}
@@ -88,8 +84,9 @@
         id="newMessageText"
         class="input"
         type="text"
+        style="margin:0.5em"
       />
-      <button on:click|preventDefault={handleClick}> Send </button>
+      <button on:click|preventDefault={handleClick} style="margin:0.5em"> Send </button>
     </form>
   </template>
 </main>
@@ -100,8 +97,10 @@
     padding:1em;
   }
   .chatlist {
-    width: 28em;
-    height: 15em;
+    width: 24em;
+    height: 12em;
     overflow-y: scroll;
+    display: flex;
+    flex-direction: column-reverse;
   }
 </style>

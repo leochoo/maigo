@@ -25,10 +25,13 @@
         display:flex;
         margin:0.5em;
         border-radius:0.5em;
+        padding:0em
     }
     .content{
         padding-left: 1em;
         padding-right: 1em;
+        padding-top: 0.25em;
+        padding-bottom: 0.25em;
         inline-size:400px;
         overflow-wrap: break-word;
         text-align: left;

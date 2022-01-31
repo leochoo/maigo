@@ -51,7 +51,7 @@
   <ul>
     <h2>Current Users:</h2>
     {#each userInfoList as user}
-      <li><img src={user.photoURL} alt=""/>{user.displayName}</li>
+      <li><img src={user.photoURL} alt="" style="width:2em; height:2em"/>{user.displayName}</li>
     {/each}
   </ul>
   {#if loading}
@@ -78,9 +78,10 @@
     text-align: center;
     padding: 1em;
     margin: 0 auto;
-    width:500px;
+    width:30em;
+    height:38em;
     /* add glass effect */
-		background: rgba( 255, 255, 255, 0.35 );
+		background: rgba( 255, 255, 255, 0.15 );
 		box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
 		backdrop-filter: blur( 4.5px );
 		-webkit-backdrop-filter: blur( 4.5px );

@@ -70,7 +70,6 @@
 <main>
   {#if !room_available}
     <div class="maincontainer">
-      <img src={logo} alt="Svelte Logo" />
       <h1>MaiGO</h1>
       <button on:click={() => createRoom()}>Create Room</button>
       <input bind:value={room_id} />
@@ -112,7 +111,6 @@
     text-align: center;
     padding: 1em;
     margin: 0 auto;
-    width:500px;
   }
 
   .maincontainer {
@@ -122,9 +120,10 @@
     text-align: center;
     padding: 1em;
     margin: 0 auto;
-    width:500px;
+    width:25em;
+    height:30em;
     /* add glass effect */
-		background: rgba( 255, 255, 255, 0.35 );
+		background: rgba( 255, 255, 255, 0.15 );
 		box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
 		backdrop-filter: blur( 4.5px );
 		-webkit-backdrop-filter: blur( 4.5px );
