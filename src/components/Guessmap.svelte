@@ -1,11 +1,10 @@
 <script lang="ts">
   import { getContext, onMount } from "svelte";
   import type { Loader } from "@googlemaps/js-api-loader";
-  import { answer } from "../store";
+  import { answer , currentUser } from "../store";
   import { deleteApp } from "firebase/app";
   import { onSnapshot, doc, updateDoc, increment } from "firebase/firestore";
   import { db } from "../../firebase";
-  import { score } from "../store";
 
   export let room_id: string;
   let container;
@@ -53,9 +52,8 @@
       });
     }
   }
-  //Calculate the difference of distances and store it in store.js
-  //When game phase changes from during game to after submit, each user stores his score to firebase document
-  async function  calcDistance() {
+  //Calculate the difference of distances and store it in user document.
+  async function calcDistance() {
     console.log("calcDistance func called");
     let ans_latlng = new google.maps.LatLng(
       Number(_answer.lat),
@@ -66,7 +64,10 @@
       marker.getPosition()
     );
     console.log(Math.floor(distance), "Meter(s)");
-    score.set(Math.floor(distance));
+    const userRef = doc(db, "users", $currentUser.user.uid);
+    await updateDoc(userRef, {
+      score: Math.floor(distance)
+    })
   }
 
   function mouseOverAnimation(): void {

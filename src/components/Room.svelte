@@ -1,5 +1,4 @@
 <script lang="ts">
-  import Game from "./Game/Game.svelte";
   import Chat from "./Chat/Chat.svelte";
   import { setContext } from "svelte";
   import { db } from "../../firebase";
@@ -76,7 +75,7 @@
 <!-- Enter Result Page when submit counts equal to the number of users in the room -->
 {:else if submitCount == userUidList.length}
   <!-- <Chat {room_id} /> -->
-  <AfterSubmit {room_id}/>
+  <AfterSubmit {room_id} {userInfoList}/>
 {:else if gamePhase == 1}
   <!-- <Chat {room_id} /> -->
   <DuringGame {room_id}/>
