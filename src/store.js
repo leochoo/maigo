@@ -11,5 +11,3 @@ export const answer = writable({
 });
 
 export const amIhost = writable(false);
-
-export const currTimeUTC = writable(undefined);

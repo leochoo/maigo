@@ -3,7 +3,6 @@
 	import { onDestroy, onMount } from "svelte";
     import { db } from "../../../firebase";
 	import { Tweened, tweened } from 'svelte/motion';
-	import { currTimeUTC } from '../../store'
 	export let room_id: string;
 
 	let remainingTime: number;
@@ -13,23 +12,23 @@
 	$:seconds=0;
 	
 	// fetch endTime in firestore
-	const getEndTime = async () => {
+	const getStartEndTime = async () => {
 		const roomRef = doc(db, "rooms", room_id);
 		const docSnap = await getDoc(roomRef);
 		if (docSnap.exists()) {
 			let data = docSnap.data();
-			return new Date(data.endTime.toDate()).getTime();
+			return [
+				new Date(data.startTime.toDate()).getTime(),
+				new Date(data.endTime.toDate()).getTime()
+			]
 		}
 	}
 
 	const calRemainingTime = async () => {
-		const endTime = await getEndTime();
-		console.log(endTime);
-		// get the current time when a game started
-		const currTime = new Date($currTimeUTC).getTime();
+		const startEndTime = await getStartEndTime();
 
 		// diff between the endTime and the current time
-		remainingTime = (endTime - currTime)*0.001;
+		remainingTime = (startEndTime[1] - startEndTime[0])*0.001;
 		console.log("remaining Time: ",remainingTime);
 		timer = tweened(remainingTime);
 	}

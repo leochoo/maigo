@@ -1,7 +1,7 @@
 <script lang="ts">
   import { db } from "../../../firebase";
   import Modal from "./Modal.svelte";
-  import { currentUser, currTimeUTC, amIhost } from "../../store";
+  import { currentUser, amIhost } from "../../store";
   import { getContext } from 'svelte';
   import { onSnapshot, doc, updateDoc, increment } from "firebase/firestore";
 
@@ -46,15 +46,17 @@
   
   const addEndTime = async () => {
     const docRef = doc(db,"rooms",room_id);
+    var startTime: Date;
     var endTime: Date;
     // Set game time limits here
     const timeLimits:number = 5 
     // get the current time and add time limits to it. And add the calculated endTime in firestore
     const _currUTCTime = await fetch("http://worldtimeapi.org/api/timezone/Etc/UTC");
     const _data = await _currUTCTime.json();
-    currTimeUTC.set(_data.datetime);
-    endTime = new Date(new Date($currTimeUTC).getTime()+timeLimits*60000);
+    startTime = new Date(new Date(_data.datetime).getTime());
+    endTime = new Date(new Date(_data.datetime).getTime()+timeLimits*60000);
     await updateDoc(docRef,{
+      startTime: startTime,
       endTime: endTime
     });
   }
