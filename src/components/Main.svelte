@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="src/styles.css">
+
 <script lang="ts">
   import { db } from "../../firebase";
   import {
@@ -151,20 +153,7 @@
     max-width: 14rem;
     margin: 1rem auto;
     line-height: 1.35;
-    color: #001b0e;
-  }
-
-  button {
-    background-color: #00ff80; /* Green */
-    border: none;
-    color: #006633;
-    padding: 5px 10px;
-    margin: 0.5em;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    border-radius: 5px;
+    color:white;
   }
 
   @media (min-width: 480px) {

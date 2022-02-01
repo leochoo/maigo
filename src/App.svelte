@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="src/styles.css">
+
 <script lang="ts">
   import { onMount, setContext, getContext } from "svelte";
   import { getAuth, onAuthStateChanged } from "firebase/auth";
