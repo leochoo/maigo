@@ -1,7 +1,7 @@
 <script lang="ts">
-  import Guessmap from '../Guessmap.svelte';
-  import Streetview from '../Streetview.svelte';
-  import Timer from '../Game/Timer.svelte'
+  import Guessmap from './Guessmap.svelte';
+  import Streetview from './Streetview.svelte';
+  import Timer from './Timer.svelte'
 
   export let room_id: string;
 </script>

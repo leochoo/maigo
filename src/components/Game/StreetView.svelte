@@ -3,8 +3,8 @@
   import type { Loader } from "@googlemaps/js-api-loader";
   // import { generateRandomPosition, addNewData } from "./coordinates.svelte";
   import { doc, setDoc, addDoc, collection, getDoc } from "firebase/firestore";
-  import { db } from "../../firebase";
-  import { answer } from "../store";
+  import { db } from "../../../firebase";
+  import { answer } from "../../store";
 
   let container;
   let streetViewMap;

@@ -54,12 +54,12 @@
         room_available = true;
       } else {
         // Room is full, stop the request
-        console.log("Full room!");
+        alert("Room is currently full");
         room_available = false;
       }
       // amIhost.set(false);
     } else {
-      console.log("NO ROOM FOUND");
+      alert("Not found");
       room_available = false;
     }
   }
@@ -72,7 +72,9 @@
       <button on:click={() => createRoom()}>Create Room</button>
       <input bind:value={room_id} />
       <br/>
-      <button on:click={() => joinExistingRoom(room_id)}>Join Room</button>
+      <button on:click={() => {
+        if (room_id!='') joinExistingRoom(room_id)
+        }}>Join Room</button>
       <p>
         A GeoGeussr Clone for Online Multiplayer
         <br/>

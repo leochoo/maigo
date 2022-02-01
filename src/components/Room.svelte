@@ -22,7 +22,6 @@
 
   async function updateGamePhase() {
     const roomRef = doc(db, "rooms", room_id);
-    const docSnap = await getDoc(roomRef);
     await updateDoc(roomRef, {
       gamePhase: gamePhase + 1,
     });
@@ -55,7 +54,6 @@
   );
 </script>
 
-
 {#if gamePhase==0}
   <div class="glasseffect">
     <h2>Room ID: {room_id}</h2>
@@ -74,8 +72,11 @@
   </div>
 <!-- Enter Result Page when submit counts equal to the number of users in the room -->
 {:else if submitCount == userUidList.length}
-  <!-- <Chat {room_id} /> -->
   <AfterSubmit {room_id} {userInfoList}/>
+  <Chat {room_id} />
+  <button on:click|once={()=>{console.log("leave")}}>
+    Leave the Room
+  </button>
 {:else if gamePhase == 1}
   <!-- <Chat {room_id} /> -->
   <DuringGame {room_id}/>

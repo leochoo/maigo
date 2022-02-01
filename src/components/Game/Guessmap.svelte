@@ -1,10 +1,9 @@
 <script lang="ts">
   import { getContext, onMount } from "svelte";
   import type { Loader } from "@googlemaps/js-api-loader";
-  import { answer , currentUser } from "../store";
-  import { deleteApp } from "firebase/app";
-  import { onSnapshot, doc, updateDoc, increment } from "firebase/firestore";
-  import { db } from "../../firebase";
+  import { answer , currentUser } from "../../store";
+  import { doc, updateDoc, increment } from "firebase/firestore";
+  import { db } from "../../../firebase";
 
   export let room_id: string;
   let container;
@@ -122,8 +121,6 @@
       if (marker != null) {
         await calcDistance();
         await userSubmit();
-      } else {
-        console.log("no marker");
       }
     }}>submit</button
   >
