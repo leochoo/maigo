@@ -1,5 +1,5 @@
 <script lang="ts">
-    export let uid: string;
+    // export let uid: string;
     export let name: string;
     export let photoURL: string;
 

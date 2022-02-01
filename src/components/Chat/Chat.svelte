@@ -56,9 +56,6 @@
 
   // chats/{chat-id}/messages/{id} - make subcollection
 </script>
-
-
-
 <main>
   <p>CHAT</p>
   <template>
@@ -69,7 +66,6 @@
       <div id="mainChatList" class="chatlist">
         {#each chatList.reverse() as chat}
           <Message
-            uid={chat.uid}
             name={chat.userName}
             photoURL= {chat.userPhoto}
             message={chat.message}

@@ -9,9 +9,9 @@
   } from "firebase/firestore";
   import { getAuth, signOut } from "firebase/auth";
   import Room from "./Room.svelte";
-  import { amIhost, currentUser } from "../store";
+  import { amIhost, currentUser, room_available } from "../store";
 
-  let room_available = false;
+
   let room_id: string = "";
 
   async function createRoom() {
@@ -21,10 +21,11 @@
       users: [$currentUser.user.uid],
       gamePhase: 0,
       submit_count: 0,
+      leave_count: 0,
     });
     room_id = docRef.id;
     amIhost.set(true);
-    room_available = true;
+    room_available.set(true);
   }
 
   async function joinExistingRoom(room_id) {
@@ -51,22 +52,22 @@
         // successfully joined room
         console.log("Can join room now!");
         amIhost.set(false);
-        room_available = true;
+        room_available.set(true);
       } else {
         // Room is full, stop the request
         alert("Room is currently full");
-        room_available = false;
+        room_available.set(false);
       }
       // amIhost.set(false);
     } else {
       alert("Not found");
-      room_available = false;
+      room_available.set(false);
     }
   }
 </script>
 
 <main>
-  {#if !room_available}
+  {#if !$room_available}
     <div class="maincontainer">
       <h1>MaiGO</h1>
       <button on:click={() => createRoom()}>Create Room</button>

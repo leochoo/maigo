@@ -3,14 +3,17 @@
   import { setContext } from "svelte";
   import { db } from "../../firebase";
   import {
+    deleteDoc,
     doc,
     getDoc,
+    increment,
     onSnapshot,
     updateDoc,
   } from "firebase/firestore";
   import BeforeGame from "./Game/BeforeGame.svelte";
   import AfterSubmit from "./Game/AfterSubmit.svelte";
   import DuringGame from "./Game/DuringGame.svelte";
+  import { amIhost, room_available} from '../store.js'
 
   export let room_id: string;
   let gamePhase: number;
@@ -19,6 +22,9 @@
   let userUidList = [];
   let userInfoList = [];
   let submitCount: number;
+  let leaveCount: number;
+  let isReadyToExpireRoom = false;
+  $: if (leaveCount == userInfoList.length - 1) isReadyToExpireRoom = true;
 
   async function updateGamePhase() {
     const roomRef = doc(db, "rooms", room_id);
@@ -28,6 +34,17 @@
   }
   setContext("updateGamePhase", updateGamePhase);
 
+  const userLeaveRoom = async() => {
+    const docRef = doc(db, "rooms", room_id);
+    await updateDoc(docRef, {
+      leave_count: increment(1)
+    });
+  }
+
+  const deleteRoom = async() => {
+    const docRef = doc(db, "rooms", room_id);
+    await deleteDoc(docRef);
+  }
   // consider firestore latency compensation
   const unsub = onSnapshot(
     doc(db, "rooms", room_id),
@@ -39,6 +56,7 @@
       userUidList = data.users;
       gamePhase = data.gamePhase;
       submitCount = data.submit_count;
+      leaveCount = data.leave_count;
       // get user data from userUidList using getDoc and push to userInfoList
       userUidList.forEach((userUid) => {
         const userRef = doc(db, "users", userUid);
@@ -74,9 +92,21 @@
 {:else if submitCount == userUidList.length}
   <AfterSubmit {room_id} {userInfoList}/>
   <Chat {room_id} />
-  <button on:click|once={()=>{console.log("leave")}}>
-    Leave the Room
+  {#if $amIhost}
+  <button on:click|once={async () =>{
+    await deleteRoom();
+    room_available.set(false);
+  }} disabled={!isReadyToExpireRoom}>
+    Expire the Room
   </button>
+  {:else}
+    <button on:click|once={async ()=>{
+      await userLeaveRoom();
+      room_available.set(false)
+    }}>
+      Leave the Room
+    </button>
+  {/if}
 {:else if gamePhase == 1}
   <!-- <Chat {room_id} /> -->
   <DuringGame {room_id}/>
