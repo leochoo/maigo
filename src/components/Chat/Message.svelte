@@ -25,7 +25,8 @@
         display:flex;
         margin:0.5em;
         border-radius:0.5em;
-        padding:0em
+        padding:0em;
+        color: black;
     }
     .content{
         padding-left: 1em;
@@ -35,5 +36,6 @@
         inline-size:400px;
         overflow-wrap: break-word;
         text-align: left;
+        color: black;
     }
 </style>

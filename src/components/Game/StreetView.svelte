@@ -7,7 +7,7 @@
   import { answer } from "../../store";
 
   let container;
-  let streetViewMap;
+  let panorama: google.maps.StreetViewPanorama;
   let zoom = 12;
   let _answer;
   const loader: Loader = getContext("loader");
@@ -37,7 +37,7 @@
             },
             (data, status) => {
               if (status === "OK") {
-                let panorama = new google.maps.StreetViewPanorama(container, {
+                panorama = new google.maps.StreetViewPanorama(container, {
                   position: _answer,
                   pov: {
                     heading: 34,
@@ -56,7 +56,6 @@
                   fullscreenControl: false,
                   disableDefaultUI: true,
                 });
-                //streetViewMap.setStreetView(panorama);
                 console.log("Valid streetview");
               } else {
                 console.log("no streetview");
@@ -66,10 +65,12 @@
         })
         .then(() => {
           answer.set(_answer);
+          console.log("sdfsfdsf");
         });
+      }
+      renderStreetView();
     }
-    renderStreetView();
-  });
+  );
 </script>
 
 <div class="streetview-comp" bind:this={container} />
