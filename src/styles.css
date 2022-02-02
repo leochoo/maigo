@@ -17,7 +17,7 @@
     border: 1px solid rgba( 255, 255, 255, 0.18 );
 }
 
-/* button {
+button {
     background-color: #00ff80;
     border: none;
     color: #006633;
@@ -28,4 +28,12 @@
     display: inline-block;
     font-size: 16px;
     border-radius: 5px;
-} */
+}
+
+#background-video {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+}
