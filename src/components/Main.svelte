@@ -24,6 +24,7 @@
       gamePhase: 0,
       submit_count: 0,
       leave_count: 0,
+      replay_count: 0,
     });
     room_id = docRef.id;
     amIhost.set(true);
@@ -132,11 +133,6 @@
 		-webkit-backdrop-filter: blur( 4.5px );
 		border-radius: 10px;
 		border: 1px solid rgba( 255, 255, 255, 0.18 );
-  }
-
-  img {
-    height: 16rem;
-    width: 16rem;
   }
 
   h1 {

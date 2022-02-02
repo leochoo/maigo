@@ -2,7 +2,7 @@
 
 <script lang="ts">
   import Chat from "./Chat/Chat.svelte";
-  import { setContext } from "svelte";
+  import { onDestroy, setContext, onMount } from "svelte";
   import { db } from "../../firebase";
   import {
     deleteDoc,
@@ -15,7 +15,7 @@
   import BeforeGame from "./Game/BeforeGame.svelte";
   import AfterSubmit from "./Game/AfterSubmit.svelte";
   import DuringGame from "./Game/DuringGame.svelte";
-  import { amIhost, room_available} from '../store.js'
+  import { room_available } from '../store.js'
 
   export let room_id: string;
   let gamePhase: number;
@@ -24,9 +24,21 @@
   let userUidList = [];
   let userInfoList = [];
   let submitCount: number;
-  let leaveCount: number;
-  let isReadyToExpireRoom = false;
-  $: if (leaveCount == userInfoList.length - 1) isReadyToExpireRoom = true;
+  let leaveCount: number = 0;
+  let replayCount: number = 0;
+  
+  $: if (gamePhase == 1 && leaveCount + replayCount == userUidList.length) {
+    console.log("All players voted");
+    if (leaveCount >= replayCount) {
+      console.log("delete the room");
+      deleteRoom();
+    }
+    else {
+      //initialization of the room
+      console.log("init the room");
+      initRoom();
+    }
+  }
 
   async function updateGamePhase() {
     const roomRef = doc(db, "rooms", room_id);
@@ -43,22 +55,45 @@
     });
   }
 
-  const deleteRoom = async() => {
+  const userReplay = async () => {
+    const docRef = doc(db, "rooms", room_id);
+    await updateDoc(docRef, {
+      replay_count: increment(1)
+    });
+  }
+
+  const deleteRoom = async () => {
     const docRef = doc(db, "rooms", room_id);
     await deleteDoc(docRef);
+    room_available.set(false);
   }
+
+  const initRoom = async () => {
+    const docRef = doc(db, "rooms", room_id);
+    await updateDoc(docRef, {
+      gamePhase: 0,
+      leave_count: 0,
+      ready_count: 0,
+      replay_count: 0,
+      submit_count: 0,
+      endTime: 0,
+      startTime: 0,
+    })
+  }
+
   // consider firestore latency compensation
   const unsub = onSnapshot(
     doc(db, "rooms", room_id),
     (roomRef) => {
       const source = roomRef.metadata.hasPendingWrites ? "Local" : "Server";
       let _userInfoList = [];
-      console.log(source, " Current room data: ", roomRef.data());
+      //console.log(source, " Current room data: ", roomRef.data());
       data = roomRef.data();
       userUidList = data.users;
       gamePhase = data.gamePhase;
       submitCount = data.submit_count;
       leaveCount = data.leave_count;
+      replayCount = data.replay_count;
       // get user data from userUidList using getDoc and push to userInfoList
       userUidList.forEach((userUid) => {
         const userRef = doc(db, "users", userUid);
@@ -66,12 +101,12 @@
           _userInfoList = [..._userInfoList, userDoc.data()];
         }).then(()=> {
           userInfoList = _userInfoList;
-          console.log("userInfoList", userInfoList);
           isLoading = false;
         });
       });
     }
   );
+  onDestroy(()=>unsub);
 </script>
 
 {#if gamePhase==0}
@@ -94,21 +129,18 @@
 {:else if submitCount == userUidList.length}
   <AfterSubmit {room_id} {userInfoList}/>
   <Chat {room_id} />
-  {#if $amIhost}
+  <span style="color: whitesmoke;">Leave Count: {leaveCount}</span>
+  <span style="color: whitesmoke;">Replay Count: {replayCount}</span>
   <button on:click|once={async () =>{
-    await deleteRoom();
-    room_available.set(false);
-  }} disabled={!isReadyToExpireRoom}>
-    Expire the Room
+    await userLeaveRoom();
+  }}>
+    Leave the Room
   </button>
-  {:else}
-    <button on:click|once={async ()=>{
-      await userLeaveRoom();
-      room_available.set(false)
-    }}>
-      Leave the Room
-    </button>
-  {/if}
+  <button on:click|once={async ()=>{
+    await userReplay();
+  }}>
+    Replay
+  </button>
 {:else if gamePhase == 1}
   <!-- <Chat {room_id} /> -->
   <DuringGame {room_id}/>
