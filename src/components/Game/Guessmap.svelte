@@ -54,7 +54,6 @@
   }
   //Calculate the difference of distances and store it in user document.
   async function calcDistance() {
-    console.log("calcDistance func called");
     let ans_latlng = new google.maps.LatLng(
       Number(_answer.lat),
       Number(_answer.lng)
@@ -63,7 +62,6 @@
       ans_latlng,
       marker.getPosition()
     );
-    console.log(Math.floor(distance), "Meter(s)");
     const userRef = doc(db, "users", $currentUser.user.uid);
     await updateDoc(userRef, {
       score: Math.floor(distance)
@@ -99,7 +97,6 @@
   }
 
   const userSubmit = async() => {
-    console.log("userSubmit func called");
     const docRef = doc(db, "rooms", room_id);
     await updateDoc(docRef, {
       submit_count: increment(1)

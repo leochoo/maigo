@@ -20,7 +20,6 @@
   async function verifyStreetView(randomPosition) {
     const loader: Loader = getContext("loader");
     await loader.load();
-    console.log("loader: ", loader);
     let streetViewService = new google.maps.StreetViewService();
     let request = {
       location: randomPosition,

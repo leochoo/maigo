@@ -21,11 +21,9 @@
   const unsub = onSnapshot(
           q,
           (snapshot) => {
-            console.log(snapshot);
             chatList = [];
             snapshot.forEach((doc) => {
               chatList.push(doc.data());
-              console.log(doc.data());
             });
           }
   )

@@ -27,14 +27,11 @@
   let buttonClicked = false;
   
   $: if (gamePhase == 1 && leaveCount + replayCount == userUidList.length) {
-    console.log("All players voted");
     if (leaveCount >= replayCount) {
-      console.log("delete the room");
       deleteRoom();
     }
     else {
       //initialization of the room
-      console.log("init the room");
       initRoom();
     }
   }
@@ -136,12 +133,12 @@
   <Chat {room_id} />
   <span style="color: whitesmoke;">Leave Count: {leaveCount}</span>
   <span style="color: whitesmoke;">Replay Count: {replayCount}</span>
-  <button on:click|once={async () =>{
+  <button on:click={async () =>{
     await userLeaveRoom();
   }} disabled={buttonClicked}>
     Leave the Room
   </button>
-  <button on:click|once={async ()=>{
+  <button on:click={async ()=>{
     await userReplay();
   }} disabled={buttonClicked}>
     Replay

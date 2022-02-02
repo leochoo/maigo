@@ -29,7 +29,6 @@
 
 		// diff between the endTime and the current time
 		remainingTime = (startEndTime[1] - startEndTime[0])*0.001;
-		console.log("remaining Timeeee: ",remainingTime);
 		timer = tweened(remainingTime);
 	}
 
@@ -58,7 +57,6 @@
 
 	onDestroy(()=>{
 		clearInterval(timerId);
-		console.log("onDestory")
 	})
 </script>
 

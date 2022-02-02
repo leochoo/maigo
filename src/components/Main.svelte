@@ -37,7 +37,6 @@
     if (docSnap.exists()) {
       let data = docSnap.data();
       let userList = [...data.users];
-      // console.log("data is, ", data);
       console.log("ROOM FOUND");
       // check if the room is full
       if (data.users.length < 4) {

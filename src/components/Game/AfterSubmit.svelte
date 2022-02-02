@@ -2,16 +2,24 @@
   export let room_id: string;
   //Users' information with scores
   export let userInfoList;
-
+  let isLoading = true;
+  let _userInfoList = userInfoList.sort((a, b) => {
+    return a.score - b.score;
+  });
+  isLoading = false;
 </script>
 
 <template>
   <div class="glasseffect">
     <p>Result</p>
     <p>Result of room "{room_id}"</p>
-    {#each userInfoList as user }
-      <li><img src={user.photoURL} alt="" style="width:2em; height:2em"/>{user.displayName}'s distance diff: {user.score}m</li>
-    {/each}
+    {#if !isLoading}
+      {#each _userInfoList as user }
+        <li><img src={user.photoURL} alt="" style="width:2em; height:2em"/>{user.displayName}'s distance diff: {user.score}m</li>
+      {/each}
+    {:else}
+      Loading
+    {/if}
   </div>
 </template>
 
