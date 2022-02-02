@@ -1,5 +1,3 @@
-<link rel="stylesheet" href="src/styles.css">
-
 <script lang="ts">
   import Chat from "./Chat/Chat.svelte";
   import { onDestroy, setContext, onMount } from "svelte";
@@ -26,16 +24,14 @@
   let submitCount: number;
   let leaveCount: number = 0;
   let replayCount: number = 0;
+  let buttonClicked = false;
   
   $: if (gamePhase == 1 && leaveCount + replayCount == userUidList.length) {
-    console.log("All players voted");
     if (leaveCount >= replayCount) {
-      console.log("delete the room");
       deleteRoom();
     }
     else {
       //initialization of the room
-      console.log("init the room");
       initRoom();
     }
   }
@@ -53,6 +49,7 @@
     await updateDoc(docRef, {
       leave_count: increment(1)
     });
+    buttonClicked = true;
   }
 
   const userReplay = async () => {
@@ -60,6 +57,7 @@
     await updateDoc(docRef, {
       replay_count: increment(1)
     });
+    buttonClicked = true;
   }
 
   const deleteRoom = async () => {
@@ -112,10 +110,14 @@
 {#if gamePhase==0}
   <div class="glasseffect">
     <h2>Room ID: {room_id}</h2>
+      <h3>Current Users:</h3>
     <ul>
-      <h2>Current Users:</h2>
       {#each userInfoList as user}
-        <li><img src={user.photoURL} alt="" style="width:2em; height:2em"/>{user.displayName}</li>
+        <li>
+          <img src={user.photoURL} alt="" style="width:2em; height:2em"/>
+          <br>
+          {user.displayName}
+        </li>
       {/each}
     </ul>
     {#if !isLoading}
@@ -131,17 +133,66 @@
   <Chat {room_id} />
   <span style="color: whitesmoke;">Leave Count: {leaveCount}</span>
   <span style="color: whitesmoke;">Replay Count: {replayCount}</span>
-  <button on:click|once={async () =>{
+  <button on:click={async () =>{
     await userLeaveRoom();
-  }}>
+  }} disabled={buttonClicked}>
     Leave the Room
   </button>
-  <button on:click|once={async ()=>{
+  <button on:click={async ()=>{
     await userReplay();
-  }}>
+  }} disabled={buttonClicked}>
     Replay
   </button>
 {:else if gamePhase == 1}
   <!-- <Chat {room_id} /> -->
   <DuringGame {room_id}/>
 {/if}
+
+<style>
+  .glasseffect {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 1em;
+    margin: 0 auto;
+    width:30em;
+    height:38em;
+    color: white;
+    /* add glass effect */
+    background: rgba( 255, 255, 255, 0.15 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 4.5px );
+    -webkit-backdrop-filter: blur( 4.5px );
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+  }
+  button {
+    background-color: white;
+    border: none;
+    color: #006633;
+    padding: 5px 10px;
+    margin: 0.5em;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+  }
+  button:hover {
+    background: lightcyan;
+  }
+  button:active {
+    background: grey;
+  }
+  ul{
+    padding:0;
+    list-style-type:none;
+  }
+
+  li{
+      float:left;
+      padding: 0.5em;
+  }
+
+</style>

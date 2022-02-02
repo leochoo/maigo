@@ -56,7 +56,6 @@
                   disableDefaultUI: true,
                 });
                 panorama.set(_panorama);
-                console.log("Valid streetview");
               } else {
                 console.log("no streetview");
               }
