@@ -82,7 +82,7 @@
     padding-top: 3em;
   }
   img {
-    position: relative;
+    justify-content: center;
     left: calc(50% - 8rem);
     height: 16rem;
     width: 16rem;
