@@ -112,10 +112,14 @@
 {#if gamePhase==0}
   <div class="glasseffect">
     <h2>Room ID: {room_id}</h2>
+      <h3>Current Users:</h3>
     <ul>
-      <h2>Current Users:</h2>
       {#each userInfoList as user}
-        <li><img src={user.photoURL} alt="" style="width:2em; height:2em"/>{user.displayName}</li>
+        <li>
+          <img src={user.photoURL} alt="" style="width:2em; height:2em"/>
+          <br>
+          {user.displayName}
+        </li>
       {/each}
     </ul>
     {#if !isLoading}
@@ -127,20 +131,22 @@
   </div>
 <!-- Enter Result Page when submit counts equal to the number of users in the room -->
 {:else if submitCount == userUidList.length}
-  <AfterSubmit {room_id} {userInfoList}/>
-  <Chat {room_id} />
-  <span style="color: whitesmoke;">Leave Count: {leaveCount}</span>
-  <span style="color: whitesmoke;">Replay Count: {replayCount}</span>
-  <button on:click|once={async () =>{
-    await userLeaveRoom();
-  }}>
-    Leave the Room
-  </button>
-  <button on:click|once={async ()=>{
-    await userReplay();
-  }}>
-    Replay
-  </button>
+  <div class="glasseffect">
+    <AfterSubmit {room_id} {userInfoList}/>
+    <Chat {room_id} />
+    <span style="color: whitesmoke;">Leave Count: {leaveCount}</span>
+    <span style="color: whitesmoke;">Replay Count: {replayCount}</span>
+    <button on:click|once={async () =>{
+      await userLeaveRoom();
+    }}>
+      Leave the Room
+    </button>
+    <button on:click|once={async ()=>{
+      await userReplay();
+    }}>
+      Replay
+    </button>
+  </div>
 {:else if gamePhase == 1}
   <!-- <Chat {room_id} /> -->
   <DuringGame {room_id}/>

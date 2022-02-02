@@ -9,7 +9,7 @@
 </script>
 
 <template>
-  <div class="glasseffect">
+  <div>
     <p>Result</p>
     <p>Result of room "{room_id}"</p>
     {#each userInfoList as user }
