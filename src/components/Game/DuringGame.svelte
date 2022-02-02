@@ -2,14 +2,19 @@
   import Guessmap from './Guessmap.svelte';
   import Streetview from './Streetview.svelte';
   import Timer from './Timer.svelte'
+  import { panorama, answer } from '../../store.js'
 
   export let room_id: string;
+  const returnToTheStart = () => {
+    $panorama.setPosition($answer)
+  }
+
 </script>
 
 <div class="streetview"><Streetview></Streetview></div>
 <div><Guessmap {room_id}></Guessmap></div>
 <Timer {room_id}></Timer>
-<button>Return to the Start</button>
+<button on:click={returnToTheStart}>Return to the Start</button>
 
 <style>
   .streetview {
