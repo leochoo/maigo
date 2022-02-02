@@ -11,7 +11,6 @@
   let center = { lat: 35.3875841547467, lng: 139.4268758324958 };
   let marker: google.maps.Marker;
   let submit;
-  let buttonClicked = false;
 
 
   $: _answer = $answer;
@@ -103,7 +102,6 @@
     await updateDoc(docRef, {
       submit_count: increment(1)
     });
-    buttonClicked = true;
   }
   
   onMount(() => {
@@ -119,12 +117,12 @@
   <button
     id = "button"
     class:selected="{marker != null}"
-    on:click={async () => {
+    on:click|once={async () => {
       if (marker != null) {
         await calcDistance();
         await userSubmit();
       }
-    }} disabled={buttonClicked}>submit</button
+    }}>submit</button
   >
 </div>
 
@@ -172,8 +170,5 @@
   }
   .selected:hover {
     background: lightcyan;
-  }
-  .selected:active {
-    background: gray;
   }
 </style>

@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="src/styles.css">
+
 <script lang="ts">
   import Chat from "./Chat/Chat.svelte";
   import { onDestroy, setContext, onMount } from "svelte";
@@ -152,42 +154,3 @@
   <!-- <Chat {room_id} /> -->
   <DuringGame {room_id}/>
 {/if}
-
-<style>
-  .glasseffect {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    text-align: center;
-    padding: 1em;
-    margin: 0 auto;
-    width:30em;
-    height:38em;
-    color: white;
-    /* add glass effect */
-    background: rgba( 255, 255, 255, 0.15 );
-    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-    backdrop-filter: blur( 4.5px );
-    -webkit-backdrop-filter: blur( 4.5px );
-    border-radius: 10px;
-    border: 1px solid rgba( 255, 255, 255, 0.18 );
-  }
-  button {
-    background-color: white;
-    border: none;
-    color: #006633;
-    padding: 5px 10px;
-    margin: 0.5em;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    border-radius: 5px;
-  }
-  button:hover {
-    background: lightcyan;
-  }
-  button:active {
-    background: grey;
-  }
-</style>

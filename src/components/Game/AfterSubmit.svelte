@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="src/styles.css">
+
 <script lang="ts">
   export let room_id: string;
   //Users' information with scores
@@ -16,24 +18,6 @@
 </template>
 
 <style>
-  .glasseffect {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    text-align: center;
-    padding: 1em;
-    margin: 0 auto;
-    width:30em;
-    height:38em;
-    color: white;
-    /* add glass effect */
-    background: rgba( 255, 255, 255, 0.15 );
-    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-    backdrop-filter: blur( 4.5px );
-    -webkit-backdrop-filter: blur( 4.5px );
-    border-radius: 10px;
-    border: 1px solid rgba( 255, 255, 255, 0.18 );
-  }
   p {
     color: whitesmoke;
   }

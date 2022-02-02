@@ -25,21 +25,5 @@
   }
   button {
     z-index: 1;
-    background-color: white;
-    border: none;
-    color: #006633;
-    padding: 5px 10px;
-    margin: 0.5em;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    border-radius: 5px;
-  }
-  button:hover {
-    background: lightcyan;
-  }
-  button:active {
-    background: grey;
   }
 </style>

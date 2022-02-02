@@ -65,9 +65,9 @@
 <template>
   <button on:click={() => modal.show()}>Name Change</button>
   <Modal bind:this={modal}>
-  <h1 style="color:black;">Name Change</h1>
+  <h1>Name Change</h1>
       <input type = "text" placeholder="name" bind:value={name}/>
-      <button class="namebutton" on:click={() => {updateName(); modal.hide();}}>Confirm</button>
+      <button on:click={() => {updateName(); modal.hide();}}>Confirm</button>
   </Modal>
 
   <span>Ready Count: {readyCount}</span>
@@ -83,33 +83,3 @@
     }} disabled={isReady}>Ready</button>
   {/if}
 </template>
-
-<style>
-  button {
-    background-color: white;
-    border: none;
-    color: #006633;
-    padding: 5px 10px;
-    margin: 0.5em;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    border-radius: 5px;
-  }
-  button:hover {
-    background: lightcyan;
-  }
-  button:active {
-    background: grey;
-  }
-  .namebutton {
-    background-color: blanchedalmond;
-  }
-  .namebutton:hover {
-    background: lightcyan;
-  }
-  .namebutton:active {
-    background: gray;
-  }
-</style>
