@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="src/styles.css">
+
 <script lang="ts">
   import { onMount, setContext, getContext } from "svelte";
   import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -33,7 +35,6 @@
   });
 </script>
 
-<link rel="stylesheet" href="src/styles.css" />
 
 <Router>
   <main>
@@ -53,13 +54,12 @@
 </Router>
 
 <style>
-  :root {
+  :root { 
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 
     /* Fullscreen background code */
-    background: url(src/assets/earthFromSpace.jpeg) no-repeat center center
-      fixed;
+    background: url(src/assets/earthFromSpace.jpeg) no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -97,7 +97,8 @@
     max-width: 14rem;
   }
 
-  @keyframes slide {
+
+  @keyframes slide{
     0% {
       transform: translate3d(0, 0, 0);
     }
