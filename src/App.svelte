@@ -35,6 +35,7 @@
   });
 </script>
 
+
 <Router>
   <main>
     <div class="main">
@@ -79,7 +80,6 @@
     padding: 1em;
     margin: 0 auto;
     padding-top: 3em;
-    
   }
   img {
     position: relative;
@@ -96,6 +96,7 @@
     margin: 2rem auto;
     max-width: 14rem;
   }
+
 
   @keyframes slide{
     0% {
