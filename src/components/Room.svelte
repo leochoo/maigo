@@ -26,6 +26,7 @@
   let submitCount: number;
   let leaveCount: number = 0;
   let replayCount: number = 0;
+  let buttonClicked = false;
   
   $: if (gamePhase == 1 && leaveCount + replayCount == userUidList.length) {
     console.log("All players voted");
@@ -53,6 +54,7 @@
     await updateDoc(docRef, {
       leave_count: increment(1)
     });
+    buttonClicked = true;
   }
 
   const userReplay = async () => {
@@ -60,6 +62,7 @@
     await updateDoc(docRef, {
       replay_count: increment(1)
     });
+    buttonClicked = true;
   }
 
   const deleteRoom = async () => {
@@ -133,12 +136,12 @@
   <span style="color: whitesmoke;">Replay Count: {replayCount}</span>
   <button on:click|once={async () =>{
     await userLeaveRoom();
-  }}>
+  }} disabled={buttonClicked}>
     Leave the Room
   </button>
   <button on:click|once={async ()=>{
     await userReplay();
-  }}>
+  }} disabled={buttonClicked}>
     Replay
   </button>
 {:else if gamePhase == 1}

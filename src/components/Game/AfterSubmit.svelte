@@ -1,7 +1,6 @@
 <link rel="stylesheet" href="src/styles.css">
 
 <script lang="ts">
-  import { onMount } from 'svelte';
   export let room_id: string;
   //Users' information with scores
   export let userInfoList;
