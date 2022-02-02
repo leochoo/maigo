@@ -68,7 +68,7 @@
 
 <style>
 	.timer {
-		position: absolute;
+		/* position: absolute; */
 		background-color: black;
 		width:18%;
 		height: 10%;
