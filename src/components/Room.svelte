@@ -129,7 +129,8 @@
   </div>
 <!-- Enter Result Page when submit counts equal to the number of users in the room -->
 {:else if submitCount == userUidList.length}
-  <AfterSubmit {room_id} {userInfoList}/>
+  <div class="glasseffect">
+    <AfterSubmit {room_id} {userInfoList}/>
   <Chat {room_id} />
   <span style="color: whitesmoke;">Leave Count: {leaveCount}</span>
   <span style="color: whitesmoke;">Replay Count: {replayCount}</span>
@@ -143,6 +144,7 @@
   }} disabled={buttonClicked}>
     Replay
   </button>
+  </div>
 {:else if gamePhase == 1}
   <!-- <Chat {room_id} /> -->
   <DuringGame {room_id}/>
@@ -157,7 +159,7 @@
     padding: 1em;
     margin: 0 auto;
     width:30em;
-    height:38em;
+    /* height:40em; */
     color: white;
     /* add glass effect */
     background: rgba( 255, 255, 255, 0.15 );

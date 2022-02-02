@@ -10,12 +10,14 @@
 </script>
 
 <template>
-  <div class="glasseffect">
-    <p>Result</p>
-    <p>Result of room "{room_id}"</p>
+  <div>
+    <p>Results for room "{room_id}"</p>
     {#if !isLoading}
       {#each _userInfoList as user }
-        <li><img src={user.photoURL} alt="" style="width:2em; height:2em"/>{user.displayName}'s distance diff: {user.score}m</li>
+        <li>
+          <img src={user.photoURL} alt="" style="width:2em; height:2em"/>
+          {user.displayName}'s distance diff: {user.score}m
+        </li>
       {/each}
     {:else}
       Loading
@@ -49,5 +51,6 @@
     color: whitesmoke;
     float:left;
     padding: 0.5em;
+    list-style: none;
   }
 </style>
