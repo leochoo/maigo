@@ -13,7 +13,7 @@
     <p>Result</p>
     <p>Result of room "{room_id}"</p>
     {#each userInfoList as user }
-      <li><img src={user.photoURL} alt="" style="width:2em; height:2em"/>{user.displayName}'s score: {user.score}</li>
+      <li><img src={user.photoURL} alt="" style="width:2em; height:2em"/>{user.displayName}'s distance diff: {user.score}m</li>
     {/each}
   </div>
 </template>

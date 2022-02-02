@@ -121,6 +121,7 @@
       if (marker != null) {
         await calcDistance();
         await userSubmit();
+        alert("You've submitted your answer. Please wait for other player(s).");
       }
     }}>submit</button
   >

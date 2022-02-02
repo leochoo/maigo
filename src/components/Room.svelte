@@ -2,7 +2,7 @@
 
 <script lang="ts">
   import Chat from "./Chat/Chat.svelte";
-  import { setContext } from "svelte";
+  import { onDestroy, setContext, onMount } from "svelte";
   import { db } from "../../firebase";
   import {
     deleteDoc,
@@ -106,6 +106,7 @@
       });
     }
   );
+  onDestroy(()=>unsub);
 </script>
 
 {#if gamePhase==0}
