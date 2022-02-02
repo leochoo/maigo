@@ -4,6 +4,7 @@
   import { onMount, setContext, getContext } from "svelte";
   import { getAuth, onAuthStateChanged } from "firebase/auth";
   import { Loader } from "@googlemaps/js-api-loader";
+  import logo from "./assets/svelte.png";
   import Main from "./components/Main.svelte";
   import Auth from "./components/Auth.svelte";
   import { currentUser } from "./store";
@@ -41,6 +42,7 @@
       {#if $currentUser.isLoggedIn}
         <Main />
       {:else}
+        <img src={logo} alt="Svelte Logo" />
         <h1>MaiGO</h1>
         <Auth />
       {/if}
@@ -80,7 +82,6 @@
     padding-top: 3em;
   }
   img {
-    justify-content: center;
     left: calc(50% - 8rem);
     height: 16rem;
     width: 16rem;
