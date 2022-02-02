@@ -15,7 +15,7 @@
   import BeforeGame from "./Game/BeforeGame.svelte";
   import AfterSubmit from "./Game/AfterSubmit.svelte";
   import DuringGame from "./Game/DuringGame.svelte";
-  import { amIhost, room_available} from '../store.js'
+  import { room_available } from '../store.js'
 
   export let room_id: string;
   let gamePhase: number;
@@ -26,7 +26,6 @@
   let submitCount: number;
   let leaveCount: number = 0;
   let replayCount: number = 0;
-  let isReadyToExpireRoom = false;
   
   $: if (gamePhase == 1 && leaveCount + replayCount == userUidList.length) {
     console.log("All players voted");
@@ -37,6 +36,7 @@
     else {
       //initialization of the room
       console.log("init the room");
+      initRoom();
     }
   }
 
@@ -67,6 +67,20 @@
     await deleteDoc(docRef);
     room_available.set(false);
   }
+
+  const initRoom = async () => {
+    const docRef = doc(db, "rooms", room_id);
+    await updateDoc(docRef, {
+      gamePhase: 0,
+      leave_count: 0,
+      ready_count: 0,
+      replay_count: 0,
+      submit_count: 0,
+      endTime: 0,
+      startTime: 0,
+    })
+  }
+
   // consider firestore latency compensation
   const unsub = onSnapshot(
     doc(db, "rooms", room_id),
@@ -117,7 +131,7 @@
   <span style="color: whitesmoke;">Leave Count: {leaveCount}</span>
   <span style="color: whitesmoke;">Replay Count: {replayCount}</span>
   <button on:click|once={async () =>{
-    await deleteRoom();
+    await userLeaveRoom();
   }}>
     Leave the Room
   </button>
