@@ -18,7 +18,6 @@
     left: 0px;
     z-index: 0;
   }
-
   button {
     z-index: 1;
   }
