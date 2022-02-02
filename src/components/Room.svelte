@@ -188,4 +188,24 @@
   button:active {
     background: grey;
   }
+  ul{
+    padding:0;
+    list-style-type:none;
+  }
+
+  li{
+      float:left;
+      padding: 0.5em;
+  }
+
+  ul.nav {
+      padding-left: 0px;
+      text-align: center;
+  }
+
+  ul.nav > li {
+      display: inline-block;
+      padding: 0.5em 0.5em;
+  }
+
 </style>
