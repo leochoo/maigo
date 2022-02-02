@@ -6,9 +6,10 @@
   import Main from "./components/Main.svelte";
   import Auth from "./components/Auth.svelte";
   import { currentUser } from "./store";
-  import { Router, Link, Route } from "svelte-routing";
+  import { Router } from "svelte-routing";
   import logo from "./assets/svelte.png";
   import backgroundPhoto from "./assets/earthFromSpace.jpeg";
+
   //:root css
   document.documentElement.style.setProperty('background', `url(${backgroundPhoto})`);
   document.documentElement.style.setProperty('-webkit-background-size', 'cover');
@@ -41,8 +42,6 @@
     });
   });
 </script>
-
-<link rel="stylesheet" href="src/styles.css" />
 
 <Router>
   <!-- <div style="background-image: url({backgroundPhoto})"> -->
