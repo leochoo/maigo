@@ -160,7 +160,7 @@
     }
   }
   button {
-    background-color: rgb(0, 243, 12);
+    background-color: white;
     border: none;
     color: #006633;
     padding: 5px 10px;
