@@ -89,6 +89,7 @@
   .chatlistcontainer {
     background: rgba( 255, 255, 255, 0.55 );
     padding:1em;
+    border-radius: 1em;
   }
   .chatlist {
     width: 24em;

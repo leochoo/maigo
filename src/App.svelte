@@ -9,7 +9,7 @@
   import { Router } from "svelte-routing";
   import logo from "./assets/svelte.png";
   import backgroundPhoto from "./assets/earthFromSpace.jpeg";
-
+  
   //:root css
   document.documentElement.style.setProperty('background', `url(${backgroundPhoto})`);
   document.documentElement.style.setProperty('-webkit-background-size', 'cover');

@@ -113,10 +113,14 @@
 {#if gamePhase==0}
   <div class="glasseffect">
     <h2>Room ID: {room_id}</h2>
+      <h3>Current Users:</h3>
     <ul>
-      <h2>Current Users:</h2>
       {#each userInfoList as user}
-        <li><img src={user.photoURL} alt="" style="width:2em; height:2em"/>{user.displayName}</li>
+        <li>
+          <img src={user.photoURL} alt="" style="width:2em; height:2em"/>
+          <br>
+          {user.displayName}
+        </li>
       {/each}
     </ul>
     {#if !isLoading}
