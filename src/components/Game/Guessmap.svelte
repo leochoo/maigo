@@ -117,7 +117,7 @@
   <button
     id = "button"
     class:selected="{marker != null}"
-    on:click|once={async () => {
+    on:click={async () => {
       if (marker != null) {
         await calcDistance();
         await userSubmit();

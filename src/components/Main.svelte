@@ -135,11 +135,6 @@
 		border: 1px solid rgba( 255, 255, 255, 0.18 );
   }
 
-  img {
-    height: 16rem;
-    width: 16rem;
-  }
-
   h1 {
     color: #ff3e00;
     text-transform: uppercase;
