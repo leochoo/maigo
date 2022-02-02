@@ -57,7 +57,6 @@
   // chats/{chat-id}/messages/{id} - make subcollection
 </script>
 <main>
-  <p>CHAT</p>
   <template>
     I am {_currentUser.displayName}
     <br/>
