@@ -1,14 +1,14 @@
-<link rel="stylesheet" href="src/styles.css">
-
 <script lang="ts">
   import { onMount, setContext, getContext } from "svelte";
   import { getAuth, onAuthStateChanged } from "firebase/auth";
   import { Loader } from "@googlemaps/js-api-loader";
-  import logo from "./assets/svelte.png";
+
   import Main from "./components/Main.svelte";
   import Auth from "./components/Auth.svelte";
   import { currentUser } from "./store";
   import { Router, Link, Route } from "svelte-routing";
+  import logo from "./assets/svelte.png";
+  import backgroundPhoto from "./assets/earthFromSpace.jpeg";
 
   const loader = new Loader({
     // Don't use this api key below unless you need it
@@ -35,8 +35,10 @@
   });
 </script>
 
+<link rel="stylesheet" href="src/styles.css" />
 
 <Router>
+  <!-- <div style="background-image: url({backgroundPhoto})"> -->
   <main>
     <div class="main">
       {#if $currentUser.isLoggedIn}
@@ -51,15 +53,16 @@
     <!-- <Route path="charts" component={Charts} /> -->
     <!-- <Route path="login" component={Login} /> -->
   </main>
+  <!-- </div> -->
 </Router>
 
 <style>
-  :root { 
+  :root {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 
     /* Fullscreen background code */
-    background: url(src/assets/earthFromSpace.jpeg) no-repeat center center fixed; 
+    background: url(public/earthFromSpace.jpeg) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -73,6 +76,7 @@
     background-size: cover; */
     /* animation: slide 60s linear infinite; */
   }
+
   .main {
     /* display: flex; */
     flex-direction: column;
@@ -96,8 +100,7 @@
     max-width: 14rem;
   }
 
-
-  @keyframes slide{
+  @keyframes slide {
     0% {
       transform: translate3d(0, 0, 0);
     }

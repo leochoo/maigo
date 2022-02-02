@@ -1,26 +1,33 @@
 <script lang="ts" context="module">
-  import { getAuth, GoogleAuthProvider, signInWithPopup, getAdditionalUserInfo, UserInfo } from "firebase/auth";
+  import {
+    getAuth,
+    GoogleAuthProvider,
+    signInWithPopup,
+    getAdditionalUserInfo,
+    UserInfo,
+  } from "firebase/auth";
   import { db } from "../../firebase";
   import { doc, setDoc, updateDoc } from "firebase/firestore";
+  import GoogleLoginButton from "../../public/btn_google_signin_dark_normal_web@2x.png";
 
   /*
       Update user's updatedAt or create user doc if it doesn't exist
    */
   export async function setUser(user: UserInfo, isFirstLogin: boolean) {
     const userRef = doc(db, "users", user.uid);
-    if(isFirstLogin){
+    if (isFirstLogin) {
       await setDoc(userRef, {
         displayName: user.displayName,
         email: user.email,
         photoURL: user.photoURL,
         uid: user.uid,
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       });
-    }else{
+    } else {
       await updateDoc(userRef, {
-        updatedAt: new Date()
-      })
+        updatedAt: new Date(),
+      });
     }
   }
 
@@ -35,7 +42,7 @@
         // The signed-in user info.
         const user: UserInfo = result.user;
         // add user data to users collection
-        setUser(user,getAdditionalUserInfo(result).isNewUser);
+        setUser(user, getAdditionalUserInfo(result).isNewUser);
       })
       .catch((error) => {
         console.log(error);
@@ -48,9 +55,7 @@
     on:click={() => {
       googleLogin();
     }}
-    src="../src/assets/btn_google_signin_dark_normal_web@2x.png"
-    onmouseover="this.src='../src/assets/btn_google_signin_dark_focus_web@2x.png'"
-    onmouseout="this.src='../src/assets/btn_google_signin_dark_normal_web@2x.png'"
+    src={GoogleLoginButton}
     alt="Google Login"
     id="glogin"
   />
