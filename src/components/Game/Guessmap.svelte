@@ -71,7 +71,6 @@
   }
 
   function mouseOverAnimation(): void {
-    console.log("over");
     let entireGuessMapBox = document.getElementById("guessmap");
     let guessMap = document.getElementById("guessmap-comp");
     let button = document.getElementById("button");
@@ -82,9 +81,11 @@
     entireGuessMapBox!.style.width = 55 + 'vw';
     guessMap!.style.width = 50 + 'vw';
     guessMap!.style.height = 60 + 'vh';
+    button!.style.width = '50vw';
+    button!.style.height = '7vh'
+    button!.style.top = "100%";
   }
   function mouseOutAnimation(): void {
-    console.log("out");
     let entireGuessMapBox = document.getElementById("guessmap");
     let guessMap = document.getElementById("guessmap-comp");
     let button = document.getElementById("button");
@@ -103,7 +104,6 @@
     await updateDoc(docRef, {
       submit_count: increment(1)
     });
-    buttonClicked = true;
   }
   
   onMount(() => {
@@ -121,6 +121,7 @@
     class:selected="{marker != null}"
     on:click={async () => {
       if (marker != null) {
+        buttonClicked = true;
         await calcDistance();
         await userSubmit();
       }
@@ -146,34 +147,40 @@
   }
   button {
     position: absolute;
-    color: red;
+    background-color: rgba(220,53,69,0.9);
+    color:white;
     text-decoration: none;
-    font-size: 1em;
+    font-size: 1.5em;
+    font-weight: 400;
     font-family: Montserrat;
     text-transform: uppercase;
-    left: 15%;
-    width: 25%;
-    top: 406px;
+    left: 0;
+    top: 0;
     z-index: 5;
     display: none;
     text-decoration-line: line-through;
   }
   .selected {
     position: absolute;
-    color: blue;
+    background-color: rgba(13,110,25,0.9);
+    color: white;
     text-decoration: none;
-    font-size: 1em;
+    font-size: 1.5em;
+    font-weight: 400;
     font-family: Montserrat;
     text-transform: uppercase;
-    left: 15%;
-    width: 25%;
-    top: 406px;
+    left: 0;
+    top: 0;
     z-index: 5;
   }
   .selected:hover {
-    background: lightcyan;
+    background: rgba(6, 88, 16, 0.9);
   }
   .selected:active {
     background: gray;
+  }
+  .selected:disabled {
+    color: white;
+    text-decoration-line: line-through;
   }
 </style>
