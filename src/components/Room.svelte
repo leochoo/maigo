@@ -13,7 +13,7 @@
   import BeforeGame from "./Game/BeforeGame.svelte";
   import AfterSubmit from "./Game/AfterSubmit.svelte";
   import DuringGame from "./Game/DuringGame.svelte";
-  import { room_available } from "../store.js";
+  import { isSubmitted, room_available } from "../store.js";
 
   export let room_id: string;
   let gamePhase: number;
@@ -53,6 +53,7 @@
 
   const userLeaveRoom = async () => {
     buttonClicked = true;
+    $isSubmitted = false;
     const docRef = doc(db, "rooms", room_id);
     await updateDoc(docRef, {
       leave_count: increment(1),
@@ -61,6 +62,7 @@
 
   const userReplay = async () => {
     buttonClicked = true;
+    $isSubmitted = false;
     const docRef = doc(db, "rooms", room_id);
     await updateDoc(docRef, {
       replay_count: increment(1),

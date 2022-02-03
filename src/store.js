@@ -13,3 +13,4 @@ export const answer = writable({
 export const amIhost = writable(false);
 export const room_available = writable(false);
 export const panorama = writable(null);
+export const isSubmitted = writable(false);

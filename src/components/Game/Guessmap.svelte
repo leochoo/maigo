@@ -1,7 +1,7 @@
 <script lang="ts">
   import { getContext, onMount } from "svelte";
   import type { Loader } from "@googlemaps/js-api-loader";
-  import { answer, currentUser } from "../../store";
+  import { answer, currentUser, isSubmitted } from "../../store";
   import { doc, updateDoc, increment } from "firebase/firestore";
   import { db } from "../../../firebase";
 
@@ -124,6 +124,7 @@
     on:click={async () => {
       if (marker != null) {
         buttonClicked = true;
+        $isSubmitted = true;
         await calcDistance();
         await userSubmit();
       }
