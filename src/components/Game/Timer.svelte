@@ -2,10 +2,11 @@
   import { doc, getDoc, updateDoc, increment } from "firebase/firestore";
   import { onDestroy, onMount } from "svelte";
   import { db } from "../../../firebase";
-  import { currentUser, isSubmitted } from "../../store";
+  import { amIhost, currentUser, isSubmitted } from "../../store";
   import { Tweened, tweened } from "svelte/motion";
-  export let room_id: string;
 
+  export let room_id: string;
+  export let numPlayers: number;
   let remainingTime: number;
   let timer: Tweened<number>;
   let timerId: NodeJS.Timer;
@@ -44,9 +45,11 @@
         await updateDoc(userRef, {
           score: 0,
         });
+      }
+      if ($amIhost) {
         const docRef = doc(db, "rooms", room_id);
         await updateDoc(docRef, {
-          submit_count: increment(1),
+          submit_count: numPlayers,
         });
       }
     }

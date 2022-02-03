@@ -167,8 +167,7 @@
     </button>
   </div>
 {:else if gamePhase == 1}
-  <!-- <Chat {room_id} /> -->
-  <DuringGame {room_id} />
+  <DuringGame {room_id} numPlayers={userUidList.length} />
 {/if}
 
 <style>
