@@ -99,6 +99,7 @@
     userUidList = data.users;
     gamePhase = data.gamePhase;
     submitCount = data.submit_count;
+    console.log("+1 submitCount", submitCount);
     leaveCount = data.leave_count;
     replayCount = data.replay_count;
     // get user data from userUidList using getDoc and push to userInfoList
