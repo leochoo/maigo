@@ -9,19 +9,27 @@
   import { Router } from "svelte-routing";
   import logo from "./assets/svelte.png";
   import backgroundPhoto from "./assets/earthFromSpace.jpeg";
-  
-  //:root css
-  document.documentElement.style.setProperty('background', `url(${backgroundPhoto})`);
-  document.documentElement.style.setProperty('-webkit-background-size', 'cover');
-  document.documentElement.style.setProperty('-moz-background-size', 'cover');
-  document.documentElement.style.setProperty('background-size', 'cover');
-  document.documentElement.style.setProperty('font-family', '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif');
 
-  
+  //:root css
+  document.documentElement.style.setProperty(
+    "background",
+    `url(${backgroundPhoto})`
+  );
+  document.documentElement.style.setProperty(
+    "-webkit-background-size",
+    "cover"
+  );
+  document.documentElement.style.setProperty("-moz-background-size", "cover");
+  document.documentElement.style.setProperty("background-size", "cover");
+  document.documentElement.style.setProperty(
+    "font-family",
+    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif'
+  );
+
   const loader = new Loader({
     // Don't use this api key below unless you need it
-    // apiKey: import.meta.env.VITE_MAPS_JS_API as string,
-    apiKey: "",
+    apiKey: import.meta.env.VITE_MAPS_JS_API as string,
+    // apiKey: "",
     language: "ja",
   });
   setContext("loader", loader);
