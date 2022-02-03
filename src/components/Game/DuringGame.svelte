@@ -14,7 +14,7 @@
 <div class="streetview"><Streetview></Streetview></div>
 <div><Guessmap {room_id}></Guessmap></div>
 <Timer {room_id}></Timer>
-<button on:click={returnToTheStart}>Return to the Start</button>
+<button class="returnButton" on:click={returnToTheStart}>Return to the Start</button>
 
 <style>
   .streetview {
@@ -41,5 +41,8 @@
   }
   button:active {
     background: grey;
+  }
+  .returnButton {
+    margin-top: -3em;
   }
 </style>
