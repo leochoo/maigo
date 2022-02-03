@@ -37,7 +37,7 @@
       minutes = Math.floor($timer / 60);
       seconds = Math.floor($timer - minutes * 60);
       $timer--;
-    } else {
+    } else if ($timer === 0) {
       console.log("time's up");
       const userRef = doc(db, "users", $currentUser.user.uid);
       await updateDoc(userRef, {
