@@ -17,7 +17,7 @@
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         const _answers = docSnap.get("tokyo");
-        const randomIndex = Math.floor(Math.random() * 95); //0 ~ 94
+        const randomIndex = Math.floor(Math.random() * 949); //0 ~ 948
         _answer = _answers[randomIndex];
       } else {
         console.log("No doc");
