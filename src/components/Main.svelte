@@ -37,6 +37,11 @@
       let data = docSnap.data();
       let userList = [...data.users];
       console.log("ROOM FOUND");
+      // check if the game has already started
+      if (data.gamePhase === 1) {
+        alert("Game has already started");
+        return;
+      }
       // check if the room is full
       if (data.users.length < 60) {
         // check if the user is already in the room
