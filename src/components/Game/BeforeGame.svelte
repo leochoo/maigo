@@ -86,9 +86,10 @@
 
 <style>
   button {
-    background-color: white;
+    z-index: 1;
+    background-color: whitesmoke;
     border: none;
-    color: #006633;
+    color: black;
     padding: 5px 10px;
     margin: 0.5em;
     text-align: center;

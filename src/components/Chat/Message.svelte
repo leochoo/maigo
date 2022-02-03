@@ -33,7 +33,7 @@
         padding-right: 1em;
         padding-top: 0.25em;
         padding-bottom: 0.25em;
-        inline-size:400px;
+        inline-size:19em;
         overflow-wrap: break-word;
         text-align: left;
         color: black;

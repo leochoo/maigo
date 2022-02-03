@@ -25,9 +25,9 @@
   }
   button {
     z-index: 1;
-    background-color: white;
+    background-color: whitesmoke;
     border: none;
-    color: #006633;
+    color: black;
     padding: 5px 10px;
     margin: 0.5em;
     text-align: center;

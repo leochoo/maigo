@@ -85,13 +85,23 @@
     margin: 2rem auto;
     max-width: 14rem;
   }
-
-  @keyframes slide {
-    0% {
-      transform: translate3d(0, 0, 0);
-    }
-    100% {
-      transform: translate3d(-1692px, 0, 0);
-    }
+  button {
+    z-index: 1;
+    background-color: whitesmoke;
+    border: none;
+    color: black;
+    padding: 5px 10px;
+    margin: 0.5em;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+  }
+  button:hover {
+    background: lightcyan;
+  }
+  button:active {
+    background: grey;
   }
 </style>
