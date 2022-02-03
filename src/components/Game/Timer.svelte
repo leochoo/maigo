@@ -56,6 +56,7 @@
   });
 
   onDestroy(() => {
+    console.log("onDestroy timer");
     clearInterval(timerId);
   });
 </script>
