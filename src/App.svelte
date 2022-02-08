@@ -28,7 +28,8 @@
 
   const loader = new Loader({
     // Don't use this api key below unless you need it
-    apiKey: import.meta.env.VITE_MAPS_JS_API as string,
+    // import.meta.env.VITE_MAPS_JS_API as string,
+    apiKey:"",
     // apiKey: "",
     language: "ja",
   });
