@@ -3,6 +3,7 @@
   //Users' information with scores
   export let userInfoList;
   let isLoading = true;
+  console.log("2", userInfoList);
   let _userInfoList = userInfoList.sort((a, b) => {
     return a.score - b.score;
   });

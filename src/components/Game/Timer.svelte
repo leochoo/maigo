@@ -38,15 +38,18 @@
       minutes = Math.floor($timer / 60);
       seconds = Math.floor($timer - minutes * 60);
       $timer--;
-    } else if ($timer === 0) {
+      console.log($timer);
+    } else {
       console.log("time's up");
       if (!$isSubmitted) {
+        console.log("00000", $isSubmitted);
         const userRef = doc(db, "users", $currentUser.user.uid);
         await updateDoc(userRef, {
           score: 0,
         });
       }
       if ($amIhost) {
+        console.log("timer host");
         const docRef = doc(db, "rooms", room_id);
         await updateDoc(docRef, {
           submit_count: numPlayers,

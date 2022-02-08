@@ -26,11 +26,6 @@
   let replayCount: number = 0;
   let buttonClicked = false;
 
-  onMount(() => {
-    console.log("onMount");
-    console.log("buttonClicked", buttonClicked);
-  });
-
   $: if (gamePhase == 1 && leaveCount + replayCount == userUidList.length) {
     console.log("checking gamePhase", buttonClicked);
 
@@ -70,8 +65,6 @@
   };
 
   const deleteRoom = async () => {
-    console.log("deleteRoom buttonClicked", buttonClicked);
-
     const docRef = doc(db, "rooms", room_id);
     await deleteDoc(docRef);
     room_available.set(false);
@@ -89,35 +82,41 @@
       endTime: 0,
       startTime: 0,
     });
-    // buttonClicked = false;
   };
 
   // consider firestore latency compensation
-  const unsub = onSnapshot(doc(db, "rooms", room_id), (roomRef) => {
-    const source = roomRef.metadata.hasPendingWrites ? "Local" : "Server";
-    let _userInfoList = [];
-    //console.log(source, " Current room data: ", roomRef.data());
+  const unsub = onSnapshot(
+    doc(db, "rooms", room_id),
+    async (roomRef) => {
+    isLoading = true;
     data = roomRef.data();
     userUidList = data.users;
     gamePhase = data.gamePhase;
     submitCount = data.submit_count;
-    console.log("+1 submitCount", submitCount);
     leaveCount = data.leave_count;
     replayCount = data.replay_count;
-    // get user data from userUidList using getDoc and push to userInfoList
-    userUidList.forEach((userUid) => {
-      const userRef = doc(db, "users", userUid);
-      getDoc(userRef)
-        .then((userDoc) => {
-          _userInfoList = [..._userInfoList, userDoc.data()];
-        })
-        .then(() => {
-          userInfoList = _userInfoList;
-          isLoading = false;
-        });
-    });
+
+    // Have to wait for userInfoList to be updated
+    const _userInfoList = await Promise.all(
+      data.users.map(async (userUid) => {
+        const userRef = doc(db, "users", userUid);
+        const userDoc = await getDoc(userRef);
+        return userDoc.data();
+      })
+    );
+    userInfoList = _userInfoList;
+    console.log("false", _userInfoList);
+    isLoading = false;
   });
-  onDestroy(() => unsub);
+
+  onMount(() => {
+    console.log("onMount");
+  });
+
+  onDestroy(() => {
+    console.log("onDestroy");
+    return unsub;
+  });
 </script>
 
 {#if gamePhase == 0}
@@ -133,15 +132,11 @@
         </li>
       {/each}
     </ul>
-    {#if !isLoading}
-      <Chat {room_id} />
-      <BeforeGame {room_id} />
-    {:else}
-      Loading...
-    {/if}
+    <Chat {room_id} />
+    <BeforeGame {room_id} />
   </div>
-  <!-- Enter Result Page when submit counts equal to the number of users in the room -->
-{:else if submitCount == userUidList.length}
+<!-- Enter Result Page when submit counts equal to the number of users in the room -->
+{:else if !isLoading && submitCount == userUidList.length}
   <div class="glasseffect">
     <AfterSubmit {room_id} {userInfoList} />
     <Chat {room_id} />
@@ -150,7 +145,6 @@
     <button
       on:click={async () => {
         await userLeaveRoom();
-        console.log("onleaveclick", buttonClicked);
       }}
       disabled={buttonClicked}
     >
@@ -159,7 +153,6 @@
     <button
       on:click={async () => {
         await userReplay();
-        console.log("onreplayclick", buttonClicked);
       }}
       disabled={buttonClicked}
     >

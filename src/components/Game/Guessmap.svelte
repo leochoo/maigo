@@ -62,6 +62,7 @@
       marker.getPosition()
     );
     const userRef = doc(db, "users", $currentUser.user.uid);
+    console.log("inserting score into user document");
     await updateDoc(userRef, {
       score: Math.floor(distance),
     });
