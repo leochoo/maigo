@@ -82,7 +82,7 @@
   const userLeaveRoom = async () => {
     buttonClicked = true;
     $isSubmitted = false;
-    $remainTime = 15;
+    $remainTime = 300;
     const docRef = doc(db, "rooms", room_id);
     await updateDoc(docRef, {
       leave_count: increment(1),
@@ -92,7 +92,7 @@
   const userReplay = async () => {
     buttonClicked = true;
     $isSubmitted = false;
-    $remainTime = 15;
+    $remainTime = 300;
     const docRef = doc(db, "rooms", room_id);
     await updateDoc(docRef, {
       replay_count: increment(1),
@@ -107,7 +107,7 @@
 
   const initRoom = async () => {
     const docRef = doc(db, "rooms", room_id);
-    $remainTime = 15;
+    $remainTime = 300;
     await updateDoc(docRef, {
       gamePhase: 0,
       leave_count: 0,

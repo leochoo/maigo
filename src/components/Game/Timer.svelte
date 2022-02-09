@@ -9,8 +9,8 @@
   let remainingTime: number;
   let timer: Tweened<number>;
   let timerId: NodeJS.Timer;
-  $: minutes = 0;
-  $: seconds = 15;
+  $: minutes = 5;
+  $: seconds = 0;
   // fetch endTime in firestore
   const getStartEndTime = async () => {
     const roomRef = doc(db, "rooms", room_id);

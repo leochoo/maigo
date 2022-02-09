@@ -48,7 +48,7 @@
     var startTime: Date;
     var endTime: Date;
     // Set game time limits here
-    const timeLimits: number = 0.25;
+    const timeLimits: number = 5;
     // get the current time and add time limits to it. And add the calculated endTime in firestore
     const _currUTCTime = await fetch(
       "https://worldtimeapi.org/api/timezone/Etc/UTC"
