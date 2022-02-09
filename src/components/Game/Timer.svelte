@@ -2,7 +2,7 @@
   import { doc, getDoc, updateDoc, increment } from "firebase/firestore";
   import { onDestroy, onMount } from "svelte";
   import { db } from "../../../firebase";
-  import { amIhost, currentUser, isSubmitted } from "../../store";
+  import { amIhost, currentUser, isSubmitted, remainTime } from "../../store";
   import { Tweened, tweened } from "svelte/motion";
 
   export let room_id: string;
@@ -38,23 +38,8 @@
       minutes = Math.floor($timer / 60);
       seconds = Math.floor($timer - minutes * 60);
       $timer--;
+      $remainTime = $timer;
       console.log($timer);
-    } else {
-      console.log("time's up");
-      if (!$isSubmitted) {
-        console.log("00000", $isSubmitted);
-        const userRef = doc(db, "users", $currentUser.user.uid);
-        await updateDoc(userRef, {
-          score: 0,
-        });
-      }
-      if ($amIhost) {
-        console.log("timer host");
-        const docRef = doc(db, "rooms", room_id);
-        await updateDoc(docRef, {
-          submit_count: numPlayers,
-        });
-      }
     }
   };
 

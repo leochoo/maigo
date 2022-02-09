@@ -13,7 +13,7 @@
   import BeforeGame from "./Game/BeforeGame.svelte";
   import AfterSubmit from "./Game/AfterSubmit.svelte";
   import DuringGame from "./Game/DuringGame.svelte";
-  import { isSubmitted, room_available } from "../store.js";
+  import { isSubmitted, room_available, remainTime, amIhost } from "../store.js";
 
   export let room_id: string;
   let gamePhase: number;
@@ -25,6 +25,7 @@
   let leaveCount: number = 0;
   let replayCount: number = 0;
   let buttonClicked = false;
+  let submitUidList = [];
 
   $: if (gamePhase == 1 && leaveCount + replayCount == userUidList.length) {
     console.log("checking gamePhase", buttonClicked);
@@ -36,6 +37,30 @@
       //initialization of the room
       initRoom();
     }
+  }
+
+  $: if (!isLoading && submitCount != userUidList.length && $remainTime <= 0) {
+    if ($amIhost) {
+      //Find out who haven't submiited
+      let notSubmitted = userUidList.filter((uid) => !submitUidList.includes(uid));
+      console.log(notSubmitted);
+      //Insert 0 to their user documents
+      notSubmitted.forEach((uid) => {
+        const userRef = doc(db, "users", uid);
+        updateDoc(userRef, {
+          score: 0,
+        });
+      });
+      //Set submit_count == user_count
+      showResultPage();
+    }
+  }
+
+  async function showResultPage() {
+    const docRef = doc(db, "rooms", room_id);
+    await updateDoc(docRef, {
+      submit_count: userUidList.length,
+    });
   }
 
   async function updateGamePhase() {
@@ -95,7 +120,7 @@
     submitCount = data.submit_count;
     leaveCount = data.leave_count;
     replayCount = data.replay_count;
-
+    submitUidList = data.submit_uid;
     // Have to wait for userInfoList to be updated
     const _userInfoList = await Promise.all(
       data.users.map(async (userUid) => {
@@ -105,7 +130,6 @@
       })
     );
     userInfoList = _userInfoList;
-    console.log("false", _userInfoList);
     isLoading = false;
   });
 
@@ -136,6 +160,10 @@
     <BeforeGame {room_id} />
   </div>
 <!-- Enter Result Page when submit counts equal to the number of users in the room -->
+{:else if !isLoading && submitCount != userUidList.length && $remainTime <= 0 }
+<div class="glasseffect">
+  <div>Please wait</div>
+</div>
 {:else if !isLoading && submitCount == userUidList.length}
   <div class="glasseffect">
     <AfterSubmit {room_id} {userInfoList} />
