@@ -6,7 +6,6 @@
   import { Tweened, tweened } from "svelte/motion";
 
   export let room_id: string;
-  export let numPlayers: number;
   let remainingTime: number;
   let timer: Tweened<number>;
   let timerId: NodeJS.Timer;

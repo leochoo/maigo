@@ -4,7 +4,6 @@
   import Timer from './Timer.svelte'
   import { panorama, answer } from '../../store.js'
   
-  export let numPlayers: number;
   export let room_id: string;
   const returnToTheStart = () => {
     $panorama.setPosition($answer)
@@ -14,7 +13,7 @@
 
 <div class="streetview"><Streetview></Streetview></div>
 <div><Guessmap {room_id}></Guessmap></div>
-<Timer {room_id} {numPlayers}></Timer>
+<Timer {room_id}></Timer>
 <button class="returnButton" on:click={returnToTheStart}>Return to the Start</button>
 
 <style>

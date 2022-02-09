@@ -2,7 +2,7 @@
   import { getContext, onMount } from "svelte";
   import type { Loader } from "@googlemaps/js-api-loader";
   import { answer, currentUser, isSubmitted } from "../../store";
-  import { doc, updateDoc, increment } from "firebase/firestore";
+  import { doc, updateDoc, increment, arrayUnion } from "firebase/firestore";
   import { db } from "../../../firebase";
 
   export let room_id: string;
@@ -62,7 +62,6 @@
       marker.getPosition()
     );
     const userRef = doc(db, "users", $currentUser.user.uid);
-    console.log("inserting score into user document");
     await updateDoc(userRef, {
       score: Math.floor(distance),
     });
@@ -100,6 +99,9 @@
     const docRef = doc(db, "rooms", room_id);
     await updateDoc(docRef, {
       submit_count: increment(1),
+    });
+    await updateDoc(docRef, {
+      submit_uid: arrayUnion($currentUser.user.uid),
     });
     console.log("userSubmit");
   };

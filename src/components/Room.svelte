@@ -98,6 +98,7 @@
   const initRoom = async () => {
     console.log("initRoom buttonClicked", buttonClicked);
     const docRef = doc(db, "rooms", room_id);
+    $remainTime = 15;
     await updateDoc(docRef, {
       gamePhase: 0,
       leave_count: 0,
@@ -106,6 +107,7 @@
       submit_count: 0,
       endTime: 0,
       startTime: 0,
+      submit_uid: [],
     });
   };
 
@@ -188,7 +190,7 @@
     </button>
   </div>
 {:else if gamePhase == 1}
-  <DuringGame {room_id} numPlayers={userUidList.length} />
+  <DuringGame {room_id}/>
 {/if}
 
 <style>
