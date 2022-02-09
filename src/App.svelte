@@ -9,19 +9,28 @@
   import { Router } from "svelte-routing";
   import logo from "./assets/svelte.png";
   import backgroundPhoto from "./assets/earthFromSpace.jpeg";
-  
-  //:root css
-  document.documentElement.style.setProperty('background', `url(${backgroundPhoto})`);
-  document.documentElement.style.setProperty('-webkit-background-size', 'cover');
-  document.documentElement.style.setProperty('-moz-background-size', 'cover');
-  document.documentElement.style.setProperty('background-size', 'cover');
-  document.documentElement.style.setProperty('font-family', '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif');
 
-  
+  //:root css
+  document.documentElement.style.setProperty(
+    "background",
+    `url(${backgroundPhoto})`
+  );
+  document.documentElement.style.setProperty(
+    "-webkit-background-size",
+    "cover"
+  );
+  document.documentElement.style.setProperty("-moz-background-size", "cover");
+  document.documentElement.style.setProperty("background-size", "cover");
+  document.documentElement.style.setProperty(
+    "font-family",
+    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif'
+  );
+
   const loader = new Loader({
     // Don't use this api key below unless you need it
-    // apiKey: import.meta.env.VITE_MAPS_JS_API as string,
-    apiKey: "",
+    // import.meta.env.VITE_MAPS_JS_API as string,
+    apiKey:"",
+    // apiKey: "",
     language: "ja",
   });
   setContext("loader", loader);
@@ -85,13 +94,23 @@
     margin: 2rem auto;
     max-width: 14rem;
   }
-
-  @keyframes slide {
-    0% {
-      transform: translate3d(0, 0, 0);
-    }
-    100% {
-      transform: translate3d(-1692px, 0, 0);
-    }
+  button {
+    z-index: 1;
+    background-color: whitesmoke;
+    border: none;
+    color: black;
+    padding: 5px 10px;
+    margin: 0.5em;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+  }
+  button:hover {
+    background: lightcyan;
+  }
+  button:active {
+    background: grey;
   }
 </style>

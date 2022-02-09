@@ -11,7 +11,6 @@
   import Room from "./Room.svelte";
   import { amIhost, currentUser, room_available } from "../store";
 
-
   let room_id: string = "";
 
   async function createRoom() {
@@ -23,6 +22,7 @@
       submit_count: 0,
       leave_count: 0,
       replay_count: 0,
+      submit_uid: [],
     });
     room_id = docRef.id;
     amIhost.set(true);
@@ -38,8 +38,13 @@
       let data = docSnap.data();
       let userList = [...data.users];
       console.log("ROOM FOUND");
+      // check if the game has already started
+      if (data.gamePhase === 1) {
+        alert("Game has already started");
+        return;
+      }
       // check if the room is full
-      if (data.users.length < 4) {
+      if (data.users.length < 60) {
         // check if the user is already in the room
         // TODO: need to delete the user if they leave
         if (userList.includes($currentUser.user.uid)) {
@@ -72,17 +77,19 @@
       <h1>MaiGO</h1>
       <button on:click={() => createRoom()}>Create Room</button>
       <input bind:value={room_id} />
-      <br/>
-      <button on:click={() => {
-        if (room_id!='') joinExistingRoom(room_id)
-        }}>Join Room</button>
+      <br />
+      <button
+        on:click={() => {
+          if (room_id != "") joinExistingRoom(room_id);
+        }}>Join Room</button
+      >
       <p>
         A GeoGeussr Clone for Online Multiplayer
-        <br/>
+        <br />
         HHLAB is a group of students from Keio University, Japan.
       </p>
       <button
-        on:click = {() => {
+        on:click={() => {
           const auth = getAuth();
           signOut(auth)
             .then(() => {
@@ -121,15 +128,15 @@
     text-align: center;
     padding: 1em;
     margin: 0 auto;
-    width:25em;
-    height:30em;
+    width: 25em;
+    height: 30em;
     /* add glass effect */
-		background: rgba( 255, 255, 255, 0.15 );
-		box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-		backdrop-filter: blur( 4.5px );
-		-webkit-backdrop-filter: blur( 4.5px );
-		border-radius: 10px;
-		border: 1px solid rgba( 255, 255, 255, 0.18 );
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(4.5px);
+    -webkit-backdrop-filter: blur(4.5px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
   }
 
   h1 {
@@ -146,7 +153,7 @@
     max-width: 14rem;
     margin: 1rem auto;
     line-height: 1.35;
-    color:white;
+    color: white;
   }
 
   @media (min-width: 480px) {
@@ -159,9 +166,10 @@
     }
   }
   button {
-    background-color: white;
+    z-index: 1;
+    background-color: whitesmoke;
     border: none;
-    color: #006633;
+    color: black;
     padding: 5px 10px;
     margin: 0.5em;
     text-align: center;

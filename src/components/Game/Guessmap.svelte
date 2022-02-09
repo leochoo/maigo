@@ -1,8 +1,8 @@
 <script lang="ts">
   import { getContext, onMount } from "svelte";
   import type { Loader } from "@googlemaps/js-api-loader";
-  import { answer , currentUser } from "../../store";
-  import { doc, updateDoc, increment } from "firebase/firestore";
+  import { answer, currentUser, isSubmitted } from "../../store";
+  import { doc, updateDoc, increment, arrayUnion } from "firebase/firestore";
   import { db } from "../../../firebase";
 
   export let room_id: string;
@@ -13,7 +13,6 @@
   let submit;
   let buttonClicked = false;
 
-
   $: _answer = $answer;
   $: if (marker) {
     submit = {
@@ -21,7 +20,7 @@
       lng: marker.getPosition().lng(),
     };
   }
-  
+
   const loader: Loader = getContext("loader");
   function initMap(): void {
     const myLatLng = { lat: -25.363, lng: 131.044 };
@@ -64,8 +63,8 @@
     );
     const userRef = doc(db, "users", $currentUser.user.uid);
     await updateDoc(userRef, {
-      score: Math.floor(distance)
-    })
+      score: Math.floor(distance),
+    });
   }
 
   function mouseOverAnimation(): void {
@@ -74,13 +73,13 @@
     let button = document.getElementById("button");
     button!.style.display = "inline";
     entireGuessMapBox!.style.opacity = "1";
-    entireGuessMapBox!.style.top = 30 + 'vh';
-    entireGuessMapBox!.style.left = 45 + 'vw';
-    entireGuessMapBox!.style.width = 55 + 'vw';
-    guessMap!.style.width = 50 + 'vw';
-    guessMap!.style.height = 60 + 'vh';
-    button!.style.width = '50vw';
-    button!.style.height = '7vh'
+    entireGuessMapBox!.style.top = 30 + "vh";
+    entireGuessMapBox!.style.left = 45 + "vw";
+    entireGuessMapBox!.style.width = 55 + "vw";
+    guessMap!.style.width = 50 + "vw";
+    guessMap!.style.height = 60 + "vh";
+    button!.style.width = "50vw";
+    button!.style.height = "7vh";
     button!.style.top = "100%";
   }
   function mouseOutAnimation(): void {
@@ -89,20 +88,24 @@
     let button = document.getElementById("button");
     button!.style.display = "none";
     entireGuessMapBox!.style.opacity = "0.7";
-    entireGuessMapBox!.style.top = 65 + 'vh';
-    entireGuessMapBox!.style.left = 77 + 'vw';
-    entireGuessMapBox!.style.width = 20 + 'vw';
-    guessMap!.style.width = 20 + 'vw';
-    guessMap!.style.height = 25 + 'vh';
+    entireGuessMapBox!.style.top = 65 + "vh";
+    entireGuessMapBox!.style.left = 77 + "vw";
+    entireGuessMapBox!.style.width = 20 + "vw";
+    guessMap!.style.width = 20 + "vw";
+    guessMap!.style.height = 25 + "vh";
   }
 
-  const userSubmit = async() => {
+  const userSubmit = async () => {
     const docRef = doc(db, "rooms", room_id);
     await updateDoc(docRef, {
-      submit_count: increment(1)
+      submit_count: increment(1),
     });
-  }
-  
+    await updateDoc(docRef, {
+      submit_uid: arrayUnion($currentUser.user.uid),
+    });
+    console.log("userSubmit");
+  };
+
   onMount(() => {
     loader.load().then(() => {
       initMap();
@@ -111,18 +114,25 @@
 </script>
 
 <!-- svelte-ignore a11y-mouse-events-have-key-events -->
-<div class="guessmap" id="guessmap" on:mouseover={mouseOverAnimation} on:mouseout={mouseOutAnimation}>
+<div
+  class="guessmap"
+  id="guessmap"
+  on:mouseover={mouseOverAnimation}
+  on:mouseout={mouseOutAnimation}
+>
   <div class="guessmap-comp" id="guessmap-comp" bind:this={container} />
   <button
-    id = "button"
-    class:selected="{marker != null}"
+    id="button"
+    class:selected={marker != null}
     on:click={async () => {
       if (marker != null) {
         buttonClicked = true;
+        $isSubmitted = true;
         await calcDistance();
         await userSubmit();
       }
-    }} disabled={buttonClicked}>submit</button
+    }}
+    disabled={buttonClicked}>submit</button
   >
 </div>
 
@@ -134,7 +144,7 @@
     display: inline-block;
     opacity: 0.7;
     transform-origin: bottom right;
-    border: 0px solid   red;
+    border: 0px solid red;
   }
   .guessmap-comp {
     width: 20vw;
@@ -144,8 +154,8 @@
   }
   button {
     position: absolute;
-    background-color: rgba(220,53,69,0.9);
-    color:white;
+    background-color: rgba(220, 53, 69, 0.9);
+    color: white;
     text-decoration: none;
     font-size: 1.5em;
     font-weight: 400;
@@ -159,7 +169,7 @@
   }
   .selected {
     position: absolute;
-    background-color: rgba(13,110,25,0.9);
+    background-color: rgba(13, 110, 25, 0.9);
     color: white;
     text-decoration: none;
     font-size: 1.5em;

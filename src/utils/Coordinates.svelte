@@ -28,7 +28,6 @@
     let result = await new Promise((resolve, reject) => {
       streetViewService.getPanorama(request, (data, status) => {
         if (status === "OK") {
-          console.log("data", data);
           resolve(true);
         } else {
           resolve(false);
@@ -61,56 +60,6 @@
   }
 
   saveRandomPositions();
-
-  // const addNewData = async () => {
-  //   let generated_coordinates = await getRandomCoords();
-  //   console.log("generated_coordinates", generated_coordinates);
-  //   await setDoc(doc(db, "coordinates", "randomLocations"), {
-  //     tokyo: generated_coordinates,
-  //   });
-  // };
-
-  // let abc = [
-  //   { lat: 35.663639, lng: 139.650704 },
-  //   { lat: 35.663639, lng: 139.650704 },
-  // ];
-
-  // // generate 10 random gps coordinates and store if the gps locaiton has valid streetview
-
-  // async function getRandomCoords() {
-  //   let random_positions = [];
-  //   for (let i = 0; i < 10; i++) {
-  //     let container;
-  //     let streetViewMap;
-  //     let zoom = 12;
-  //     let center = generateRandomPosition();
-  //     loader.load().then(() => {
-  //       let streetViewService = new google.maps.StreetViewService();
-  //       streetViewService.getPanorama(
-  //         {
-  //           location: center,
-  //           preference: google.maps.StreetViewPreference.BEST,
-  //         },
-  //         (data, status) => {
-  //           if (status === "OK") {
-  //             let panorama = new google.maps.StreetViewPanorama(container, {
-  //               position: center,
-  //             });
-  //             // streetViewMap.setStreetView(panorama);
-  //             console.log("Valid streetview");
-  //             console.log("center:", center);
-  //             random_positions.push(center);
-  //           } else {
-  //             console.log("Invalid random streetview");
-  //           }
-  //         }
-  //       );
-  //     });
-  //   }
-  //   return random_positions;
-  // }
-
-  // addNewData();
 </script>
 
 <style></style>
