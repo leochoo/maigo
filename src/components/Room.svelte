@@ -27,9 +27,7 @@
   let buttonClicked = false;
   let submitUidList = [];
 
-  $: if (gamePhase == 1 && leaveCount + replayCount == userUidList.length) {
-    console.log("checking gamePhase", buttonClicked);
-
+  $: if (gamePhase == 3 && leaveCount + replayCount == userUidList.length) {
     buttonClicked = false;
     if (leaveCount >= replayCount) {
       deleteRoom();
@@ -39,8 +37,19 @@
     }
   }
 
+  $: if (!isLoading && gamePhase == 1 && submitCount == userUidList.length) {
+    if ($amIhost) {
+      const roomRef = doc(db, "rooms", room_id);
+      updateDoc(roomRef, {
+        gamePhase: gamePhase + 2,
+      });
+    }
+  }
+
   $: if (!isLoading && submitCount != userUidList.length && $remainTime <= 0) {
     if ($amIhost) {
+      updateGamePhase();
+      console.log(userUidList, submitUidList);
       //Find out who haven't submiited
       let notSubmitted = userUidList.filter((uid) => !submitUidList.includes(uid));
       console.log(notSubmitted);
@@ -51,12 +60,12 @@
           score: 0,
         });
       });
-      //Set submit_count == user_count
-      showResultPage();
+      zeroForNoSumbit();
+      updateGamePhase();
     }
   }
 
-  async function showResultPage() {
+  async function zeroForNoSumbit() {
     const docRef = doc(db, "rooms", room_id);
     await updateDoc(docRef, {
       submit_count: userUidList.length,
@@ -64,9 +73,10 @@
   }
 
   async function updateGamePhase() {
+    console.log("updateGamePhase");
     const roomRef = doc(db, "rooms", room_id);
     await updateDoc(roomRef, {
-      gamePhase: gamePhase + 1,
+      gamePhase: increment(1),
     });
   }
   setContext("updateGamePhase", updateGamePhase);
@@ -74,6 +84,7 @@
   const userLeaveRoom = async () => {
     buttonClicked = true;
     $isSubmitted = false;
+    $remainTime = 15;
     const docRef = doc(db, "rooms", room_id);
     await updateDoc(docRef, {
       leave_count: increment(1),
@@ -83,6 +94,7 @@
   const userReplay = async () => {
     buttonClicked = true;
     $isSubmitted = false;
+    $remainTime = 15;
     const docRef = doc(db, "rooms", room_id);
     await updateDoc(docRef, {
       replay_count: increment(1),
@@ -161,12 +173,14 @@
     <Chat {room_id} />
     <BeforeGame {room_id} />
   </div>
+{:else if gamePhase == 1}
+  <DuringGame {room_id}/>
 <!-- Enter Result Page when submit counts equal to the number of users in the room -->
-{:else if !isLoading && submitCount != userUidList.length && $remainTime <= 0 }
+{:else if gamePhase == 2}
 <div class="glasseffect">
   <div>Please wait</div>
 </div>
-{:else if !isLoading && submitCount == userUidList.length}
+{:else if !isLoading && gamePhase == 3}
   <div class="glasseffect">
     <AfterSubmit {room_id} {userInfoList} />
     <Chat {room_id} />
@@ -189,10 +203,7 @@
       Replay
     </button>
   </div>
-{:else if gamePhase == 1}
-  <DuringGame {room_id}/>
 {/if}
-
 <style>
   .glasseffect {
     display: flex;

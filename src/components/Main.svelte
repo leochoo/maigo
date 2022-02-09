@@ -22,6 +22,7 @@
       submit_count: 0,
       leave_count: 0,
       replay_count: 0,
+      submit_uid: [],
     });
     room_id = docRef.id;
     amIhost.set(true);
