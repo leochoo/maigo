@@ -38,7 +38,6 @@
       seconds = Math.floor($timer - minutes * 60);
       $timer--;
       $remainTime = $timer;
-      console.log($timer);
     }
   };
 

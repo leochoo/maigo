@@ -49,10 +49,9 @@
   $: if (!isLoading && submitCount != userUidList.length && $remainTime <= 0) {
     if ($amIhost) {
       updateGamePhase();
-      console.log(userUidList, submitUidList);
+      isLoading = true;
       //Find out who haven't submiited
       let notSubmitted = userUidList.filter((uid) => !submitUidList.includes(uid));
-      console.log(notSubmitted);
       //Insert 0 to their user documents
       notSubmitted.forEach((uid) => {
         const userRef = doc(db, "users", uid);
@@ -61,7 +60,7 @@
         });
       });
       zeroForNoSumbit();
-      updateGamePhase();
+      setTimeout(updateGamePhase, 500);
     }
   }
 
@@ -73,7 +72,6 @@
   }
 
   async function updateGamePhase() {
-    console.log("updateGamePhase");
     const roomRef = doc(db, "rooms", room_id);
     await updateDoc(roomRef, {
       gamePhase: increment(1),
@@ -108,7 +106,6 @@
   };
 
   const initRoom = async () => {
-    console.log("initRoom buttonClicked", buttonClicked);
     const docRef = doc(db, "rooms", room_id);
     $remainTime = 15;
     await updateDoc(docRef, {
@@ -148,11 +145,9 @@
   });
 
   onMount(() => {
-    console.log("onMount");
   });
 
   onDestroy(() => {
-    console.log("onDestroy");
     return unsub;
   });
 </script>

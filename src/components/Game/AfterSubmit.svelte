@@ -2,7 +2,6 @@
   export let room_id: string;
   //Users' information with scores
   export let userInfoList;
-  console.log("2", userInfoList);
   let _userInfoList = userInfoList.sort((a, b) => {
     return a.score - b.score;
   });
